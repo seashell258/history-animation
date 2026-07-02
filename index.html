@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商王的一天・第一幕</title>
+<style>
+:root{
+  --ink:#171310; --paper:#efe3cc; --cinnabar:#b23a2a;
+  --bronze:#56705f; --flame:#e8823a; --gold:#d9a441;
+  --serif:'Noto Serif TC','DFKai-SB','BiauKai','Microsoft JhengHei',serif;
+}
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:var(--serif);color:var(--paper);}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;
+  transform-origin:center;background:var(--ink);overflow:hidden;}
+section[data-scene]{position:absolute;inset:0;display:none;}
+section[data-scene].active{display:block;}
+/* --- start scene --- */
+/* 注意：ID 選擇器一律不寫 display，否則特異性(1,0,0)會永遠壓過 .active 切換；
+   顯示一律由「ID.active」層級控制 */
+#scene-start{flex-direction:column;align-items:center;justify-content:center;gap:28px;}
+#scene-start.active{display:flex;}
+#scene-start h1{font-size:72px;letter-spacing:.18em;margin:0;color:var(--paper);}
+#scene-start p{font-size:24px;letter-spacing:.3em;color:var(--gold);margin:0;}
+#start-btn{font-family:var(--serif);font-size:28px;letter-spacing:.2em;padding:14px 56px;
+  background:var(--cinnabar);color:var(--paper);border:2px solid var(--gold);
+  border-radius:6px;cursor:pointer;}
+#start-btn:hover{filter:brightness(1.15);}
+</style>
+</head>
+<body>
+<div id="stage">
+  <section data-scene="start" id="scene-start" class="active">
+    <h1>商王的一天</h1>
+    <p>商朝互動歷史課・第一幕</p>
+    <button id="start-btn">開始上課</button>
+  </section>
+  <section data-scene="intro"></section>
+  <section data-scene="palace"></section>
+  <section data-scene="burn"></section>
+  <section data-scene="verdict"></section>
+  <section data-scene="glyph"></section>
+</div>
+<script>
+'use strict';
+/* ===== 舞台縮放 ===== */
+function fitStage(){
+  const s = Math.min(innerWidth / 1280, innerHeight / 720);
+  document.getElementById('stage').style.transform =
+    `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fitStage);
+fitStage();
+
+/* ===== 自測框架 ===== */
+const selfTests = [];
+function test(name, fn){ selfTests.push({name, fn}); }
+function assertEq(actual, expected){
+  if (actual !== expected) throw new Error(`expected ${expected}, got ${actual}`);
+}
+function assertOk(cond, msg){ if (!cond) throw new Error(msg || 'assertion failed'); }
+function runSelfTests(){
+  const lines = [];
+  let passed = 0;
+  for (const t of selfTests){
+    try { t.fn(); lines.push(`PASS  ${t.name}`); passed++; }
+    catch(e){ lines.push(`FAIL  ${t.name} — ${e.message}`); }
+  }
+  lines.push('', passed === selfTests.length
+    ? `ALL PASS (${passed}/${selfTests.length})`
+    : `${passed}/${selfTests.length} passed`);
+  const pre = document.createElement('pre');
+  pre.style.cssText = 'position:fixed;inset:0;margin:0;background:#000;color:#4f4;' +
+    'z-index:99;padding:20px;font:15px/1.6 Consolas,monospace;overflow:auto;';
+  pre.textContent = lines.join('\n');
+  document.body.appendChild(pre);
+}
+addEventListener('load', () => { if (location.hash === '#selftest') runSelfTests(); });
+
+/* 骨架驗證用測試：六個場景 section 存在（先寫成錯的期望值，驗證框架會抓到 FAIL） */
+test('stage 含 6 個場景 section', () => {
+  assertEq(document.querySelectorAll('section[data-scene]').length, 6);
+});
+</script>
+</body>
+</html>
