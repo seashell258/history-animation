@@ -35,6 +35,13 @@ section[data-scene].active{display:block;}
 #intro-hint{position:absolute;bottom:36px;right:56px;font-size:18px;color:var(--gold);
   opacity:.7;animation:breathe 2s infinite;}
 @keyframes breathe{0%,100%{opacity:.25}50%{opacity:.8}}
+/* --- burn --- */
+#embers{position:absolute;inset:0;pointer-events:none;}
+#burn-hint{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);
+  font-size:30px;letter-spacing:.2em;color:var(--gold);}
+#burn-hint.ready{color:var(--cinnabar);font-size:40px;font-weight:bold;
+  animation:breathe .5s infinite;}
+#scene-burn svg{position:absolute;inset:0;touch-action:none;}
 /* --- palace --- */
 #palace-dialog{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
   width:860px;background:var(--paper);color:var(--ink);border-radius:8px;
@@ -99,7 +106,41 @@ section[data-scene].active{display:block;}
       <button id="ask-btn">問天 →</button>
     </div>
   </section>
-  <section data-scene="burn"></section>
+  <section data-scene="burn" id="scene-burn">
+    <svg viewBox="0 0 1280 720" width="1280" height="720">
+      <defs>
+        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--flame)" stop-opacity=".95"/>
+          <stop offset="60%" stop-color="var(--flame)" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="var(--flame)" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- 火光（充能時淡入） -->
+      <circle id="shell-glow" cx="640" cy="380" r="240" fill="url(#glowGrad)" opacity="0"/>
+      <!-- 龜腹甲 -->
+      <g id="shell" style="cursor:pointer">
+        <path d="M640 200
+                 C 520 200 470 280 470 380 C 470 490 540 560 640 560
+                 C 740 560 810 490 810 380 C 810 280 760 200 640 200 Z"
+              fill="var(--paper)" stroke="#c9b992" stroke-width="4"/>
+        <!-- 腹甲天然紋路 -->
+        <g stroke="#c9b992" stroke-width="3" fill="none" opacity=".8">
+          <line x1="640" y1="205" x2="640" y2="555"/>
+          <path d="M480 320 L800 320"/><path d="M475 430 L805 430"/>
+          <path d="M520 250 L760 250"/><path d="M520 510 L760 510"/>
+        </g>
+        <!-- 裂紋（Task 6 啟用；先隱藏備好） -->
+        <g id="cracks" stroke="var(--ink)" stroke-width="5" fill="none"
+           stroke-linecap="round" opacity="0">
+          <path class="crack" d="M640 380 L610 320 L620 260"/>
+          <path class="crack" d="M640 380 L700 350 L750 360"/>
+          <path class="crack" d="M640 380 L630 450 L580 500"/>
+        </g>
+      </g>
+    </svg>
+    <canvas id="embers" width="1280" height="720"></canvas>
+    <p id="burn-hint">按住龜甲，開始灼燒</p>
+  </section>
   <section data-scene="verdict"></section>
   <section data-scene="glyph"></section>
 </div>
@@ -118,7 +159,8 @@ fitStage();
 const selfTests = [];
 function test(name, fn){ selfTests.push({name, fn}); }
 function assertEq(actual, expected){
-  if (actual !== expected) throw new Error(`expected ${expected}, got ${actual}`);
+  if (actual !== expected && !(typeof actual === 'number' && typeof expected === 'number' && Math.abs(actual - expected) < 1e-10))
+    throw new Error(`expected ${expected}, got ${actual}`);
 }
 function assertOk(cond, msg){ if (!cond) throw new Error(msg || 'assertion failed'); }
 function runSelfTests(){
@@ -257,6 +299,82 @@ document.addEventListener('scene:enter', e => {
 /* ===== 宮殿夜景 ===== */
 document.getElementById('ask-btn').addEventListener('click', () => game.goto('burn'));
 
+/* ===== 灼燒充能模型 ===== */
+const BURN = { chargeTime: 3.0, decayTime: 1.2 };
+function burnStep(charge, dt, holding){
+  const next = charge + dt * (holding ? 1 / BURN.chargeTime : -1 / BURN.decayTime);
+  return Math.max(0, Math.min(1, next));
+}
+
+/* ===== 火星粒子 ===== */
+const embers = (() => {
+  const cv = document.getElementById('embers');
+  const c = cv.getContext('2d');
+  let ps = [], last = 0;
+  function spawnAt(x, y, rate){
+    if (Math.random() > rate * 0.6) return;
+    ps.push({ x: x + (Math.random() - 0.5) * 200, y: y + 80,
+              vx: (Math.random() - 0.5) * 50, vy: -(60 + Math.random() * 140),
+              life: 0.7 + Math.random() * 0.6 });
+  }
+  function loop(ts){
+    const dt = last ? (ts - last) / 1000 : 0; last = ts;
+    c.clearRect(0, 0, cv.width, cv.height);
+    ps = ps.filter(p => p.life > 0);
+    for (const p of ps){
+      p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt;
+      c.globalAlpha = Math.max(p.life, 0);
+      c.fillStyle = Math.random() < 0.2 ? '#d9a441' : '#e8823a';
+      c.beginPath(); c.arc(p.x, p.y, 2.5, 0, 7); c.fill();
+    }
+    c.globalAlpha = 1;
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  return { spawnAt };
+})();
+
+/* ===== 燒龜甲互動 ===== */
+function crackSequence(){ console.log('crack!'); }  /* Task 6 取代 */
+
+(() => {
+  const shell = document.getElementById('shell');
+  const glow  = document.getElementById('shell-glow');
+  const hint  = document.getElementById('burn-hint');
+  let holding = false, charge = 0, last = 0, fire = null, done = false, running = false;
+  function frame(ts){
+    if (!running) return;
+    const dt = last ? Math.min((ts - last) / 1000, 0.05) : 0; last = ts;
+    charge = burnStep(charge, dt, holding);
+    glow.setAttribute('opacity', charge.toFixed(3));
+    shell.setAttribute('transform',
+      `translate(${(Math.random() - 0.5) * charge * 5},${(Math.random() - 0.5) * charge * 5})`);
+    if (holding) embers.spawnAt(640, 380, charge);
+    const ready = charge >= 1;
+    hint.textContent = ready ? '放開！' : '按住龜甲，開始灼燒';
+    hint.classList.toggle('ready', ready);
+    requestAnimationFrame(frame);
+  }
+  shell.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    if (done) return;
+    holding = true;
+    fire = audio.startFire();
+  });
+  addEventListener('pointerup', () => {
+    if (!holding) return;
+    holding = false;
+    if (fire){ fire.stop(); fire = null; }
+    if (charge >= 1 && !done){ done = true; running = false; crackSequence(); }
+  });
+  document.addEventListener('scene:enter', e => {
+    if (e.detail.scene === 'burn'){
+      charge = 0; last = 0; done = false; running = true;
+      requestAnimationFrame(frame);
+    } else { running = false; }
+  });
+})();
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
@@ -298,6 +416,20 @@ test('scene:enter 事件會發出', () => {
   game.goto('glyph');
   document.removeEventListener('scene:enter', h);
   assertEq(got, 'glyph');
+});
+
+test('burnStep 按住 3 秒充滿', () => {
+  let c = 0;
+  for (let i = 0; i < 30; i++) c = burnStep(c, 0.1, true);
+  assertEq(c, 1);
+});
+test('burnStep 放開會衰減且不低於 0', () => {
+  let c = burnStep(1, 0.5, false);
+  assertOk(c < 1 && c > 0, `0.5s 後應介於 0~1，got ${c}`);
+  assertEq(burnStep(0, 5, false), 0);
+});
+test('burnStep 上限夾在 1', () => {
+  assertEq(burnStep(0.99, 9, true), 1);
 });
 </script>
 </body>
