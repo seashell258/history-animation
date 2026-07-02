@@ -449,15 +449,18 @@ document.getElementById('carve-btn').addEventListener('click', () => game.goto('
   shell.addEventListener('pointerdown', e => {
     e.preventDefault();
     if (done) return;
+    if (holding) return;
     holding = true;
     fire = audio.startFire();
   });
-  addEventListener('pointerup', () => {
+  function releaseHold(){
     if (!holding) return;
     holding = false;
     if (fire){ fire.stop(); fire = null; }
     if (charge >= 1 && !done){ done = true; running = false; crackSequence(); }
-  });
+  }
+  addEventListener('pointerup', releaseHold);
+  addEventListener('pointercancel', releaseHold);
   document.addEventListener('scene:enter', e => {
     if (e.detail.scene === 'burn'){
       charge = 0; last = 0; done = false; running = true;
