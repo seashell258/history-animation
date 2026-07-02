@@ -96,6 +96,97 @@ const game = {
 addEventListener('load', () => { if (location.hash !== '#selftest') game.goto('start'); });
 document.getElementById('start-btn').addEventListener('click', () => game.goto('intro'));
 
+/* ===== 音效引擎（全程式合成，零音檔） ===== */
+const audio = {
+  ctx: null,
+  enabled: true,
+  unlock(){
+    if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+  },
+  _noise(dur){
+    const n = Math.floor(this.ctx.sampleRate * dur);
+    const buf = this.ctx.createBuffer(1, n, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return buf;
+  },
+  startFire(){
+    if (!this.ctx || !this.enabled) return { stop(){} };
+    const src = this.ctx.createBufferSource();
+    src.buffer = this._noise(2); src.loop = true;
+    const bp = this.ctx.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = 900; bp.Q.value = 0.8;
+    const g = this.ctx.createGain(); g.gain.value = 0;
+    src.connect(bp); bp.connect(g); g.connect(this.ctx.destination);
+    src.start();
+    const jitter = setInterval(() => {
+      g.gain.value = 0.04 + Math.random() * 0.14;   // 隨機抖動 = 劈啪感
+    }, 60);
+    return {
+      stop: () => {
+        clearInterval(jitter);
+        g.gain.setTargetAtTime(0, this.ctx.currentTime, 0.1);
+        src.stop(this.ctx.currentTime + 0.4);
+      }
+    };
+  },
+  pop(){
+    if (!this.ctx || !this.enabled) return;
+    const t = this.ctx.currentTime;
+    const src = this.ctx.createBufferSource(); src.buffer = this._noise(0.15);
+    const hp = this.ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1200;
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(0.9, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    src.connect(hp); hp.connect(g); g.connect(this.ctx.destination); src.start(t);
+    const o = this.ctx.createOscillator();
+    o.frequency.setValueAtTime(90, t);
+    o.frequency.exponentialRampToValueAtTime(45, t + 0.25);
+    const og = this.ctx.createGain();
+    og.gain.setValueAtTime(0.8, t);
+    og.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+    o.connect(og); og.connect(this.ctx.destination); o.start(t); o.stop(t + 0.3);
+  },
+  ding(){
+    if (!this.ctx || !this.enabled) return;
+    const t = this.ctx.currentTime;
+    [660, 990].forEach((f, i) => {
+      const o = this.ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      const g = this.ctx.createGain();
+      g.gain.setValueAtTime(i ? 0.12 : 0.28, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+      o.connect(g); g.connect(this.ctx.destination); o.start(t); o.stop(t + 0.9);
+    });
+  },
+  thump(){
+    if (!this.ctx || !this.enabled) return;
+    const t = this.ctx.currentTime;
+    const o = this.ctx.createOscillator();
+    o.frequency.setValueAtTime(120, t);
+    o.frequency.exponentialRampToValueAtTime(50, t + 0.2);
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(0.9, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+    o.connect(g); g.connect(this.ctx.destination); o.start(t); o.stop(t + 0.25);
+  }
+};
+document.getElementById('start-btn').addEventListener('click', () => audio.unlock());
+
+/* 音效測試：未實作時應 FAIL */
+test('audio 未解鎖時所有函式安全 no-op', () => {
+  assertEq(audio.ctx, null);
+  audio.pop(); audio.ding(); audio.thump();
+  const h = audio.startFire();
+  assertOk(h && typeof h.stop === 'function', 'startFire 應回傳含 stop 的 handle');
+  h.stop();
+});
+test('audio.unlock 建立 AudioContext', () => {
+  audio.unlock();
+  assertOk(audio.ctx !== null, 'unlock 後 ctx 不應為 null');
+  assertEq(typeof audio.ctx.createOscillator, 'function');
+});
+
 /* 骨架驗證用測試：六個場景 section 存在（先寫成錯的期望值，驗證框架會抓到 FAIL） */
 test('stage 含 6 個場景 section', () => {
   assertEq(document.querySelectorAll('section[data-scene]').length, 6);
