@@ -77,9 +77,52 @@ function runSelfTests(){
 }
 addEventListener('load', () => { if (location.hash === '#selftest') runSelfTests(); });
 
+/* ===== 場景狀態機 ===== */
+const SCENES = ['start','intro','palace','burn','verdict','glyph'];
+const game = {
+  index: 0,
+  get current(){ return SCENES[this.index]; },
+  goto(name){
+    const i = SCENES.indexOf(name);
+    if (i === -1) return false;
+    this.index = i;
+    document.querySelectorAll('section[data-scene]').forEach(s =>
+      s.classList.toggle('active', s.dataset.scene === name));
+    document.dispatchEvent(new CustomEvent('scene:enter', {detail:{scene:name}}));
+    return true;
+  },
+  next(){ if (this.index < SCENES.length - 1) this.goto(SCENES[this.index + 1]); }
+};
+addEventListener('load', () => { if (location.hash !== '#selftest') game.goto('start'); });
+document.getElementById('start-btn').addEventListener('click', () => game.goto('intro'));
+
 /* 骨架驗證用測試：六個場景 section 存在（先寫成錯的期望值，驗證框架會抓到 FAIL） */
 test('stage 含 6 個場景 section', () => {
   assertEq(document.querySelectorAll('section[data-scene]').length, 6);
+});
+
+test('game.goto 切換 active 與 current', () => {
+  game.goto('palace');
+  assertEq(game.current, 'palace');
+  assertEq(document.querySelectorAll('section[data-scene].active').length, 1);
+  assertEq(document.querySelector('section[data-scene].active').dataset.scene, 'palace');
+});
+test('game.goto 未知場景回傳 false 且不變', () => {
+  game.goto('burn');
+  assertEq(game.goto('nonsense'), false);
+  assertEq(game.current, 'burn');
+});
+test('game.next 依序前進', () => {
+  game.goto('start'); game.next();
+  assertEq(game.current, 'intro');
+});
+test('scene:enter 事件會發出', () => {
+  let got = null;
+  const h = e => { got = e.detail.scene; };
+  document.addEventListener('scene:enter', h);
+  game.goto('glyph');
+  document.removeEventListener('scene:enter', h);
+  assertEq(got, 'glyph');
 });
 </script>
 </body>
