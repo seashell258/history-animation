@@ -55,6 +55,29 @@ section[data-scene].active{display:block;}
 #ask-btn:hover{filter:brightness(1.15);}
 #pain{animation:painFlash 1.1s infinite;}
 @keyframes painFlash{0%,100%{opacity:0}30%,70%{opacity:1}}
+/* --- crack & verdict --- */
+#stage.shake{animation:shake .4s;}
+@keyframes shake{
+  0%,100%{transform:translate(-50%,-50%) scale(var(--fit,1));}
+  20%{transform:translate(calc(-50% + 10px),calc(-50% - 8px)) scale(var(--fit,1));}
+  40%{transform:translate(calc(-50% - 8px),calc(-50% + 6px)) scale(var(--fit,1));}
+  60%{transform:translate(calc(-50% + 6px),calc(-50% + 8px)) scale(var(--fit,1));}
+  80%{transform:translate(calc(-50% - 4px),calc(-50% - 4px)) scale(var(--fit,1));}
+}
+#scene-verdict{flex-direction:column;align-items:center;justify-content:center;gap:30px;}
+#scene-verdict.active{display:flex;}
+#verdict-text{font-size:34px;letter-spacing:.1em;line-height:1.9;text-align:center;max-width:900px;}
+#seal{width:200px;height:200px;background:var(--cinnabar);color:var(--paper);
+  display:flex;align-items:center;justify-content:center;font-size:130px;font-weight:bold;
+  border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.7);
+  transform:scale(6) rotate(18deg);opacity:0;}
+#seal.stamped{transition:transform .28s cubic-bezier(.2,2,.4,1),opacity .18s;
+  transform:scale(1) rotate(-4deg);opacity:1;}
+#carve-btn{font-family:var(--serif);font-size:26px;letter-spacing:.18em;padding:10px 40px;
+  background:var(--bronze);color:var(--paper);border:none;border-radius:6px;cursor:pointer;
+  opacity:0;transition:opacity .5s;}
+#carve-btn.show{opacity:1;}
+#carve-btn:hover{filter:brightness(1.15);}
 </style>
 </head>
 <body>
@@ -141,7 +164,12 @@ section[data-scene].active{display:block;}
     <canvas id="embers" width="1280" height="720"></canvas>
     <p id="burn-hint">按住龜甲，開始灼燒</p>
   </section>
-  <section data-scene="verdict"></section>
+  <section data-scene="verdict" id="scene-verdict">
+    <p id="verdict-text">貞人湊近細看裂紋——<br>「裂紋向上而直，是好兆頭。」</p>
+    <div id="seal">吉</div>
+    <p style="font-size:26px;color:var(--gold);margin:0;">牙痛，會好。</p>
+    <button id="carve-btn">把它刻下來 →</button>
+  </section>
   <section data-scene="glyph"></section>
 </div>
 <script>
@@ -149,8 +177,9 @@ section[data-scene].active{display:block;}
 /* ===== 舞台縮放 ===== */
 function fitStage(){
   const s = Math.min(innerWidth / 1280, innerHeight / 720);
-  document.getElementById('stage').style.transform =
-    `translate(-50%,-50%) scale(${s})`;
+  const st = document.getElementById('stage');
+  st.style.setProperty('--fit', s);
+  st.style.transform = `translate(-50%,-50%) scale(${s})`;
 }
 addEventListener('resize', fitStage);
 fitStage();
@@ -335,7 +364,32 @@ const embers = (() => {
 })();
 
 /* ===== 燒龜甲互動 ===== */
-function crackSequence(){ console.log('crack!'); }  /* Task 6 取代 */
+function crackSequence(){
+  audio.pop();
+  document.getElementById('stage').classList.add('shake');
+  setTimeout(() => document.getElementById('stage').classList.remove('shake'), 450);
+  document.getElementById('cracks').setAttribute('opacity', '1');
+  document.querySelectorAll('.crack').forEach((p, i) => {
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    setTimeout(() => {
+      p.style.transition = 'stroke-dashoffset .5s ease-out';
+      p.style.strokeDashoffset = 0;
+    }, 120 + 160 * i);
+  });
+  document.getElementById('burn-hint').textContent = '裂開了！';
+  setTimeout(() => game.goto('verdict'), 1800);
+}
+document.addEventListener('scene:enter', e => {
+  if (e.detail.scene !== 'verdict') return;
+  const seal = document.getElementById('seal');
+  seal.classList.remove('stamped');
+  document.getElementById('carve-btn').classList.remove('show');
+  setTimeout(() => { seal.classList.add('stamped'); audio.thump(); }, 900);
+  setTimeout(() => { audio.ding(); document.getElementById('carve-btn').classList.add('show'); }, 1600);
+});
+document.getElementById('carve-btn').addEventListener('click', () => game.goto('glyph'));
 
 (() => {
   const shell = document.getElementById('shell');
