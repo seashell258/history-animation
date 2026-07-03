@@ -476,10 +476,9 @@ section[data-scene].active{display:block;}
       <p id="fuhao-name">婦好</p>
       <p id="fuhao-sub">商王的王后——也是帶兵打仗的<strong>女將軍</strong>。<br>
         這不是編的：甲骨上真的刻著，她帶了<strong>一萬三千人</strong>出征。</p>
-      <button id="act3-verify-btn" class="next-btn">出征！ →</button>
+      <button id="to-act4-btn" class="next-btn">出征！ →</button>
     </div>
   </section>
-  <section data-scene="act3-verify" id="scene-act3-verify"></section>
   <section data-scene="act4-intro" id="scene-act4-intro">
     <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
       <rect width="1280" height="720" fill="#20180f"/>
@@ -599,7 +598,7 @@ addEventListener('load', () => { if (location.hash === '#selftest') runSelfTests
 /* ===== 場景狀態機 ===== */
 const SCENES = ['start','intro','palace','burn','verdict','glyph',
   'act2-intro','act2-decode',
-  'act3-intro','act3-assemble','act3-verify',
+  'act3-intro','act3-assemble',
   'act4-intro','act4-grind','act4-finale'];
 const game = {
   index: 0,
@@ -1367,7 +1366,7 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
   }
 
   document.addEventListener('assemble:complete', reveal);
-  document.getElementById('act3-verify-btn').addEventListener('click', () => game.goto('act3-verify'));
+  document.getElementById('to-act4-btn').addEventListener('click', () => game.goto('act4-intro'));
   window.addEventListener('pointermove', onMove);
   window.addEventListener('pointerup', onUp);
   window.addEventListener('pointercancel', onCancel);
@@ -1504,9 +1503,9 @@ test('audio.drumRoll 存在且可呼叫', () => {
   audio.drumRoll();   /* 已解鎖，不應拋錯 */
 });
 
-/* 骨架驗證用測試：14 個場景 section 存在 */
-test('stage 含 14 個場景 section', () => {
-  assertEq(document.querySelectorAll('section[data-scene]').length, 14);
+/* 骨架驗證用測試：13 個場景 section 存在 */
+test('stage 含 13 個場景 section', () => {
+  assertEq(document.querySelectorAll('section[data-scene]').length, 13);
 });
 test('setBurn 設定占卜去向、充能時間與提示', () => {
   setBurn('act2-decode', 1.6, '再問一次');
@@ -1559,7 +1558,7 @@ test('burnStep 上限夾在 1', () => {
 test('actOfScene 依前綴判定幕次', () => {
   assertEq(actOfScene('palace', 'verdict'), 1);
   assertEq(actOfScene('act2-decode', 'verdict'), 2);
-  assertEq(actOfScene('act3-verify', 'verdict'), 3);
+  assertEq(actOfScene('act3-assemble', 'verdict'), 3);
   assertEq(actOfScene('act4-grind', 'verdict'), 4);
 });
 test('actOfScene 共用的 burn 場景看占卜去向', () => {
