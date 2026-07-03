@@ -123,6 +123,29 @@ section[data-scene].active{display:block;}
 .dialog .speaker{color:var(--cinnabar);font-size:22px;}
 .dialog strong{color:var(--cinnabar);}
 .dialog .next-btn{display:block;margin:12px 0 0 auto;}
+/* --- act2 decode --- */
+#decode-title{position:absolute;top:30px;width:100%;text-align:center;font-size:28px;
+  letter-spacing:.08em;margin:0;color:var(--paper);}
+#decode-title strong{color:var(--gold);}
+.decode-slot{position:absolute;width:170px;height:170px;}
+.decode-slot svg{position:absolute;inset:0;transition:opacity .9s;}
+.decode-slot .kai{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:120px;color:var(--ink);opacity:0;transition:opacity .9s;}
+.decode-slot.matched svg{opacity:0;}
+.decode-slot.matched .kai{opacity:1;}
+.decode-tile{position:absolute;top:600px;width:110px;text-align:center;cursor:grab;
+  touch-action:none;user-select:none;}
+.decode-tile span{display:block;font-size:20px;color:var(--gold);letter-spacing:.1em;}
+.decode-tile.back{transition:transform .35s cubic-bezier(.3,1.4,.5,1);}
+.decode-tile.gone{opacity:0;pointer-events:none;transition:opacity .4s;}
+#decode-done{position:absolute;left:50%;top:435px;transform:translateX(-50%);width:900px;
+  text-align:center;font-size:26px;line-height:1.7;margin:0;color:var(--ink);
+  opacity:0;transition:opacity .8s;}
+#decode-done.show{opacity:1;}
+#decode-done strong{color:var(--cinnabar);}
+#decode-next-btn{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);
+  opacity:0;transition:opacity .5s;}
+#decode-next-btn.show{opacity:1;}
 </style>
 </head>
 <body>
@@ -258,7 +281,85 @@ section[data-scene].active{display:block;}
       <button id="act2-ask-btn" class="next-btn">問天 →</button>
     </div>
   </section>
-  <section data-scene="act2-decode" id="scene-act2-decode"></section>
+  <section data-scene="act2-decode" id="scene-act2-decode">
+    <p id="decode-title">貞人翻出「上次問雨」的甲骨紀錄來解讀這次的紋路——<strong>把圖拖到對的字上</strong>，解讀這次占卜。</p>
+    <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+      <!-- 甲骨板 -->
+      <path d="M340 130 C 260 170 240 300 270 430 C 295 540 380 600 640 600
+               C 900 600 985 540 1010 430 C 1040 300 1020 170 940 130
+               C 840 90 440 90 340 130 Z"
+            fill="var(--paper)" stroke="#c9b992" stroke-width="4"/>
+    </svg>
+    <!-- 三個字槽：甲骨文 ⇄ 楷書 -->
+    <div class="decode-slot" id="slot-rain" style="left:390px;top:230px;">
+      <svg viewBox="0 0 200 200" width="170" height="170">
+        <!-- 甲骨文「雨」：一横天，點點往下落 -->
+        <g fill="none" stroke="var(--ink)" stroke-width="10" stroke-linecap="round">
+          <path d="M45 55 H155"/>
+          <path d="M65 85 v30 M100 92 v30 M135 85 v30"/>
+        </g>
+      </svg>
+      <div class="kai">雨</div>
+    </div>
+    <div class="decode-slot" id="slot-grain" style="left:555px;top:230px;">
+      <svg viewBox="0 0 200 200" width="170" height="170">
+        <!-- 甲骨文「禾」：垂穗的莖與葉 -->
+        <g fill="none" stroke="var(--ink)" stroke-width="10" stroke-linecap="round">
+          <path d="M100 55 V160"/>
+          <path d="M100 55 Q80 30 58 42"/>
+          <path d="M100 95 L68 72 M100 95 L132 72"/>
+          <path d="M100 130 L70 112 M100 130 L130 112"/>
+          <path d="M100 160 L78 178 M100 160 L122 178"/>
+        </g>
+      </svg>
+      <div class="kai">禾</div>
+    </div>
+    <div class="decode-slot" id="slot-sun" style="left:720px;top:230px;">
+      <svg viewBox="0 0 200 200" width="170" height="170">
+        <!-- 甲骨文「日」：圓形帶中點 -->
+        <g fill="none" stroke="var(--ink)" stroke-width="10" stroke-linecap="round">
+          <circle cx="100" cy="105" r="52"/>
+          <path d="M100 95 v20"/>
+        </g>
+      </svg>
+      <div class="kai">日</div>
+    </div>
+    <!-- 三張可拖的圖（左右順序刻意與字槽不同） -->
+    <div class="decode-tile" data-key="grain" style="left:300px;">
+      <svg viewBox="0 0 100 100" width="90" height="90">
+        <g fill="none" stroke="var(--bronze)" stroke-width="6" stroke-linecap="round">
+          <path d="M50 88 V45"/>
+          <path d="M50 60 Q28 52 22 32"/>
+          <path d="M50 60 Q72 52 78 32"/>
+          <path d="M50 45 Q42 24 50 12"/>
+        </g>
+      </svg>
+      <span>禾苗</span>
+    </div>
+    <div class="decode-tile" data-key="sun" style="left:580px;">
+      <svg viewBox="0 0 100 100" width="90" height="90">
+        <g stroke="var(--gold)" stroke-width="5" stroke-linecap="round">
+          <circle cx="50" cy="50" r="22" fill="var(--gold)"/>
+          <path d="M50 12 v12 M50 76 v12 M12 50 h12 M76 50 h12 M23 23 l9 9 M68 68 l9 9 M77 23 l-9 9 M32 68 l-9 9" fill="none"/>
+        </g>
+      </svg>
+      <span>太陽</span>
+    </div>
+    <div class="decode-tile" data-key="rain" style="left:860px;">
+      <svg viewBox="0 0 100 100" width="90" height="90">
+        <g stroke="#7d9bb5" stroke-width="6" stroke-linecap="round">
+          <path d="M25 40 Q25 22 45 22 Q50 10 65 14 Q82 16 80 34 Q90 38 86 48 Q80 56 68 54 L30 54 Q18 52 25 40 Z" fill="#7d9bb5"/>
+          <path d="M35 66 l-6 14 M55 66 l-6 14 M75 66 l-6 14" fill="none"/>
+        </g>
+      </svg>
+      <span>雨滴</span>
+    </div>
+    <p id="decode-done">
+      你剛剛讀懂了 3000 年前的紀錄——<br>
+      <strong>那一年：下了雨，禾苗曬著太陽長大。好年。</strong>
+    </p>
+    <button id="decode-next-btn" class="next-btn">下一幕 →</button>
+  </section>
   <section data-scene="act3-intro" id="scene-act3-intro"></section>
   <section data-scene="act3-choose" id="scene-act3-choose"></section>
   <section data-scene="act3-verify" id="scene-act3-verify"></section>
@@ -652,6 +753,93 @@ document.getElementById('act2-ask-btn').addEventListener('click', () => {
   game.goto('burn');
 });
 
+/* ===== 解碼配對模型 ===== */
+function hitTarget(x, y, targets, r){
+  for (let i = 0; i < targets.length; i++){
+    const t = targets[i];
+    if (!t.done && Math.hypot(x - t.x, y - t.y) <= r) return i;
+  }
+  return -1;
+}
+
+/* ===== 第二幕：拖拉解碼 ===== */
+const decode = {
+  targets: [
+    { key:'rain',  x:475, y:315, done:false, el:'slot-rain'  },
+    { key:'grain', x:640, y:315, done:false, el:'slot-grain' },
+    { key:'sun',   x:805, y:315, done:false, el:'slot-sun'   }
+  ],
+  HIT_R: 95
+};
+function stagePoint(clientX, clientY){
+  const r = document.getElementById('stage').getBoundingClientRect();
+  return { x: (clientX - r.left) / (r.width / 1280),
+           y: (clientY - r.top) / (r.height / 720) };
+}
+(() => {
+  document.querySelectorAll('.decode-tile').forEach(tile => {
+    let sx = 0, sy = 0, dragging = false;
+    function snapBack(){
+      tile.classList.add('back');
+      tile.style.transform = 'translate(0,0)';
+    }
+    tile.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      dragging = true;
+      tile.setPointerCapture(e.pointerId);
+      tile.classList.remove('back');
+      const p = stagePoint(e.clientX, e.clientY);
+      sx = p.x; sy = p.y;
+    });
+    tile.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const p = stagePoint(e.clientX, e.clientY);
+      tile.style.transform = `translate(${p.x - sx}px,${p.y - sy}px)`;
+    });
+    tile.addEventListener('pointerup', e => {
+      if (!dragging) return;
+      dragging = false;
+      const p = stagePoint(e.clientX, e.clientY);
+      const i = hitTarget(p.x, p.y, decode.targets, decode.HIT_R);
+      if (i !== -1 && decode.targets[i].key === tile.dataset.key){
+        decode.targets[i].done = true;
+        tile.classList.add('gone');
+        document.getElementById(decode.targets[i].el).classList.add('matched');
+        audio.ding();
+        if (decode.targets.every(t => t.done)){
+          setTimeout(() => {
+            document.getElementById('decode-done').classList.add('show');
+            document.getElementById('decode-next-btn').classList.add('show');
+            audio.ding();
+          }, 1000);
+        }
+      } else {
+        if (i !== -1) audio.thump();
+        snapBack();
+      }
+    });
+    tile.addEventListener('pointercancel', () => {
+      if (!dragging) return;
+      dragging = false;
+      snapBack();
+    });
+  });
+  document.addEventListener('scene:enter', e => {
+    if (e.detail.scene !== 'act2-decode') return;
+    decode.targets.forEach(t => {
+      t.done = false;
+      document.getElementById(t.el).classList.remove('matched');
+    });
+    document.querySelectorAll('.decode-tile').forEach(t => {
+      t.classList.remove('gone','back');
+      t.style.transform = 'translate(0,0)';
+    });
+    document.getElementById('decode-done').classList.remove('show');
+    document.getElementById('decode-next-btn').classList.remove('show');
+  });
+  document.getElementById('decode-next-btn').addEventListener('click', () => game.goto('act3-intro'));
+})();
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
@@ -740,6 +928,17 @@ test('music start/stop/toggle 狀態機', () => {
   assertEq(music.timer, null);
   assertEq(music.toggle(), true);
   music.stop();
+});
+
+test('hitTarget 命中半徑內未完成目標', () => {
+  const ts = [{x:100,y:100,done:false},{x:300,y:100,done:false}];
+  assertEq(hitTarget(310, 90, ts, 70), 1);
+  assertEq(hitTarget(100, 100, ts, 70), 0);
+  assertEq(hitTarget(640, 640, ts, 70), -1);
+});
+test('hitTarget 跳過已完成目標', () => {
+  const ts = [{x:100,y:100,done:true},{x:112,y:100,done:false}];
+  assertEq(hitTarget(100, 100, ts, 70), 1);
 });
 </script>
 </body>
