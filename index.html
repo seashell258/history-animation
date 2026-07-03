@@ -150,27 +150,6 @@ section[data-scene].active{display:block;}
 #alarm-flash{position:absolute;inset:0;background:var(--cinnabar);opacity:0;pointer-events:none;}
 #scene-act3-intro.active #alarm-flash{animation:alarm 1.2s 2;}
 @keyframes alarm{0%,100%{opacity:0}15%{opacity:.35}30%{opacity:0}45%{opacity:.25}60%{opacity:0}}
-/* --- act3 choose --- */
-.choose-title{position:absolute;top:44px;width:100%;text-align:center;font-size:32px;
-  letter-spacing:.08em;margin:0;}
-.choose-title strong{color:var(--cinnabar);}
-#generals{position:absolute;top:140px;left:50%;transform:translateX(-50%);display:flex;gap:70px;}
-.general{background:transparent;border:2px solid transparent;border-radius:10px;
-  cursor:pointer;padding:12px;transition:opacity .6s,border-color .3s;}
-.general:hover{border-color:var(--gold);}
-.general span{display:block;margin-top:8px;font-family:var(--serif);font-size:22px;
-  color:var(--gold);letter-spacing:.15em;}
-#generals.picked .general{pointer-events:none;opacity:.12;}
-#generals.picked .general.chosen{opacity:1;}
-#fuhao-reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:760px;background:var(--paper);color:var(--ink);border-radius:10px;
-  padding:30px 40px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.7);
-  opacity:0;pointer-events:none;transition:opacity .7s;}
-#fuhao-reveal.show{opacity:1;pointer-events:auto;}
-#fuhao-line1{font-size:24px;margin:0 0 6px;}
-#fuhao-name{font-size:88px;color:var(--cinnabar);letter-spacing:.2em;margin:6px 0;font-weight:bold;}
-#fuhao-sub{font-size:24px;line-height:1.7;margin:8px 0 16px;}
-#fuhao-sub strong{color:var(--cinnabar);}
 </style>
 </head>
 <body>
@@ -410,52 +389,7 @@ section[data-scene].active{display:block;}
       <button id="act3-ask-btn" class="next-btn">立刻問天 →</button>
     </div>
   </section>
-  <section data-scene="act3-choose" id="scene-act3-choose">
-    <p class="choose-title">裂紋說：可以打。那——<strong>派誰帶兵？</strong></p>
-    <div id="generals">
-      <button class="general" data-idx="0">
-        <svg viewBox="0 0 200 300" width="180" height="270" aria-hidden="true">
-          <g fill="#0d0b09">
-            <circle cx="100" cy="60" r="30"/>
-            <path d="M60 100 h80 l14 130 h-108 Z"/>
-          </g>
-          <line x1="160" y1="40" x2="160" y2="230" stroke="var(--bronze)" stroke-width="8"/>
-          <path d="M160 40 l22 18 -22 8 Z" fill="var(--bronze)"/>
-        </svg>
-        <span>將軍・望乘</span>
-      </button>
-      <button class="general" data-idx="1">
-        <svg viewBox="0 0 200 300" width="180" height="270" aria-hidden="true">
-          <g fill="#0d0b09">
-            <circle cx="100" cy="62" r="28"/>
-            <path d="M84 30 q16 -22 34 -2 q12 14 -6 20 Z"/>
-            <path d="M64 100 h72 l12 130 h-96 Z"/>
-          </g>
-          <line x1="152" y1="50" x2="152" y2="230" stroke="var(--cinnabar)" stroke-width="8"/>
-          <path d="M132 62 h40 v14 h-40 Z" fill="var(--cinnabar)"/>
-        </svg>
-        <span>？？？</span>
-      </button>
-      <button class="general" data-idx="2">
-        <svg viewBox="0 0 200 300" width="180" height="270" aria-hidden="true">
-          <g fill="#0d0b09">
-            <circle cx="100" cy="60" r="32"/>
-            <path d="M52 100 h96 l16 130 h-128 Z"/>
-          </g>
-          <line x1="44" y1="60" x2="44" y2="230" stroke="var(--bronze)" stroke-width="8"/>
-          <path d="M44 60 q-30 10 -26 42 q20 -6 26 -14 Z" fill="var(--bronze)"/>
-        </svg>
-        <span>將軍・沚戛</span>
-      </button>
-    </div>
-    <div id="fuhao-reveal">
-      <p id="fuhao-line1"></p>
-      <p id="fuhao-name">婦好</p>
-      <p id="fuhao-sub">商王的王后——也是帶兵打仗的<strong>女將軍</strong>。<br>
-        這不是編的：甲骨上真的刻著，她帶了<strong>一萬三千人</strong>出征。</p>
-      <button id="act3-verify-btn" class="next-btn">出征！ →</button>
-    </div>
-  </section>
+  <section data-scene="act3-assemble" id="scene-act3-assemble"></section>
   <section data-scene="act3-verify" id="scene-act3-verify"></section>
   <section data-scene="act4-intro" id="scene-act4-intro"></section>
   <section data-scene="act4-grind" id="scene-act4-grind"></section>
@@ -509,7 +443,7 @@ addEventListener('load', () => { if (location.hash === '#selftest') runSelfTests
 /* ===== 場景狀態機 ===== */
 const SCENES = ['start','intro','palace','burn','verdict','glyph',
   'act2-intro','act2-decode',
-  'act3-intro','act3-choose','act3-verify',
+  'act3-intro','act3-assemble','act3-verify',
   'act4-intro','act4-grind','act4-finale'];
 const game = {
   index: 0,
@@ -953,31 +887,9 @@ document.addEventListener('scene:enter', e => {
   if (e.detail.scene === 'act3-intro') audio.drumRoll();
 });
 document.getElementById('act3-ask-btn').addEventListener('click', () => {
-  setBurn('act3-choose', 1.6, '按住龜甲——問這一仗');
+  setBurn('act3-assemble', 1.6, '按住龜甲——問這一仗');
   game.goto('burn');
 });
-
-const FU_HAO = 1;
-document.querySelectorAll('.general').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const idx = Number(btn.dataset.idx);
-    document.getElementById('generals').classList.add('picked');
-    btn.classList.add('chosen');
-    document.getElementById('fuhao-line1').textContent =
-      idx === FU_HAO ? '你選中的這位——' : '商王想了想，卻點了中間那位——';
-    setTimeout(() => {
-      document.getElementById('fuhao-reveal').classList.add('show');
-      audio.ding();
-    }, 900);
-  });
-});
-document.addEventListener('scene:enter', e => {
-  if (e.detail.scene !== 'act3-choose') return;
-  document.getElementById('generals').classList.remove('picked');
-  document.querySelectorAll('.general').forEach(b => b.classList.remove('chosen'));
-  document.getElementById('fuhao-reveal').classList.remove('show');
-});
-document.getElementById('act3-verify-btn').addEventListener('click', () => game.goto('act3-verify'));
 
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
@@ -1058,7 +970,7 @@ test('actOfScene 依前綴判定幕次', () => {
 test('actOfScene 共用的 burn 場景看占卜去向', () => {
   assertEq(actOfScene('burn', 'verdict'), 1);
   assertEq(actOfScene('burn', 'act2-decode'), 2);
-  assertEq(actOfScene('burn', 'act3-choose'), 3);
+  assertEq(actOfScene('burn', 'act3-assemble'), 3);
 });
 
 test('music start/stop/toggle 狀態機', () => {
