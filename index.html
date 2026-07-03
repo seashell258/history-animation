@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>商王的一天・第一幕</title>
+<title>商王的一天</title>
 <style>
 :root{
   --ink:#171310; --paper:#efe3cc; --cinnabar:#b23a2a;
@@ -96,13 +96,18 @@ section[data-scene].active{display:block;}
 #end-card.show{opacity:1;pointer-events:auto;}
 #end-card p{font-size:52px;letter-spacing:.3em;margin:8px;}
 #end-card .small{font-size:20px;color:var(--gold);letter-spacing:.15em;}
+/* --- shared --- */
+.next-btn{font-family:var(--serif);font-size:26px;letter-spacing:.18em;padding:10px 40px;
+  background:var(--bronze);color:var(--paper);border:none;border-radius:6px;cursor:pointer;}
+.next-btn:hover{filter:brightness(1.15);}
+#end-card .next-btn{margin-top:26px;}
 </style>
 </head>
 <body>
 <div id="stage">
   <section data-scene="start" id="scene-start" class="active">
     <h1>商王的一天</h1>
-    <p>商朝互動歷史課・第一幕</p>
+    <p>商朝互動歷史課</p>
     <button id="start-btn">開始上課</button>
   </section>
   <section data-scene="intro" id="scene-intro">
@@ -205,9 +210,17 @@ section[data-scene].active{display:block;}
     </p>
     <div id="end-card">
       <p>第一幕・完</p>
-      <p class="small">（垂直切片到此為止）</p>
+      <button id="to-act2-btn" class="next-btn">天亮了，下一幕 →</button>
     </div>
   </section>
+  <section data-scene="act2-intro" id="scene-act2-intro"></section>
+  <section data-scene="act2-decode" id="scene-act2-decode"></section>
+  <section data-scene="act3-intro" id="scene-act3-intro"></section>
+  <section data-scene="act3-choose" id="scene-act3-choose"></section>
+  <section data-scene="act3-verify" id="scene-act3-verify"></section>
+  <section data-scene="act4-intro" id="scene-act4-intro"></section>
+  <section data-scene="act4-grind" id="scene-act4-grind"></section>
+  <section data-scene="act4-finale" id="scene-act4-finale"></section>
 </div>
 <script>
 'use strict';
@@ -248,7 +261,10 @@ function runSelfTests(){
 addEventListener('load', () => { if (location.hash === '#selftest') runSelfTests(); });
 
 /* ===== 場景狀態機 ===== */
-const SCENES = ['start','intro','palace','burn','verdict','glyph'];
+const SCENES = ['start','intro','palace','burn','verdict','glyph',
+  'act2-intro','act2-decode',
+  'act3-intro','act3-choose','act3-verify',
+  'act4-intro','act4-grind','act4-finale'];
 const game = {
   index: 0,
   get current(){ return SCENES[this.index]; },
@@ -363,7 +379,10 @@ document.addEventListener('scene:enter', e => {
 });
 
 /* ===== 宮殿夜景 ===== */
-document.getElementById('ask-btn').addEventListener('click', () => game.goto('burn'));
+document.getElementById('ask-btn').addEventListener('click', () => {
+  setBurn('verdict');
+  game.goto('burn');
+});
 
 /* ===== 灼燒充能模型 ===== */
 const BURN = { chargeTime: 3.0, decayTime: 1.2 };
@@ -371,6 +390,25 @@ function burnStep(charge, dt, holding){
   const next = charge + dt * (holding ? 1 / BURN.chargeTime : -1 / BURN.decayTime);
   return Math.max(0, Math.min(1, next));
 }
+
+/* ===== 占卜情境（燒灼場景可跨幕復用） ===== */
+const burnCtx = { next: 'verdict', hint: '按住龜甲，開始灼燒' };
+function setBurn(next, chargeTime, hint){
+  burnCtx.next = next;
+  burnCtx.hint = hint || '按住龜甲，開始灼燒';
+  BURN.chargeTime = chargeTime || 3.0;
+}
+/* 每次進 burn 場景先復原裂紋，才能重複占卜 */
+document.addEventListener('scene:enter', e => {
+  if (e.detail.scene !== 'burn') return;
+  document.getElementById('cracks').setAttribute('opacity', '0');
+  document.querySelectorAll('.crack').forEach(p => {
+    const len = p.getTotalLength();
+    p.style.transition = 'none';
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+  });
+});
 
 /* ===== 火星粒子 ===== */
 const embers = (() => {
@@ -416,7 +454,7 @@ function crackSequence(){
     }, 120 + 160 * i);
   });
   document.getElementById('burn-hint').textContent = '裂開了！';
-  setTimeout(() => game.goto('verdict'), 1800);
+  setTimeout(() => game.goto(burnCtx.next), 1800);
 }
 document.addEventListener('scene:enter', e => {
   if (e.detail.scene !== 'verdict') return;
@@ -442,7 +480,7 @@ document.getElementById('carve-btn').addEventListener('click', () => game.goto('
       `translate(${(Math.random() - 0.5) * charge * 5},${(Math.random() - 0.5) * charge * 5})`);
     if (holding) embers.spawnAt(640, 380, charge);
     const ready = charge >= 1;
-    hint.textContent = ready ? '放開！' : '按住龜甲，開始灼燒';
+    hint.textContent = ready ? '放開！' : burnCtx.hint;
     hint.classList.toggle('ready', ready);
     requestAnimationFrame(frame);
   }
@@ -496,6 +534,8 @@ document.addEventListener('scene:enter', e => {
   setTimeout(() => end.classList.add('show'), 9500);
 });
 
+document.getElementById('to-act2-btn').addEventListener('click', () => game.goto('act2-intro'));
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
@@ -510,9 +550,18 @@ test('audio.unlock 建立 AudioContext', () => {
   assertEq(typeof audio.ctx.createOscillator, 'function');
 });
 
-/* 骨架驗證用測試：六個場景 section 存在（先寫成錯的期望值，驗證框架會抓到 FAIL） */
-test('stage 含 6 個場景 section', () => {
-  assertEq(document.querySelectorAll('section[data-scene]').length, 6);
+/* 骨架驗證用測試：14 個場景 section 存在 */
+test('stage 含 14 個場景 section', () => {
+  assertEq(document.querySelectorAll('section[data-scene]').length, 14);
+});
+test('setBurn 設定占卜去向、充能時間與提示', () => {
+  setBurn('act2-decode', 1.6, '再問一次');
+  assertEq(burnCtx.next, 'act2-decode');
+  assertEq(BURN.chargeTime, 1.6);
+  assertEq(burnCtx.hint, '再問一次');
+  setBurn('verdict');
+  assertEq(BURN.chargeTime, 3.0);
+  assertEq(burnCtx.hint, '按住龜甲，開始灼燒');
 });
 
 test('game.goto 切換 active 與 current', () => {
