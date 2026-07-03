@@ -173,6 +173,24 @@ section[data-scene].active{display:block;}
 #fuhao-name{font-size:88px;color:var(--cinnabar);letter-spacing:.2em;margin:6px 0;font-weight:bold;}
 #fuhao-sub{font-size:24px;line-height:1.7;margin:8px 0 16px;}
 #fuhao-sub strong{color:var(--cinnabar);}
+/* --- act4 intro --- */
+#timejump{position:absolute;inset:0;background:var(--ink);z-index:5;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  font-size:56px;letter-spacing:.2em;text-align:center;margin:0;line-height:1.9;
+  transition:opacity 1s;}
+#timejump span{font-size:30px;color:var(--gold);letter-spacing:.25em;}
+#timejump.hide{opacity:0;pointer-events:none;}
+/* --- act4 grind --- */
+#powder{position:absolute;inset:0;touch-action:none;cursor:grab;}
+#grind-hint{position:absolute;left:50%;top:60px;transform:translateX(-50%);
+  font-size:30px;letter-spacing:.2em;color:var(--gold);margin:0;transition:opacity .5s;}
+#stop-shout{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:110px;font-weight:bold;color:var(--cinnabar);letter-spacing:.2em;
+  background:rgba(13,11,9,.55);opacity:0;pointer-events:none;transition:opacity .15s;}
+#stop-shout.show{opacity:1;}
+#scholar-dialog{opacity:0;pointer-events:none;transition:opacity .6s;z-index:6;}
+#scholar-dialog.show{opacity:1;pointer-events:auto;}
+#scholar-dialog .note{font-size:19px;color:#6a5c44;}
 </style>
 </head>
 <body>
@@ -451,8 +469,69 @@ section[data-scene].active{display:block;}
     </div>
   </section>
   <section data-scene="act3-verify" id="scene-act3-verify"></section>
-  <section data-scene="act4-intro" id="scene-act4-intro"></section>
-  <section data-scene="act4-grind" id="scene-act4-grind"></section>
+  <section data-scene="act4-intro" id="scene-act4-intro">
+    <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+      <rect width="1280" height="720" fill="#20180f"/>
+      <!-- 藥櫃 -->
+      <rect x="120" y="140" width="440" height="400" fill="#120d08"/>
+      <g stroke="#3a2d1c" stroke-width="4">
+        <path d="M120 240 h440 M120 340 h440 M120 440 h440"/>
+        <path d="M230 140 v400 M340 140 v400 M450 140 v400"/>
+      </g>
+      <!-- 掛牌「藥」 -->
+      <line x1="900" y1="60" x2="900" y2="130" stroke="#3a2d1c" stroke-width="6"/>
+      <rect x="850" y="130" width="100" height="150" fill="var(--paper)" rx="4"/>
+      <text x="900" y="235" text-anchor="middle" font-size="72" fill="var(--ink)"
+            font-family="serif">藥</text>
+      <!-- 櫃檯、石臼與龍骨 -->
+      <rect y="540" width="1280" height="180" fill="#0d0b09"/>
+      <ellipse cx="760" cy="540" rx="130" ry="34" fill="#241e18"/>
+      <path d="M700 520 q60 -40 120 -6 q-20 22 -60 22 q-40 0 -60 -16 Z" fill="var(--paper)"/>
+      <!-- 掌櫃剪影 -->
+      <g fill="#0d0b09">
+        <circle cx="380" cy="420" r="34"/>
+        <path d="M330 460 h100 l16 110 h-132 Z"/>
+        <rect x="352" y="382" width="56" height="12" rx="5"/>
+      </g>
+    </svg>
+    <div class="dialog">
+      <p class="speaker">藥鋪掌櫃</p>
+      <p>「客官，這味藥叫<strong>龍骨</strong>——老骨頭磨成粉，什麼病都治！」</p>
+      <p>「來，幫我把這塊<strong>磨成粉</strong>。」</p>
+      <button id="grind-btn" class="next-btn">開始磨藥 →</button>
+    </div>
+    <p id="timejump">3000 年後——<br><span>西元 1899 年・北京・一間中藥鋪</span></p>
+  </section>
+  <section data-scene="act4-grind" id="scene-act4-grind">
+    <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+      <!-- 石臼底 -->
+      <ellipse cx="640" cy="400" rx="430" ry="235" fill="#241e18"/>
+      <!-- 龍骨（下層，帶字） -->
+      <path d="M300 300 C 320 240 420 220 640 220 C 860 220 960 240 980 300
+               C 1000 360 980 480 900 510 C 800 545 480 545 380 510
+               C 300 480 280 360 300 300 Z"
+            fill="var(--paper)" stroke="#c9b992" stroke-width="4"/>
+      <g fill="none" stroke="var(--ink)" stroke-width="9" stroke-linecap="round">
+        <!-- 甲骨文「雨」 -->
+        <path d="M500 300 H610"/>
+        <path d="M520 330 v28 M555 336 v28 M590 330 v28"/>
+        <!-- 甲骨文「禾」 -->
+        <path d="M760 290 V400"/>
+        <path d="M760 290 Q740 268 718 278"/>
+        <path d="M760 330 L730 308 M760 330 L790 308"/>
+        <path d="M760 365 L732 348 M760 365 L788 348"/>
+      </g>
+    </svg>
+    <canvas id="powder" width="1280" height="720"></canvas>
+    <p id="grind-hint">按住，來回磨——把龍骨磨成粉</p>
+    <div id="stop-shout">住手——！！</div>
+    <div class="dialog" id="scholar-dialog">
+      <p class="speaker">買藥的學者・王懿榮</p>
+      <p>「等等……這上面<strong>有字</strong>！這不是藥——這是老祖宗刻的字啊！」</p>
+      <p class="note">——相傳，1899 年，學者王懿榮就是這樣發現了甲骨文。</p>
+      <button id="finale-btn" class="next-btn">後來呢？ →</button>
+    </div>
+  </section>
   <section data-scene="act4-finale" id="scene-act4-finale"></section>
   <button id="music-btn" title="背景音樂開關">樂</button>
   <nav id="chapters" class="hidden" aria-label="章節跳轉">
@@ -595,6 +674,17 @@ const audio = {
     g.gain.setValueAtTime(0.9, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
     o.connect(g); g.connect(this.ctx.destination); o.start(t); o.stop(t + 0.25);
+  },
+  carve(){
+    if (!this.ctx || !this.enabled) return;
+    const t = this.ctx.currentTime;
+    const src = this.ctx.createBufferSource(); src.buffer = this._noise(0.09);
+    const bp = this.ctx.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = 2400 + Math.random() * 800; bp.Q.value = 1.2;
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(0.22, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+    src.connect(bp); bp.connect(g); g.connect(this.ctx.destination); src.start(t);
   },
   drumRoll(){
     if (!this.ctx || !this.enabled) return;
@@ -1281,10 +1371,94 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
   });
 })();
 
+/* ===== 第四幕 ===== */
+document.addEventListener('scene:enter', e => {
+  if (e.detail.scene !== 'act4-intro') return;
+  const tj = document.getElementById('timejump');
+  tj.classList.remove('hide');
+  setTimeout(() => tj.classList.add('hide'), 2600);
+});
+document.getElementById('grind-btn').addEventListener('click', () => game.goto('act4-grind'));
+
+/* ===== 磨龍骨進度模型 ===== */
+const GRIND = { needed: 9000 };   /* 需累積的磨擦距離（舞台像素） */
+function grindStep(progress, dist){
+  return Math.min(1, progress + Math.max(0, dist) / GRIND.needed);
+}
+
+/* ===== 磨龍骨刮開互動 ===== */
+(() => {
+  const cv = document.getElementById('powder');
+  const c = cv.getContext('2d');
+  let holding = false, lastP = null, progress = 0, revealed = false, scrapeAt = 0;
+  function paintPowder(){
+    c.globalCompositeOperation = 'source-over';
+    c.clearRect(0, 0, 1280, 720);
+    c.fillStyle = '#cbb98f';
+    c.beginPath(); c.ellipse(640, 385, 370, 180, 0, 0, 7); c.fill();
+    for (let i = 0; i < 400; i++){   /* 粉末顆粒感 */
+      const a = Math.random() * 7, rr = Math.sqrt(Math.random());
+      c.fillStyle = Math.random() < .5 ? '#b9a67c' : '#ddcda6';
+      c.fillRect(640 + Math.cos(a) * rr * 360, 385 + Math.sin(a) * rr * 172, 3, 3);
+    }
+  }
+  function toCanvas(e){
+    const r = cv.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * (1280 / r.width),
+             y: (e.clientY - r.top) * (720 / r.height) };
+  }
+  cv.addEventListener('pointerdown', e => {
+    if (revealed) return;
+    e.preventDefault();
+    holding = true; lastP = toCanvas(e);
+    cv.setPointerCapture(e.pointerId);
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!holding || revealed) return;
+    const p = toCanvas(e);
+    const dist = Math.hypot(p.x - lastP.x, p.y - lastP.y);
+    c.globalCompositeOperation = 'destination-out';
+    c.lineWidth = 60; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(lastP.x, lastP.y); c.lineTo(p.x, p.y); c.stroke();
+    progress = grindStep(progress, dist);
+    lastP = p;
+    if (performance.now() - scrapeAt > 130 && dist > 4){
+      audio.carve();                       /* 磨粉沙沙聲，復用刻痕聲 */
+      scrapeAt = performance.now();
+    }
+    if (progress >= 0.55) reveal();
+  });
+  function stopGrind(){ holding = false; lastP = null; }
+  cv.addEventListener('pointerup', stopGrind);
+  cv.addEventListener('pointercancel', stopGrind);
+  function reveal(){
+    revealed = true;
+    audio.pop();
+    document.getElementById('stage').classList.add('shake');
+    setTimeout(() => document.getElementById('stage').classList.remove('shake'), 450);
+    document.getElementById('stop-shout').classList.add('show');
+    document.getElementById('grind-hint').style.opacity = 0;
+    setTimeout(() => {
+      document.getElementById('stop-shout').classList.remove('show');
+      document.getElementById('scholar-dialog').classList.add('show');
+      audio.ding();
+    }, 1600);
+  }
+  document.addEventListener('scene:enter', e => {
+    if (e.detail.scene !== 'act4-grind') return;
+    progress = 0; revealed = false; holding = false; lastP = null;
+    paintPowder();
+    document.getElementById('stop-shout').classList.remove('show');
+    document.getElementById('scholar-dialog').classList.remove('show');
+    document.getElementById('grind-hint').style.opacity = 1;
+  });
+  document.getElementById('finale-btn').addEventListener('click', () => game.goto('act4-finale'));
+})();
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
-  audio.pop(); audio.ding(); audio.thump();
+  audio.pop(); audio.ding(); audio.thump(); audio.carve();
   const h = audio.startFire();
   assertOk(h && typeof h.stop === 'function', 'startFire 應回傳含 stop 的 handle');
   h.stop();
@@ -1422,6 +1596,18 @@ test('scatterPositions 每點都落在環狀內', () => {
     const d = Math.sqrt(dx*dx + dy*dy);
     assertOk(d >= 250 - 0.001 && d <= 320 + 0.001, `pt ${idx} d=${d} out of [250,320]`);
   });
+});
+test('grindStep 累積磨擦距離成進度', () => {
+  let p = grindStep(0, GRIND.needed / 2);
+  assertEq(p, 0.5);
+  p = grindStep(p, GRIND.needed / 2);
+  assertEq(p, 1);
+});
+test('grindStep 上限夾在 1', () => {
+  assertEq(grindStep(0.9, GRIND.needed), 1);
+});
+test('grindStep 負距離不動', () => {
+  assertEq(grindStep(0.3, -50), 0.3);
 });
 </script>
 </body>
