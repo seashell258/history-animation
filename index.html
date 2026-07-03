@@ -162,7 +162,7 @@ section[data-scene].active{display:block;}
 #bone-pieces .bone-piece.dragging{cursor:grabbing;filter:drop-shadow(0 0 10px var(--gold));}
 #bone-pieces .bone-piece.locked{cursor:default;pointer-events:none;}
 #bone-spine{transition:opacity .6s;}
-#bone-extend{transition:opacity .6s;}
+#bone-extend{transition:opacity .9s;}
 #fuhao-marks{transition:opacity .8s;}
 #fuhao-reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:760px;background:var(--paper);color:var(--ink);border-radius:10px;
@@ -455,7 +455,7 @@ section[data-scene].active{display:block;}
         <path d="M1010 160 q-30 0 -30 40 t30 40 q30 0 30 -40 t-30 -40 M940 280 h140 l16 190 h-172 Z" fill="#0d0b09"/>
       </g>
       <!-- 中央虛框：甲骨原位 -->
-      <rect id="bone-frame" x="530" y="430" width="220" height="220" rx="20" ry="24"
+      <ellipse id="bone-frame" cx="640" cy="540" rx="122" ry="136"
             fill="none" stroke="#8b7a5e" stroke-width="2" stroke-dasharray="6 8" opacity=".6"/>
       <!-- 碎骨 group：Task 6 動態填 -->
       <g id="bone-pieces"></g>
@@ -547,7 +547,7 @@ section[data-scene].active{display:block;}
     <p class="f-line">商王刻下的問題——牙痛、下雨、打仗——</p>
     <p class="f-line">成了我們認識商朝<strong>唯一的證據</strong>。</p>
     <p id="finale-title">商王的一天・完</p>
-    <button id="replay-btn" class="next-btn">再上一次 →</button>
+    <button id="replay-btn" class="next-btn">重頭 →</button>
   </section>
   <button id="music-btn" title="背景音樂開關">樂</button>
   <nav id="chapters" class="hidden" aria-label="章節跳轉">
@@ -1081,11 +1081,13 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
   const TILE_CX = 640;
   const TILE_CY = 540;
   const SNAP_THRESHOLD = 60;
+  /* 四片拼合成龜殼：各片為以中心 (0,0) 為交會點的一個象限，
+     外緣以曲線鼓出，合起來輪廓即龜甲卵形殼。 */
   const PIECE_DATA = [
-    { shape:'M -110 -110 L 0 -110 L -5 0 L -110 20 Z', noise:['M -90 -70 l 12 8 l -5 14 l 15 6','M -60 -30 l 8 -12 l -10 -8','M -95 -30 l 20 -6'], spine:'M -100 -102 L -58 -55' },
-    { shape:'M 0 -110 L 110 -110 L 110 -10 L 5 -20 L -5 0 Z', noise:['M 50 -80 l 10 6 l -3 12','M 80 -40 l -14 -10 l 4 16','M 30 -60 l 12 -14'], spine:null },
-    { shape:'M -110 20 L -5 0 L 0 110 L -110 110 Z', noise:['M -70 40 l 10 -8 l 4 16','M -95 70 l 20 4 l -6 14'], spine:'M -58 -55 L -25 -20' },
-    { shape:'M 5 -20 L 110 -10 L 110 110 L 0 110 Z', noise:['M 40 40 l -12 8 l 8 14','M 80 60 l 6 -12 l 12 8','M 50 90 l 14 -6'], spine:'M -25 -20 L 15 10 L 55 55' }
+    { shape:'M 0 0 L 0 -132 C -48 -130 -108 -96 -118 0 L 0 0 Z', noise:['M -90 -70 l 12 8 l -5 14 l 15 6','M -60 -30 l 8 -12 l -10 -8','M -95 -30 l 20 -6'], spine:'M -100 -102 L -58 -55' },
+    { shape:'M 0 0 L 0 -132 C 48 -130 108 -96 118 0 L 0 0 Z', noise:['M 50 -80 l 10 6 l -3 12','M 80 -40 l -14 -10 l 4 16','M 30 -60 l 12 -14'], spine:null },
+    { shape:'M 0 0 L -118 0 C -108 96 -48 130 0 132 L 0 0 Z', noise:['M -70 40 l 10 -8 l 4 16','M -95 70 l 20 4 l -6 14'], spine:'M -58 -55 L -25 -20' },
+    { shape:'M 0 0 L 118 0 C 108 96 48 130 0 132 L 0 0 Z', noise:['M 40 40 l -12 8 l 8 14','M 80 60 l 6 -12 l 12 8','M 50 90 l 14 -6'], spine:'M -25 -20 L 15 10 L 55 55' }
   ];
 
   const NS = 'http://www.w3.org/2000/svg';
@@ -1270,13 +1272,13 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
         piece.spineEl.style.opacity = '0';
       }
     });
-    queueReveal(550, () => spineRoot.setAttribute('opacity', '1'));
-    queueReveal(900, () => extendRoot.setAttribute('opacity', '1'));
-    queueReveal(1400, () => {
+    queueReveal(700, () => spineRoot.setAttribute('opacity', '1'));
+    queueReveal(1900, () => extendRoot.setAttribute('opacity', '1'));
+    queueReveal(3200, () => {
       marksRoot.setAttribute('opacity', '1');
       audio.ding();
     });
-    queueReveal(2100, () => {
+    queueReveal(4300, () => {
       svg.style.pointerEvents = 'none';
       revealCard.classList.add('show');
     });
