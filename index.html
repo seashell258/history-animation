@@ -191,6 +191,17 @@ section[data-scene].active{display:block;}
 #scholar-dialog{opacity:0;pointer-events:none;transition:opacity .6s;z-index:6;}
 #scholar-dialog.show{opacity:1;pointer-events:auto;}
 #scholar-dialog .note{font-size:19px;color:#6a5c44;}
+/* --- act4 finale --- */
+#scene-act4-finale{flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+#scene-act4-finale.active{display:flex;}
+.f-line{font-size:36px;letter-spacing:.12em;line-height:1.9;margin:0;text-align:center;
+  opacity:0;transition:opacity 1s;}
+.f-line strong{color:var(--cinnabar);}
+.f-line.shown{opacity:1;}
+#finale-title{font-size:60px;letter-spacing:.3em;margin:26px 0 0;opacity:0;transition:opacity 1.2s;}
+#finale-title.shown{opacity:1;}
+#replay-btn{opacity:0;transition:opacity .8s;}
+#replay-btn.shown{opacity:1;}
 </style>
 </head>
 <body>
@@ -532,7 +543,13 @@ section[data-scene].active{display:block;}
       <button id="finale-btn" class="next-btn">後來呢？ →</button>
     </div>
   </section>
-  <section data-scene="act4-finale" id="scene-act4-finale"></section>
+  <section data-scene="act4-finale" id="scene-act4-finale">
+    <p class="f-line">你剛剛讀的那些字，差點被磨成藥粉，吃掉。</p>
+    <p class="f-line">商王刻下的問題——牙痛、下雨、打仗——</p>
+    <p class="f-line">成了我們認識商朝<strong>唯一的證據</strong>。</p>
+    <p id="finale-title">商王的一天・完</p>
+    <button id="replay-btn" class="next-btn">再上一次 →</button>
+  </section>
   <button id="music-btn" title="背景音樂開關">樂</button>
   <nav id="chapters" class="hidden" aria-label="章節跳轉">
     <button data-target="intro" title="第一幕・牙痛的國王"></button>
@@ -1454,6 +1471,20 @@ function grindStep(progress, dist){
   });
   document.getElementById('finale-btn').addEventListener('click', () => game.goto('act4-finale'));
 })();
+
+/* ===== 結尾點題 ===== */
+document.addEventListener('scene:enter', e => {
+  if (e.detail.scene !== 'act4-finale') return;
+  const els = [...document.querySelectorAll('#scene-act4-finale .f-line'),
+    document.getElementById('finale-title'),
+    document.getElementById('replay-btn')];
+  els.forEach(el => el.classList.remove('shown'));
+  els.forEach((el, i) => setTimeout(() => {
+    el.classList.add('shown');
+    if (el.id === 'finale-title') audio.ding();
+  }, 800 + i * 1600));
+});
+document.getElementById('replay-btn').addEventListener('click', () => game.goto('start'));
 
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
