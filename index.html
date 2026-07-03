@@ -41,6 +41,7 @@ section[data-scene].active{display:block;}
   font-size:30px;letter-spacing:.2em;color:var(--gold);}
 #burn-hint.ready{color:var(--cinnabar);font-size:40px;font-weight:bold;
   animation:breathe .5s infinite;}
+#burn-hint.fail{color:#8a8a8a;animation:none;}
 #scene-burn svg{position:absolute;inset:0;touch-action:none;}
 /* --- palace --- */
 #palace-dialog{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
@@ -746,16 +747,18 @@ document.getElementById('ask-btn').addEventListener('click', () => {
 
 /* ===== 灼燒充能模型 ===== */
 const BURN = { chargeTime: 3.0, decayTime: 1.2 };
+const MASH = { tapAmount: 0.22 }; /* 連點模式：每點增加的火力 */
 function burnStep(charge, dt, holding){
   const next = charge + dt * (holding ? 1 / BURN.chargeTime : -1 / BURN.decayTime);
   return Math.max(0, Math.min(1, next));
 }
 
 /* ===== 占卜情境（燒灼場景可跨幕復用） ===== */
-const burnCtx = { next: 'verdict', hint: '按住龜甲，開始灼燒' };
-function setBurn(next, chargeTime, hint){
+const burnCtx = { next: 'verdict', hint: '按住龜甲，開始灼燒', mode: 'hold' };
+function setBurn(next, chargeTime, hint, mode){
   burnCtx.next = next;
   burnCtx.hint = hint || '按住龜甲，開始灼燒';
+  burnCtx.mode = mode || 'hold';
   BURN.chargeTime = chargeTime || 3.0;
 }
 /* 每次進 burn 場景先復原裂紋，才能重複占卜 */
@@ -831,27 +834,59 @@ document.getElementById('carve-btn').addEventListener('click', () => game.goto('
   const glow  = document.getElementById('shell-glow');
   const hint  = document.getElementById('burn-hint');
   let holding = false, charge = 0, last = 0, fire = null, done = false, running = false;
+  let mode = 'hold', started = false, failFlash = 0;
   function frame(ts){
     if (!running) return;
     const dt = last ? Math.min((ts - last) / 1000, 0.05) : 0; last = ts;
-    charge = burnStep(charge, dt, holding);
-    glow.setAttribute('opacity', charge.toFixed(3));
-    shell.setAttribute('transform',
-      `translate(${(Math.random() - 0.5) * charge * 5},${(Math.random() - 0.5) * charge * 5})`);
-    if (holding) embers.spawnAt(640, 380, charge);
-    const ready = charge >= 1;
-    hint.textContent = ready ? '放開！' : burnCtx.hint;
-    hint.classList.toggle('ready', ready);
+    if (mode === 'mash'){
+      if (started && !done) charge = Math.max(0, charge - dt / BURN.chargeTime);
+      glow.setAttribute('opacity', charge.toFixed(3));
+      shell.setAttribute('transform',
+        `translate(${(Math.random() - 0.5) * charge * 5},${(Math.random() - 0.5) * charge * 5})`);
+      if (charge > 0) embers.spawnAt(640, 380, charge);
+      if (started && charge <= 0 && !done) mashFail();
+      if (failFlash > 0){
+        failFlash -= dt;
+        hint.textContent = '太慢了！再快一點！';
+        hint.classList.add('fail');
+      } else {
+        hint.textContent = burnCtx.hint;
+        hint.classList.remove('fail');
+      }
+    } else {
+      charge = burnStep(charge, dt, holding);
+      glow.setAttribute('opacity', charge.toFixed(3));
+      shell.setAttribute('transform',
+        `translate(${(Math.random() - 0.5) * charge * 5},${(Math.random() - 0.5) * charge * 5})`);
+      if (holding) embers.spawnAt(640, 380, charge);
+      const ready = charge >= 1;
+      hint.textContent = ready ? '放開！' : burnCtx.hint;
+      hint.classList.toggle('ready', ready);
+    }
     requestAnimationFrame(frame);
+  }
+  function mashFail(){
+    started = false;
+    charge = 0;
+    failFlash = 0.6;
   }
   shell.addEventListener('pointerdown', e => {
     e.preventDefault();
     if (done) return;
+    if (mode === 'mash'){
+      started = true;
+      failFlash = 0;
+      charge = Math.min(1, charge + MASH.tapAmount);
+      audio.pop();
+      if (charge >= 1 && !done){ done = true; running = false; crackSequence(); }
+      return;
+    }
     if (holding) return;
     holding = true;
     fire = audio.startFire();
   });
   function releaseHold(){
+    if (mode === 'mash') return;
     if (!holding) return;
     holding = false;
     if (fire){ fire.stop(); fire = null; }
@@ -861,7 +896,9 @@ document.getElementById('carve-btn').addEventListener('click', () => game.goto('
   addEventListener('pointercancel', releaseHold);
   document.addEventListener('scene:enter', e => {
     if (e.detail.scene === 'burn'){
-      charge = 0; last = 0; done = false; running = true;
+      mode = burnCtx.mode; charge = 0; last = 0; done = false; started = false; failFlash = 0;
+      hint.classList.remove('ready', 'fail');
+      running = true;
       requestAnimationFrame(frame);
     } else { running = false; }
   });
@@ -1073,7 +1110,7 @@ document.addEventListener('scene:enter', e => {
   if (e.detail.scene === 'act3-intro') audio.drumRoll();
 });
 document.getElementById('act3-ask-btn').addEventListener('click', () => {
-  setBurn('act3-assemble', 1.6, '按住龜甲——問這一仗');
+  setBurn('act3-assemble', 2.4, '快速點擊龜甲——占卜這一仗的存亡！', 'mash');
   game.goto('burn');
 });
 
@@ -1514,9 +1551,16 @@ test('setBurn 設定占卜去向、充能時間與提示', () => {
   assertEq(burnCtx.next, 'act2-decode');
   assertEq(BURN.chargeTime, 1.6);
   assertEq(burnCtx.hint, '再問一次');
+  assertEq(burnCtx.mode, 'hold');
   setBurn('verdict');
   assertEq(BURN.chargeTime, 3.0);
   assertEq(burnCtx.hint, '按住龜甲，開始灼燒');
+});
+test('setBurn 支援連點模式（mash），預設仍是 hold', () => {
+  setBurn('act3-assemble', 1.6, '快速點擊龜甲！', 'mash');
+  assertEq(burnCtx.mode, 'mash');
+  setBurn('verdict');
+  assertEq(burnCtx.mode, 'hold');
 });
 
 test('game.goto 切換 active 與 current', () => {
