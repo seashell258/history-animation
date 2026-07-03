@@ -1183,7 +1183,7 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
     dragState.piece = null;
     dragState.pointerId = null;
 
-    const scatters = scatterPositions(4, 640, 540, 250, 320);
+    const scatters = buildScatterPositions(4);
     PIECE_DATA.forEach((data, idx) => {
       const group = document.createElementNS(NS, 'g');
       group.setAttribute('class', 'bone-piece');
@@ -1232,6 +1232,33 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
     });
   }
 
+  function isPlayableScatter(pos){
+    return pos.x >= 110 && pos.x <= 1170 && pos.y >= 430 && pos.y <= 610;
+  }
+
+  function buildScatterPositions(count){
+    const out = [];
+    for (let i = 0; i < count; i++){
+      let pick = null;
+      for (let t = 0; t < 80; t++){
+        const cand = scatterPositions(1, TILE_CX, TILE_CY, 250, 320)[0];
+        if (isPlayableScatter(cand)){
+          pick = cand;
+          break;
+        }
+      }
+      if (!pick){
+        const fallback = scatterPositions(1, TILE_CX, TILE_CY, 250, 320)[0];
+        pick = {
+          x: Math.max(110, Math.min(1170, fallback.x)),
+          y: Math.max(430, Math.min(610, fallback.y))
+        };
+      }
+      out.push(pick);
+    }
+    return out;
+  }
+
   document.addEventListener('assemble:complete', reveal);
   document.getElementById('act3-verify-btn').addEventListener('click', () => game.goto('act3-verify'));
   window.addEventListener('pointermove', onMove);
@@ -1240,7 +1267,14 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
   document.addEventListener('pointerup', onUp);
   document.addEventListener('pointercancel', onCancel);
   document.addEventListener('scene:enter', e => {
-    if (e.detail.scene !== 'act3-assemble') return;
+    if (e.detail.scene !== 'act3-assemble'){
+      clearRevealTimers();
+      revealCard.classList.remove('show');
+      spineRoot.setAttribute('opacity', '0');
+      extendRoot.setAttribute('opacity', '0');
+      marksRoot.setAttribute('opacity', '0');
+      return;
+    }
     build();
     buildSpine();
     resetRevealState();
