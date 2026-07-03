@@ -1038,6 +1038,15 @@ test('scatterPositions 每點都落在環狀內', () => {
   const rng = () => seq[i++ % seq.length];
   const pts = scatterPositions(4, 640, 540, 250, 320, rng);
   assertEq(pts.length, 4);
+  assertEq(i, 8);
+  assertEq(pts[0].x, 893.2223192393585);
+  assertEq(pts[0].y, 723.9767839675441);
+  assertEq(pts[1].x, 547.6039186818907);
+  assertEq(pts[1].y, 824.365898372251);
+  assertEq(pts[2].x, 362);
+  assertEq(pts[2].y, 540);
+  assertEq(pts[3].x, 721.5804865149861);
+  assertEq(pts[3].y, 288.92107969807944);
   pts.forEach((p, idx) => {
     const dx = p.x - 640, dy = p.y - 540;
     const d = Math.sqrt(dx*dx + dy*dy);
