@@ -150,6 +150,28 @@ section[data-scene].active{display:block;}
 #alarm-flash{position:absolute;inset:0;background:var(--cinnabar);opacity:0;pointer-events:none;}
 #scene-act3-intro.active #alarm-flash{animation:alarm 1.2s 2;}
 @keyframes alarm{0%,100%{opacity:0}15%{opacity:.35}30%{opacity:0}45%{opacity:.25}60%{opacity:0}}
+/* --- act3 assemble --- */
+.assemble-title{position:absolute;top:44px;width:100%;text-align:center;font-size:30px;
+  letter-spacing:.08em;margin:0;color:var(--paper);}
+.assemble-title strong{color:var(--cinnabar);}
+.assemble-svg{position:absolute;inset:0;}
+#bone-frame{pointer-events:auto;}
+#bone-pieces .bone-piece{cursor:grab;transition:filter .2s;}
+#bone-pieces .bone-piece:hover{filter:drop-shadow(0 0 6px var(--gold));}
+#bone-pieces .bone-piece.dragging{cursor:grabbing;filter:drop-shadow(0 0 10px var(--gold));}
+#bone-pieces .bone-piece.locked{cursor:default;pointer-events:none;}
+#bone-spine{transition:opacity .6s;}
+#bone-extend{transition:opacity .6s;}
+#fuhao-marks{transition:opacity .8s;}
+#fuhao-reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:760px;background:var(--paper);color:var(--ink);border-radius:10px;
+  padding:30px 40px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.7);
+  opacity:0;pointer-events:none;transition:opacity .7s;}
+#fuhao-reveal.show{opacity:1;pointer-events:auto;}
+#fuhao-line1{font-size:24px;margin:0 0 6px;}
+#fuhao-name{font-size:88px;color:var(--cinnabar);letter-spacing:.2em;margin:6px 0;font-weight:bold;}
+#fuhao-sub{font-size:24px;line-height:1.7;margin:8px 0 16px;}
+#fuhao-sub strong{color:var(--cinnabar);}
 </style>
 </head>
 <body>
@@ -389,7 +411,44 @@ section[data-scene].active{display:block;}
       <button id="act3-ask-btn" class="next-btn">立刻問天 →</button>
     </div>
   </section>
-  <section data-scene="act3-assemble" id="scene-act3-assemble"></section>
+  <section data-scene="act3-assemble" id="scene-act3-assemble">
+    <p class="assemble-title">裂紋說：可以打。<strong>誰去？</strong>王親自看甲骨。</p>
+    <svg class="assemble-svg" viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+      <!-- 三剪影 -->
+      <g class="assemble-silhouette" data-idx="0">
+        <path d="M270 160 q-30 0 -30 40 t30 40 q30 0 30 -40 t-30 -40 M200 280 h140 l16 190 h-172 Z" fill="#0d0b09"/>
+      </g>
+      <g class="assemble-silhouette" data-idx="1">
+        <path d="M640 160 q-30 0 -30 40 t30 40 q30 0 30 -40 t-30 -40 M570 280 h140 l16 190 h-172 Z" fill="#0d0b09"/>
+      </g>
+      <g class="assemble-silhouette" data-idx="2">
+        <path d="M1010 160 q-30 0 -30 40 t30 40 q30 0 30 -40 t-30 -40 M940 280 h140 l16 190 h-172 Z" fill="#0d0b09"/>
+      </g>
+      <!-- 中央虛框：甲骨原位 -->
+      <rect id="bone-frame" x="530" y="430" width="220" height="220" rx="20" ry="24"
+            fill="none" stroke="#8b7a5e" stroke-width="2" stroke-dasharray="6 8" opacity=".6"/>
+      <!-- 碎骨 group：Task 6 動態填 -->
+      <g id="bone-pieces"></g>
+      <!-- 主脈金線（拼完顯現，先不畫）與延伸線：Task 7 動態顯示 -->
+      <g id="bone-spine" opacity="0"></g>
+      <g id="bone-extend" opacity="0"></g>
+      <!-- 婦好識別特徵：Task 7 顯示 -->
+      <g id="fuhao-marks" opacity="0">
+        <path d="M255 148 q15 -20 30 0 q-15 -8 -30 0 Z" fill="#5a4d3a"/>
+        <line x1="240" y1="330" x2="310" y2="470" stroke="var(--cinnabar)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M310 470 l14 20 -18 0 Z" fill="var(--cinnabar)"/>
+        <path d="M270 160 q-30 0 -30 40 t30 40 q30 0 30 -40 t-30 -40 M200 280 h140 l16 190 h-172 Z"
+              fill="none" stroke="var(--gold)" stroke-width="3" opacity=".85"/>
+      </g>
+    </svg>
+    <div id="fuhao-reveal">
+      <p id="fuhao-line1">這位——</p>
+      <p id="fuhao-name">婦好</p>
+      <p id="fuhao-sub">商王的王后——也是帶兵打仗的<strong>女將軍</strong>。<br>
+        這不是編的：甲骨上真的刻著，她帶了<strong>一萬三千人</strong>出征。</p>
+      <button id="act3-verify-btn" class="next-btn">出征！ →</button>
+    </div>
+  </section>
   <section data-scene="act3-verify" id="scene-act3-verify"></section>
   <section data-scene="act4-intro" id="scene-act4-intro"></section>
   <section data-scene="act4-grind" id="scene-act4-grind"></section>
@@ -1039,14 +1098,14 @@ test('scatterPositions 每點都落在環狀內', () => {
   const pts = scatterPositions(4, 640, 540, 250, 320, rng);
   assertEq(pts.length, 4);
   assertEq(i, 8);
-  assertEq(pts[0].x, 893.2223192393585);
-  assertEq(pts[0].y, 723.9767839675441);
-  assertEq(pts[1].x, 547.6039186818907);
-  assertEq(pts[1].y, 824.365898372251);
-  assertEq(pts[2].x, 362);
-  assertEq(pts[2].y, 540);
-  assertEq(pts[3].x, 721.5804865149861);
-  assertEq(pts[3].y, 288.92107969807944);
+  assertOk(Math.abs(pts[0].x - 893.2223192393585) < 1e-9, `pt 0 x=${pts[0].x}`);
+  assertOk(Math.abs(pts[0].y - 723.9767839675441) < 1e-9, `pt 0 y=${pts[0].y}`);
+  assertOk(Math.abs(pts[1].x - 547.6039186818907) < 1e-9, `pt 1 x=${pts[1].x}`);
+  assertOk(Math.abs(pts[1].y - 824.365898372251) < 1e-9, `pt 1 y=${pts[1].y}`);
+  assertOk(Math.abs(pts[2].x - 362) < 1e-9, `pt 2 x=${pts[2].x}`);
+  assertOk(Math.abs(pts[2].y - 540) < 1e-9, `pt 2 y=${pts[2].y}`);
+  assertOk(Math.abs(pts[3].x - 721.5804865149861) < 1e-9, `pt 3 x=${pts[3].x}`);
+  assertOk(Math.abs(pts[3].y - 288.92107969807944) < 1e-9, `pt 3 y=${pts[3].y}`);
   pts.forEach((p, idx) => {
     const dx = p.x - 640, dy = p.y - 540;
     const d = Math.sqrt(dx*dx + dy*dy);
