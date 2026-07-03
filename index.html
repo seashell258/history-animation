@@ -809,6 +809,17 @@ function inSnap(px, py, sx, sy, threshold){
   return dx*dx + dy*dy <= threshold*threshold;
 }
 
+function scatterPositions(count, cx, cy, rInner, rOuter, rng){
+  rng = rng || Math.random;
+  const out = [];
+  for (let i = 0; i < count; i++){
+    const angle = rng() * Math.PI * 2;
+    const r = rInner + rng() * (rOuter - rInner);
+    out.push({ x: cx + Math.cos(angle) * r, y: cy + Math.sin(angle) * r });
+  }
+  return out;
+}
+
 function allLocked(pieces){
   return pieces.length > 0 && pieces.every(p => p.locked === true);
 }
@@ -1019,6 +1030,18 @@ test('allLocked 全為 true 才回 true', () => {
   assertEq(allLocked([{locked:true},{locked:false},{locked:true},{locked:true}]), false);
   assertEq(allLocked([{locked:false},{locked:false},{locked:false},{locked:false}]), false);
   assertEq(allLocked([{locked:1},{locked:true}]), false);
+});
+test('scatterPositions 每點都落在環狀內', () => {
+  let i = 0;
+  const seq = [0.1, 0.9, 0.3, 0.7, 0.5, 0.4, 0.8, 0.2, 0.6, 0.05, 0.95, 0.35];
+  const rng = () => seq[i++ % seq.length];
+  const pts = scatterPositions(4, 640, 540, 250, 320, rng);
+  assertEq(pts.length, 4);
+  pts.forEach((p, idx) => {
+    const dx = p.x - 640, dy = p.y - 540;
+    const d = Math.sqrt(dx*dx + dy*dy);
+    assertOk(d >= 250 - 0.001 && d <= 320 + 0.001, `pt ${idx} d=${d} out of [250,320]`);
+  });
 });
 </script>
 </body>
