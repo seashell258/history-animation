@@ -809,6 +809,10 @@ function inSnap(px, py, sx, sy, threshold){
   return dx*dx + dy*dy <= threshold*threshold;
 }
 
+function allLocked(pieces){
+  return pieces.length > 0 && pieces.every(p => p.locked);
+}
+
 /* ===== 第二幕：拖拉解碼 ===== */
 const decode = {
   targets: [
@@ -1007,6 +1011,13 @@ test('inSnap 於閾值內回傳 true，於閾值外回傳 false', () => {
   assertEq(inSnap(161, 100, 100, 100, 60), false);
   assertEq(inSnap(100, 100, 130, 140, 60), true);
   assertEq(inSnap(100, 100, 140, 130, 40), false);
+});
+test('allLocked 全為 true 才回 true', () => {
+  assertEq(allLocked([]), false);
+  assertEq(allLocked([{locked:true}]), true);
+  assertEq(allLocked([{locked:true},{locked:true},{locked:true},{locked:true}]), true);
+  assertEq(allLocked([{locked:true},{locked:false},{locked:true},{locked:true}]), false);
+  assertEq(allLocked([{locked:false},{locked:false},{locked:false},{locked:false}]), false);
 });
 </script>
 </body>
