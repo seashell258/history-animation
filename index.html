@@ -804,6 +804,11 @@ function hitTarget(x, y, targets, r){
   return -1;
 }
 
+function inSnap(px, py, sx, sy, threshold){
+  const dx = px - sx, dy = py - sy;
+  return dx*dx + dy*dy <= threshold*threshold;
+}
+
 /* ===== 第二幕：拖拉解碼 ===== */
 const decode = {
   targets: [
@@ -994,6 +999,14 @@ test('hitTarget 命中半徑內未完成目標', () => {
 test('hitTarget 跳過已完成目標', () => {
   const ts = [{x:100,y:100,done:true},{x:112,y:100,done:false}];
   assertEq(hitTarget(100, 100, ts, 70), 1);
+});
+test('inSnap 於閾值內回傳 true，於閾值外回傳 false', () => {
+  assertEq(inSnap(100, 100, 100, 100, 60), true);
+  assertEq(inSnap(140, 100, 100, 100, 60), true);
+  assertEq(inSnap(160, 100, 100, 100, 60), true);
+  assertEq(inSnap(161, 100, 100, 100, 60), false);
+  assertEq(inSnap(100, 100, 130, 140, 60), true);
+  assertEq(inSnap(100, 100, 140, 130, 40), false);
 });
 </script>
 </body>
