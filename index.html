@@ -101,6 +101,14 @@ section[data-scene].active{display:block;}
   background:var(--bronze);color:var(--paper);border:none;border-radius:6px;cursor:pointer;}
 .next-btn:hover{filter:brightness(1.15);}
 #end-card .next-btn{margin-top:26px;}
+/* --- chapters --- */
+#chapters{position:absolute;left:16px;bottom:14px;display:flex;gap:10px;z-index:10;
+  opacity:.25;transition:opacity .3s;}
+#chapters:hover{opacity:1;}
+#chapters.hidden{display:none;}
+#chapters button{width:14px;height:14px;border-radius:50%;border:1px solid var(--gold);
+  background:transparent;cursor:pointer;padding:0;}
+#chapters button.on{background:var(--gold);}
 </style>
 </head>
 <body>
@@ -221,6 +229,12 @@ section[data-scene].active{display:block;}
   <section data-scene="act4-intro" id="scene-act4-intro"></section>
   <section data-scene="act4-grind" id="scene-act4-grind"></section>
   <section data-scene="act4-finale" id="scene-act4-finale"></section>
+  <nav id="chapters" class="hidden" aria-label="章節跳轉">
+    <button data-target="intro" title="第一幕・牙痛的國王"></button>
+    <button data-target="act2-intro" title="第二幕・今年會下雨嗎"></button>
+    <button data-target="act3-intro" title="第三幕・羌方入侵"></button>
+    <button data-target="act4-intro" title="第四幕・1899 年藥鋪"></button>
+  </nav>
 </div>
 <script>
 'use strict';
@@ -536,6 +550,23 @@ document.addEventListener('scene:enter', e => {
 
 document.getElementById('to-act2-btn').addEventListener('click', () => game.goto('act2-intro'));
 
+/* ===== 章節導覽 ===== */
+function actOfScene(scene, burnNext){
+  const key = scene === 'burn' ? burnNext : scene;
+  const m = /^act(\d)/.exec(key);
+  return m ? Number(m[1]) : 1;
+}
+const chapterNav = document.getElementById('chapters');
+chapterNav.querySelectorAll('button').forEach(b =>
+  b.addEventListener('click', () => game.goto(b.dataset.target)));
+document.addEventListener('scene:enter', e => {
+  const name = e.detail.scene;
+  chapterNav.classList.toggle('hidden', name === 'start');
+  const act = actOfScene(name, burnCtx.next);
+  chapterNav.querySelectorAll('button').forEach((b, i) =>
+    b.classList.toggle('on', i === act - 1));
+});
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
@@ -600,6 +631,18 @@ test('burnStep 放開會衰減且不低於 0', () => {
 });
 test('burnStep 上限夾在 1', () => {
   assertEq(burnStep(0.99, 9, true), 1);
+});
+
+test('actOfScene 依前綴判定幕次', () => {
+  assertEq(actOfScene('palace', 'verdict'), 1);
+  assertEq(actOfScene('act2-decode', 'verdict'), 2);
+  assertEq(actOfScene('act3-verify', 'verdict'), 3);
+  assertEq(actOfScene('act4-grind', 'verdict'), 4);
+});
+test('actOfScene 共用的 burn 場景看占卜去向', () => {
+  assertEq(actOfScene('burn', 'verdict'), 1);
+  assertEq(actOfScene('burn', 'act2-decode'), 2);
+  assertEq(actOfScene('burn', 'act3-choose'), 3);
 });
 </script>
 </body>
