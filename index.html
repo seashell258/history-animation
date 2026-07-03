@@ -154,9 +154,9 @@ section[data-scene].active{display:block;}
 .assemble-title{position:absolute;top:44px;width:100%;text-align:center;font-size:30px;
   letter-spacing:.08em;margin:0;color:var(--paper);}
 .assemble-title strong{color:var(--cinnabar);}
-.assemble-svg{position:absolute;inset:0;}
-#bone-frame{pointer-events:auto;}
-#bone-pieces .bone-piece{cursor:grab;transition:filter .2s;}
+.assemble-svg{position:absolute;inset:0;touch-action:none;}
+#bone-frame{--assemble-frame:0;}
+#bone-pieces .bone-piece{cursor:grab;transition:filter .2s;touch-action:none;}
 #bone-pieces .bone-piece:hover{filter:drop-shadow(0 0 6px var(--gold));}
 #bone-pieces .bone-piece.dragging{cursor:grabbing;filter:drop-shadow(0 0 10px var(--gold));}
 #bone-pieces .bone-piece.locked{cursor:default;pointer-events:none;}
@@ -969,6 +969,189 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
   setBurn('act3-assemble', 1.6, '按住龜甲——問這一仗');
   game.goto('burn');
 });
+
+(() => {
+  const TILE_CX = 640;
+  const TILE_CY = 540;
+  const SNAP_THRESHOLD = 60;
+  const PIECE_DATA = [
+    { shape:'M -110 -110 L 0 -110 L -5 0 L -110 20 Z', noise:['M -90 -70 l 12 8 l -5 14 l 15 6','M -60 -30 l 8 -12 l -10 -8','M -95 -30 l 20 -6'], spine:'M -100 -102 L -58 -55' },
+    { shape:'M 0 -110 L 110 -110 L 110 -10 L 5 -20 L -5 0 Z', noise:['M 50 -80 l 10 6 l -3 12','M 80 -40 l -14 -10 l 4 16','M 30 -60 l 12 -14'], spine:null },
+    { shape:'M -110 20 L -5 0 L 0 110 L -110 110 Z', noise:['M -70 40 l 10 -8 l 4 16','M -95 70 l 20 4 l -6 14'], spine:'M -58 -55 L -25 -20' },
+    { shape:'M 5 -20 L 110 -10 L 110 110 L 0 110 Z', noise:['M 40 40 l -12 8 l 8 14','M 80 60 l 6 -12 l 12 8','M 50 90 l 14 -6'], spine:'M -25 -20 L 15 10 L 55 55' }
+  ];
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.querySelector('#scene-act3-assemble svg');
+  const piecesRoot = document.getElementById('bone-pieces');
+  const revealCard = document.getElementById('fuhao-reveal');
+  const spineRoot = document.getElementById('bone-spine');
+  const extendRoot = document.getElementById('bone-extend');
+  const marksRoot = document.getElementById('fuhao-marks');
+  let pieces = [];
+  let completed = false;
+  const dragState = { piece:null, pointerId:null, offX:0, offY:0 };
+
+  function applyTransform(piece, x, y){
+    piece.el.dataset.x = String(x);
+    piece.el.dataset.y = String(y);
+    piece.el.setAttribute('transform', `translate(${x} ${y})`);
+  }
+
+  function getXY(piece){
+    return {
+      x: Number(piece.el.dataset.x || piece.scatter.x || 0),
+      y: Number(piece.el.dataset.y || piece.scatter.y || 0)
+    };
+  }
+
+  function animateTo(piece, x, y, duration){
+    const start = getXY(piece);
+    if (duration <= 0){
+      applyTransform(piece, x, y);
+      return Promise.resolve();
+    }
+    return new Promise(resolve => {
+      const t0 = performance.now();
+      function frame(now){
+        const p = Math.min(1, (now - t0) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        applyTransform(piece, start.x + (x - start.x) * eased, start.y + (y - start.y) * eased);
+        if (p < 1) requestAnimationFrame(frame);
+        else resolve();
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  function svgPoint(clientX, clientY){
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return { x:clientX, y:clientY };
+    const local = pt.matrixTransform(ctm.inverse());
+    return { x:local.x, y:local.y };
+  }
+
+  function onDown(piece, e){
+    if (piece.locked) return;
+    e.preventDefault();
+    const p = svgPoint(e.clientX, e.clientY);
+    const cur = getXY(piece);
+    piece.dragging = true;
+    dragState.piece = piece;
+    dragState.pointerId = e.pointerId;
+    dragState.offX = p.x - cur.x;
+    dragState.offY = p.y - cur.y;
+    piece.el.classList.add('dragging');
+    piecesRoot.appendChild(piece.el);
+    try { piece.el.setPointerCapture(e.pointerId); } catch {}
+  }
+
+  function onMove(e){
+    const piece = dragState.piece;
+    if (!piece || !piece.dragging || piece.locked) return;
+    if (e.pointerId !== dragState.pointerId) return;
+    const p = svgPoint(e.clientX, e.clientY);
+    applyTransform(piece, p.x - dragState.offX, p.y - dragState.offY);
+  }
+
+  function onUp(e){
+    const piece = dragState.piece;
+    if (!piece) return;
+    if (e.pointerId !== dragState.pointerId) return;
+    piece.dragging = false;
+    dragState.piece = null;
+    dragState.pointerId = null;
+    piece.el.classList.remove('dragging');
+    const cur = getXY(piece);
+    if (inSnap(cur.x, cur.y, TILE_CX, TILE_CY, SNAP_THRESHOLD)){
+      piece.locked = true;
+      piece.el.classList.add('locked');
+      animateTo(piece, TILE_CX, TILE_CY, 200).then(() => {
+        audio.pop();
+        const lockedCount = piecesRoot.querySelectorAll('.bone-piece.locked').length;
+        if (!completed && (allLocked(pieces) || lockedCount === PIECE_DATA.length)){
+          completed = true;
+          document.dispatchEvent(new CustomEvent('assemble:complete'));
+        }
+      });
+      return;
+    }
+    animateTo(piece, piece.scatter.x, piece.scatter.y, 300);
+  }
+
+  function build(){
+    revealCard.classList.remove('show');
+    spineRoot.setAttribute('opacity', '0');
+    extendRoot.setAttribute('opacity', '0');
+    marksRoot.setAttribute('opacity', '0');
+    piecesRoot.replaceChildren();
+    pieces = [];
+    completed = false;
+    dragState.piece = null;
+    dragState.pointerId = null;
+
+    const scatters = scatterPositions(4, 640, 540, 250, 320);
+    PIECE_DATA.forEach((data, idx) => {
+      const group = document.createElementNS(NS, 'g');
+      group.setAttribute('class', 'bone-piece');
+
+      const body = document.createElementNS(NS, 'path');
+      body.setAttribute('d', data.shape);
+      body.setAttribute('fill', '#e0d3b8');
+      body.setAttribute('stroke', '#8b7a5e');
+      body.setAttribute('stroke-width', '2');
+      group.appendChild(body);
+
+      const noiseEls = data.noise.map(d => {
+        const crack = document.createElementNS(NS, 'path');
+        crack.setAttribute('d', d);
+        crack.setAttribute('stroke', '#6b5a44');
+        crack.setAttribute('stroke-width', '1.5');
+        crack.setAttribute('fill', 'none');
+        crack.setAttribute('opacity', '.7');
+        group.appendChild(crack);
+        return crack;
+      });
+
+      let spineEl = null;
+      if (data.spine){
+        spineEl = document.createElementNS(NS, 'path');
+        spineEl.setAttribute('d', data.spine);
+        spineEl.setAttribute('stroke', '#6b5a44');
+        spineEl.setAttribute('stroke-width', '2');
+        spineEl.setAttribute('fill', 'none');
+        spineEl.setAttribute('stroke-linecap', 'round');
+        group.appendChild(spineEl);
+      }
+
+      const piece = {
+        el: group,
+        spineEl,
+        noiseEls,
+        locked: false,
+        scatter: scatters[idx],
+        dragging: false
+      };
+      applyTransform(piece, piece.scatter.x, piece.scatter.y);
+      group.addEventListener('pointerdown', e => onDown(piece, e));
+      piecesRoot.appendChild(group);
+      pieces.push(piece);
+    });
+  }
+
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+  window.addEventListener('pointercancel', onUp);
+  document.addEventListener('pointerup', onUp);
+  document.addEventListener('pointercancel', onUp);
+  document.addEventListener('scene:enter', e => {
+    if (e.detail.scene !== 'act3-assemble') return;
+    build();
+  });
+})();
 
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
