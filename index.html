@@ -1082,6 +1082,17 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
     animateTo(piece, piece.scatter.x, piece.scatter.y, 300);
   }
 
+  function onCancel(e){
+    const piece = dragState.piece;
+    if (!piece) return;
+    if (e.pointerId !== dragState.pointerId) return;
+    piece.dragging = false;
+    dragState.piece = null;
+    dragState.pointerId = null;
+    piece.el.classList.remove('dragging');
+    animateTo(piece, piece.scatter.x, piece.scatter.y, 300);
+  }
+
   function build(){
     revealCard.classList.remove('show');
     spineRoot.setAttribute('opacity', '0');
@@ -1144,9 +1155,9 @@ document.getElementById('act3-ask-btn').addEventListener('click', () => {
 
   window.addEventListener('pointermove', onMove);
   window.addEventListener('pointerup', onUp);
-  window.addEventListener('pointercancel', onUp);
+  window.addEventListener('pointercancel', onCancel);
   document.addEventListener('pointerup', onUp);
-  document.addEventListener('pointercancel', onUp);
+  document.addEventListener('pointercancel', onCancel);
   document.addEventListener('scene:enter', e => {
     if (e.detail.scene !== 'act3-assemble') return;
     build();
