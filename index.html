@@ -115,6 +115,14 @@ section[data-scene].active{display:block;}
   border:1px solid var(--gold);border-radius:50%;cursor:pointer;opacity:.5;}
 #music-btn:hover{opacity:1;}
 #music-btn.off{text-decoration:line-through;opacity:.3;}
+/* --- shared dialog --- */
+.dialog{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
+  width:900px;background:var(--paper);color:var(--ink);border-radius:8px;
+  padding:20px 32px 24px;box-shadow:0 6px 24px rgba(0,0,0,.6);}
+.dialog p{margin:6px 0;font-size:26px;line-height:1.6;}
+.dialog .speaker{color:var(--cinnabar);font-size:22px;}
+.dialog strong{color:var(--cinnabar);}
+.dialog .next-btn{display:block;margin:12px 0 0 auto;}
 </style>
 </head>
 <body>
@@ -227,7 +235,29 @@ section[data-scene].active{display:block;}
       <button id="to-act2-btn" class="next-btn">天亮了，下一幕 →</button>
     </div>
   </section>
-  <section data-scene="act2-intro" id="scene-act2-intro"></section>
+  <section data-scene="act2-intro" id="scene-act2-intro">
+    <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+      <!-- 晨光 -->
+      <rect width="1280" height="720" fill="#2a2218"/>
+      <circle cx="1040" cy="150" r="70" fill="var(--flame)" opacity=".85"/>
+      <!-- 田野 -->
+      <path d="M0 520 L1280 480 L1280 720 L0 720 Z" fill="#241e18"/>
+      <!-- 禾苗列 -->
+      <g stroke="var(--bronze)" stroke-width="4" stroke-linecap="round" fill="none" opacity=".9">
+        <path d="M200 640 v-50 M200 610 l-22 -26 M200 610 l22 -26"/>
+        <path d="M400 655 v-50 M400 625 l-22 -26 M400 625 l22 -26"/>
+        <path d="M620 645 v-50 M620 615 l-22 -26 M620 615 l22 -26"/>
+        <path d="M850 655 v-50 M850 625 l-22 -26 M850 625 l22 -26"/>
+        <path d="M1060 640 v-50 M1060 610 l-22 -26 M1060 610 l22 -26"/>
+      </g>
+    </svg>
+    <div class="dialog">
+      <p class="speaker">第二幕・今年會下雨嗎</p>
+      <p>天亮了。牙痛是小事——現在是<strong>國家大事</strong>：今年的收成，全靠雨。</p>
+      <p>貞人：「王，再問一次天吧——<strong>今年，會下雨嗎？</strong>」</p>
+      <button id="act2-ask-btn" class="next-btn">問天 →</button>
+    </div>
+  </section>
   <section data-scene="act2-decode" id="scene-act2-decode"></section>
   <section data-scene="act3-intro" id="scene-act3-intro"></section>
   <section data-scene="act3-choose" id="scene-act3-choose"></section>
@@ -615,6 +645,12 @@ document.getElementById('music-btn').addEventListener('click', () => {
   document.getElementById('music-btn').classList.toggle('off', !music.toggle());
 });
 document.getElementById('start-btn').addEventListener('click', () => music.start());
+
+/* ===== 第二幕 ===== */
+document.getElementById('act2-ask-btn').addEventListener('click', () => {
+  setBurn('act2-decode', 1.6, '按住龜甲——問今年的雨');
+  game.goto('burn');
+});
 
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
