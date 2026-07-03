@@ -810,7 +810,7 @@ function inSnap(px, py, sx, sy, threshold){
 }
 
 function allLocked(pieces){
-  return pieces.length > 0 && pieces.every(p => p.locked);
+  return pieces.length > 0 && pieces.every(p => p.locked === true);
 }
 
 /* ===== 第二幕：拖拉解碼 ===== */
@@ -1018,6 +1018,7 @@ test('allLocked 全為 true 才回 true', () => {
   assertEq(allLocked([{locked:true},{locked:true},{locked:true},{locked:true}]), true);
   assertEq(allLocked([{locked:true},{locked:false},{locked:true},{locked:true}]), false);
   assertEq(allLocked([{locked:false},{locked:false},{locked:false},{locked:false}]), false);
+  assertEq(allLocked([{locked:1},{locked:true}]), false);
 });
 </script>
 </body>
