@@ -109,6 +109,12 @@ section[data-scene].active{display:block;}
 #chapters button{width:14px;height:14px;border-radius:50%;border:1px solid var(--gold);
   background:transparent;cursor:pointer;padding:0;}
 #chapters button.on{background:var(--gold);}
+/* --- music --- */
+#music-btn{position:absolute;right:16px;top:14px;z-index:10;width:44px;height:44px;
+  font-family:var(--serif);font-size:22px;color:var(--gold);background:transparent;
+  border:1px solid var(--gold);border-radius:50%;cursor:pointer;opacity:.5;}
+#music-btn:hover{opacity:1;}
+#music-btn.off{text-decoration:line-through;opacity:.3;}
 </style>
 </head>
 <body>
@@ -229,6 +235,7 @@ section[data-scene].active{display:block;}
   <section data-scene="act4-intro" id="scene-act4-intro"></section>
   <section data-scene="act4-grind" id="scene-act4-grind"></section>
   <section data-scene="act4-finale" id="scene-act4-finale"></section>
+  <button id="music-btn" title="背景音樂開關">樂</button>
   <nav id="chapters" class="hidden" aria-label="章節跳轉">
     <button data-target="intro" title="第一幕・牙痛的國王"></button>
     <button data-target="act2-intro" title="第二幕・今年會下雨嗎"></button>
@@ -567,6 +574,48 @@ document.addEventListener('scene:enter', e => {
     b.classList.toggle('on', i === act - 1));
 });
 
+/* ===== 背景音樂（五聲音階環境循環，音量低於音效） ===== */
+const PENTA = [261.63, 293.66, 329.63, 392.00, 440.00]; /* 宮商角徵羽（C 調） */
+const music = {
+  playing: false, timer: null, step: 0,
+  _bell(freq, t){
+    [[freq, 0.05], [freq * 2.7, 0.012]].forEach(([f, v]) => {
+      const o = audio.ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      const g = audio.ctx.createGain();
+      g.gain.setValueAtTime(v, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+      o.connect(g); g.connect(audio.ctx.destination); o.start(t); o.stop(t + 2.4);
+    });
+  },
+  _drum(t){
+    const o = audio.ctx.createOscillator();
+    o.frequency.setValueAtTime(80, t);
+    o.frequency.exponentialRampToValueAtTime(40, t + 0.3);
+    const g = audio.ctx.createGain();
+    g.gain.setValueAtTime(0.09, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+    o.connect(g); g.connect(audio.ctx.destination); o.start(t); o.stop(t + 0.35);
+  },
+  start(){
+    if (!audio.ctx || this.playing) return;
+    this.playing = true;
+    this.timer = setInterval(() => {
+      if (!audio.enabled) return;
+      const t = audio.ctx.currentTime + 0.05;
+      this._bell(PENTA[Math.floor(Math.random() * PENTA.length)], t);
+      if (this.step % 4 === 0) this._drum(t);
+      this.step++;
+    }, 1300);
+  },
+  stop(){ clearInterval(this.timer); this.timer = null; this.playing = false; },
+  toggle(){ if (this.playing) this.stop(); else this.start(); return this.playing; }
+};
+document.getElementById('music-btn').addEventListener('click', () => {
+  audio.unlock();
+  document.getElementById('music-btn').classList.toggle('off', !music.toggle());
+});
+document.getElementById('start-btn').addEventListener('click', () => music.start());
+
 /* 音效測試：未實作時應 FAIL */
 test('audio 未解鎖時所有函式安全 no-op', () => {
   assertEq(audio.ctx, null);
@@ -643,6 +692,18 @@ test('actOfScene 共用的 burn 場景看占卜去向', () => {
   assertEq(actOfScene('burn', 'verdict'), 1);
   assertEq(actOfScene('burn', 'act2-decode'), 2);
   assertEq(actOfScene('burn', 'act3-choose'), 3);
+});
+
+test('music start/stop/toggle 狀態機', () => {
+  music.start();
+  assertOk(music.playing, 'start 後應為 playing');
+  assertOk(music.timer !== null, 'start 後應有排程 timer');
+  music.start();
+  assertEq(music.toggle(), false);
+  assertEq(music.playing, false);
+  assertEq(music.timer, null);
+  assertEq(music.toggle(), true);
+  music.stop();
 });
 </script>
 </body>
