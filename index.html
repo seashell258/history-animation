@@ -10,9 +10,13 @@
   --bronze:#56705f; --flame:#e8823a; --gold:#d9a441;
   --serif:'Noto Serif TC','DFKai-SB','BiauKai','Microsoft JhengHei',serif;
 }
-html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:var(--serif);color:var(--paper);}
-#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;
-  transform-origin:center;background:var(--ink);overflow:hidden;}
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:var(--serif);color:var(--paper);
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;}
+/* 視窗層：用 dvh 貼齊「當下可見」高度，避開 iPad Safari 網址列造成的置中誤差 */
+#viewport{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#stage{position:relative;width:1280px;height:720px;flex:0 0 auto;
+  transform-origin:center center;background:var(--ink);overflow:hidden;}
 section[data-scene]{position:absolute;inset:0;display:none;}
 section[data-scene].active{display:block;}
 /* --- start scene --- */
@@ -59,11 +63,11 @@ section[data-scene].active{display:block;}
 /* --- crack & verdict --- */
 #stage.shake{animation:shake .4s;}
 @keyframes shake{
-  0%,100%{transform:translate(-50%,-50%) scale(var(--fit,1));}
-  20%{transform:translate(calc(-50% + 10px),calc(-50% - 8px)) scale(var(--fit,1));}
-  40%{transform:translate(calc(-50% - 8px),calc(-50% + 6px)) scale(var(--fit,1));}
-  60%{transform:translate(calc(-50% + 6px),calc(-50% + 8px)) scale(var(--fit,1));}
-  80%{transform:translate(calc(-50% - 4px),calc(-50% - 4px)) scale(var(--fit,1));}
+  0%,100%{transform:scale(var(--fit,1)) translate(0,0);}
+  20%{transform:scale(var(--fit,1)) translate(10px,-8px);}
+  40%{transform:scale(var(--fit,1)) translate(-8px,6px);}
+  60%{transform:scale(var(--fit,1)) translate(6px,8px);}
+  80%{transform:scale(var(--fit,1)) translate(-4px,-4px);}
 }
 #scene-verdict{flex-direction:column;align-items:center;justify-content:center;gap:30px;}
 #scene-verdict.active{display:flex;}
@@ -206,6 +210,7 @@ section[data-scene].active{display:block;}
 </style>
 </head>
 <body>
+<div id="viewport">
 <div id="stage">
   <section data-scene="start" id="scene-start" class="active">
     <h1>商王的一天</h1>
@@ -558,16 +563,22 @@ section[data-scene].active{display:block;}
     <button data-target="act4-intro" title="第四幕・1899 年藥鋪"></button>
   </nav>
 </div>
+</div>
 <script>
 'use strict';
 /* ===== 舞台縮放 ===== */
 function fitStage(){
-  const s = Math.min(innerWidth / 1280, innerHeight / 720);
+  const vp = document.getElementById('viewport');
+  const w = vp.clientWidth  || innerWidth;
+  const h = vp.clientHeight || innerHeight;
+  const s = Math.min(w / 1280, h / 720);
   const st = document.getElementById('stage');
   st.style.setProperty('--fit', s);
-  st.style.transform = `translate(-50%,-50%) scale(${s})`;
+  st.style.transform = `scale(${s})`;
 }
 addEventListener('resize', fitStage);
+addEventListener('orientationchange', fitStage);
+if (window.visualViewport) visualViewport.addEventListener('resize', fitStage);
 fitStage();
 
 /* ===== 自測框架 ===== */
