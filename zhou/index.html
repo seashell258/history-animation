@@ -10,7 +10,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:var(-
 #stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;
   transform-origin:center;background:var(--night);overflow:hidden;}
 section[data-scene]{position:absolute;inset:0;display:none;}
-section[data-scene].active{display:block;}
+section[data-scene].active{display:block;} /* flex scenes override with #scene-xxx.active{display:flex} */
 
 /* start */
 #scene-start{flex-direction:column;align-items:center;justify-content:center;gap:32px;}
