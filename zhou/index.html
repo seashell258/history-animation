@@ -54,6 +54,16 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
   position:absolute;right:60px;bottom:36px;font-size:18px;
   color:var(--gold);animation:breathe 2s infinite;
 }
+
+/* --- decision --- */
+#scene-decision svg{position:absolute;inset:0;}
+#xin-wrap,#dan-wrap{
+  position:absolute;bottom:72px;
+  opacity:0;transition:transform .85s cubic-bezier(.18,1.2,.4,1),opacity .7s;
+}
+#xin-wrap{ left:148px; transform:translateX(-110px); }
+#dan-wrap{ right:148px; transform:translateX(110px); }
+#xin-wrap.arrived,#dan-wrap.arrived{ transform:translateX(0); opacity:1; }
 </style>
 </head>
 <body>
@@ -221,7 +231,53 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
   </div>
   <div id="turning-hint">點一下，繼續</div>
 </section>
-  <section data-scene="decision"   id="scene-decision"></section>
+  <section data-scene="decision" id="scene-decision">
+  <svg viewBox="0 0 1280 720" width="1280" height="720" aria-hidden="true">
+    <rect width="1280" height="720" fill="var(--night)"/>
+    <!-- 地板 -->
+    <rect x="0" y="580" width="1280" height="140" fill="#0d1208"/>
+    <!-- 被推到右側的榻（殘影） -->
+    <rect x="830" y="462" width="380" height="90" rx="14"
+          fill="#3a2810" opacity=".3"/>
+    <!-- 勾踐站立 -->
+    <g transform="translate(640,238)" fill="#0c1808">
+      <rect x="-19" y="-32" width="38" height="10" rx="2"/>
+      <path d="M-15,-32 L-11,-48 L0,-42 L11,-48 L15,-32 Z"/>
+      <circle cx="0" cy="0" r="27"/>
+      <path d="M-32,26 C-34,84 -32,162 -22,202 L22,202 C32,162 34,84 32,26 Z"/>
+      <ellipse cx="-16" cy="210" rx="17" ry="8"/>
+      <ellipse cx="16" cy="210" rx="17" ry="8"/>
+    </g>
+  </svg>
+  <!-- 薪草（左下滑入） -->
+  <div id="xin-wrap">
+    <svg viewBox="0 0 200 130" width="200" height="130">
+      <g stroke="var(--ember)" stroke-linecap="round" stroke-width="5">
+        <line x1="22" y1="18" x2="72" y2="118"/>
+        <line x1="40" y1="12" x2="88" y2="116"/>
+        <line x1="58" y1="10" x2="104" y2="114"/>
+        <line x1="76" y1="12" x2="118" y2="116"/>
+        <line x1="94" y1="16" x2="132" y2="116"/>
+        <line x1="110" y1="20" x2="146" y2="114"/>
+        <line x1="128" y1="18" x2="160" y2="116"/>
+        <line x1="146" y1="14" x2="174" y2="118"/>
+      </g>
+      <rect x="58" y="56" width="84" height="10" rx="5" fill="#7a4820"/>
+    </svg>
+  </div>
+  <!-- 苦膽（右下滑入） -->
+  <div id="dan-wrap">
+    <svg viewBox="0 0 140 170" width="140" height="170">
+      <ellipse cx="70" cy="110" rx="54" ry="52" fill="var(--gall)" opacity=".88"/>
+      <path d="M44,66 Q70,22 96,66"
+            fill="none" stroke="var(--gall)" stroke-width="13"
+            stroke-linecap="round" opacity=".88"/>
+      <path d="M58,56 Q70,44 82,56"
+            fill="none" stroke="#4a5a18" stroke-width="6"/>
+      <ellipse cx="50" cy="90" rx="12" ry="18" fill="#fff" opacity=".12"/>
+    </svg>
+  </div>
+</section>
   <section data-scene="ritual"     id="scene-ritual"></section>
   <section data-scene="ending"     id="scene-ending"></section>
 </div>
@@ -354,6 +410,18 @@ document.addEventListener('scene:enter', e=>{
 });
 document.getElementById('scene-turning').addEventListener('click',()=>{
   if(game.current==='turning') game.goto('decision');
+});
+
+/* ===== Scene D: 決定 ===== */
+document.addEventListener('scene:enter', e=>{
+  if(e.detail.scene!=='decision') return;
+  const xin=document.getElementById('xin-wrap');
+  const dan=document.getElementById('dan-wrap');
+  xin.classList.remove('arrived'); dan.classList.remove('arrived');
+  setTimeout(()=>{
+    xin.classList.add('arrived'); dan.classList.add('arrived');
+    setTimeout(()=>{ if(game.current==='decision') game.goto('ritual'); }, 1300);
+  }, 500);
 });
 
 /* ===== 自測框架 ===== */
