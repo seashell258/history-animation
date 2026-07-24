@@ -74,9 +74,51 @@ function runSelfTests(){
 }
 addEventListener('load',()=>{ if(location.hash==='#selftest') runSelfTests(); });
 
+/* ===== 場景狀態機 ===== */
+const SCENES=['start','homecoming','comfort','turning','decision','ritual','ending'];
+const game={
+  index:0,
+  get current(){ return SCENES[this.index]; },
+  goto(name){
+    const i=SCENES.indexOf(name);
+    if(i===-1) return false;
+    this.index=i;
+    document.querySelectorAll('section[data-scene]').forEach(s=>
+      s.classList.toggle('active', s.dataset.scene===name));
+    document.dispatchEvent(new CustomEvent('scene:enter',{detail:{scene:name}}));
+    return true;
+  },
+  next(){ if(this.index<SCENES.length-1) this.goto(SCENES[this.index+1]); }
+};
+addEventListener('load',()=>{ if(location.hash!=='#selftest') game.goto('start'); });
+document.getElementById('start-btn').addEventListener('click',()=>game.goto('homecoming'));
+
 /* 骨架驗證 */
 test('stage 含 7 個場景 section',()=>{
   assertEq(document.querySelectorAll('section[data-scene]').length, 7);
+});
+test('game.goto 切換 active 與 current',()=>{
+  game.goto('ritual');
+  assertEq(game.current,'ritual');
+  assertEq(document.querySelectorAll('section[data-scene].active').length,1);
+  assertEq(document.querySelector('section[data-scene].active').dataset.scene,'ritual');
+});
+test('game.goto 未知場景回傳 false 且不變',()=>{
+  game.goto('comfort');
+  assertEq(game.goto('nonsense'),false);
+  assertEq(game.current,'comfort');
+});
+test('game.next 依序前進',()=>{
+  game.goto('start'); game.next();
+  assertEq(game.current,'homecoming');
+});
+test('scene:enter 事件帶 detail.scene',()=>{
+  let got=null;
+  const h=e=>{got=e.detail.scene;};
+  document.addEventListener('scene:enter',h);
+  game.goto('ending');
+  document.removeEventListener('scene:enter',h);
+  assertEq(got,'ending');
 });
 
 </script>
