@@ -87,6 +87,26 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
   position:absolute;right:148px;bottom:50px;
   width:168px;height:188px;cursor:pointer;touch-action:none;
 }
+
+/* --- ending --- */
+#scene-ending{flex-direction:column;align-items:center;justify-content:center;gap:44px;}
+#scene-ending.active{display:flex;}
+#ending-figure{opacity:0;transition:opacity 1.1s;}
+#ending-figure.show{opacity:1;}
+#ending-text{
+  font-size:118px;letter-spacing:.45em;color:var(--gold);margin:0;
+  opacity:0;transition:opacity 1.3s;
+  text-shadow:0 0 48px rgba(201,152,42,.55);
+}
+#ending-text.show{opacity:1;}
+#ending-btn{
+  font-family:var(--serif);font-size:26px;letter-spacing:.2em;
+  padding:10px 42px;background:var(--jade);color:var(--slip);
+  border:none;border-radius:6px;cursor:pointer;
+  opacity:0;transition:opacity .8s;
+}
+#ending-btn.show{opacity:1;}
+#ending-btn:hover{filter:brightness(1.15);}
 </style>
 </head>
 <body>
@@ -390,7 +410,26 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
     </svg>
   </div>
 </section>
-  <section data-scene="ending"     id="scene-ending"></section>
+  <section data-scene="ending" id="scene-ending">
+  <svg id="ending-figure" viewBox="0 0 160 340" width="130" height="276">
+    <defs>
+      <radialGradient id="endGlow" cx="50%" cy="38%" r="52%">
+        <stop offset="0%" stop-color="var(--gold)" stop-opacity=".52"/>
+        <stop offset="100%" stop-color="var(--gold)" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="80" cy="170" r="148" fill="url(#endGlow)"/>
+    <rect x="60" y="14" width="40" height="10" rx="2" fill="var(--slip)"/>
+    <path d="M64,14 L68,0 L80,6 L92,0 L96,14 Z" fill="var(--gold)"/>
+    <circle cx="80" cy="46" r="28" fill="var(--slip)"/>
+    <path d="M50,74 C48,134 50,208 56,252 L104,252 C110,208 112,134 110,74 Z"
+          fill="var(--slip)"/>
+    <ellipse cx="62" cy="260" rx="18" ry="9" fill="var(--slip)"/>
+    <ellipse cx="98" cy="260" rx="18" ry="9" fill="var(--slip)"/>
+  </svg>
+  <p id="ending-text">十年。</p>
+  <button id="ending-btn">繼續 →</button>
+</section>
 </div>
 <script>
 'use strict';
@@ -627,6 +666,20 @@ function ritualProgress(progress,dt,bothHeld){
   if(!bothHeld) return progress;
   return Math.min(1, progress+dt/9);
 }
+
+/* ===== Scene F: 收尾 ===== */
+document.addEventListener('scene:enter',e=>{
+  if(e.detail.scene!=='ending') return;
+  const fig=document.getElementById('ending-figure');
+  const txt=document.getElementById('ending-text');
+  const btn=document.getElementById('ending-btn');
+  fig.classList.remove('show'); txt.classList.remove('show'); btn.classList.remove('show');
+  setTimeout(()=>fig.classList.add('show'), 280);
+  setTimeout(()=>txt.classList.add('show'), 980);
+  setTimeout(()=>btn.classList.add('show'), 2500);
+});
+/* 第三幕尚未實作：按鈕暫無動作 */
+document.getElementById('ending-btn').addEventListener('click',()=>{});
 
 /* ===== 自測框架 ===== */
 const selfTests = [];
