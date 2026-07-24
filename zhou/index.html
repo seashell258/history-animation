@@ -64,6 +64,29 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
 #xin-wrap{ left:148px; transform:translateX(-110px); }
 #dan-wrap{ right:148px; transform:translateX(110px); }
 #xin-wrap.arrived,#dan-wrap.arrived{ transform:translateX(0); opacity:1; }
+
+/* --- ritual --- */
+#scene-ritual{touch-action:none;}
+#ritual-memory{position:absolute;inset:0;pointer-events:none;}
+#ritual-glow{
+  position:absolute;left:50%;top:50%;
+  width:700px;height:700px;margin-left:-350px;margin-top:-350px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,152,42,.55) 0%,rgba(201,152,42,0) 68%);
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+#goujian-rising{
+  position:absolute;left:50%;top:48px;transform:translateX(-50%);
+  pointer-events:none;
+}
+#ritual-xin{
+  position:absolute;left:148px;bottom:58px;
+  width:210px;height:140px;cursor:pointer;touch-action:none;
+}
+#ritual-dan{
+  position:absolute;right:148px;bottom:50px;
+  width:168px;height:188px;cursor:pointer;touch-action:none;
+}
 </style>
 </head>
 <body>
@@ -278,7 +301,95 @@ section[data-scene].active{display:block;} /* flex scenes override with #scene-x
     </svg>
   </div>
 </section>
-  <section data-scene="ritual"     id="scene-ritual"></section>
+  <section data-scene="ritual" id="scene-ritual">
+  <!-- 上方：馬廄閃回（固定背景） -->
+  <svg id="ritual-memory" viewBox="0 0 1280 720" width="1280" height="720"
+       aria-hidden="true">
+    <rect width="1280" height="720" fill="#080f14"/>
+    <g stroke="#152030" stroke-width="10" fill="none" opacity=".75">
+      <line x1="130" y1="0" x2="130" y2="560"/>
+      <line x1="320" y1="0" x2="320" y2="560"/>
+      <line x1="510" y1="0" x2="510" y2="560"/>
+      <line x1="700" y1="0" x2="700" y2="560"/>
+      <line x1="890" y1="0" x2="890" y2="560"/>
+      <line x1="1080" y1="0" x2="1080" y2="560"/>
+    </g>
+    <rect x="0" y="310" width="1280" height="10" fill="#152030" opacity=".7"/>
+    <!-- 吳王（左，高大俯視） -->
+    <g transform="translate(260,90)" fill="#16273a" opacity=".82">
+      <circle cx="0" cy="0" r="36"/>
+      <path d="M-46,36 C-52,154 -46,258 -36,312 L36,312 C46,258 52,154 46,36 Z"/>
+    </g>
+    <!-- 勾踐跪（右偏中，小） -->
+    <g transform="translate(840,390)" fill="#203248" opacity=".82">
+      <circle cx="0" cy="-44" r="24"/>
+      <path d="M-26,-22 C-26,26 -22,58 -14,68 L14,68 C22,58 26,26 26,-22 Z"/>
+      <ellipse cx="-22" cy="74" rx="19" ry="8"/>
+      <ellipse cx="22" cy="74" rx="19" ry="8"/>
+    </g>
+  </svg>
+
+  <!-- 決心金光（隨進度擴散） -->
+  <div id="ritual-glow"></div>
+
+  <!-- 勾踐剪影（中央，姿態隨進度改變） -->
+  <svg id="goujian-rising" viewBox="0 0 160 340"
+       width="150" height="318" aria-hidden="true">
+    <defs>
+      <radialGradient id="risingGlow" cx="50%" cy="35%" r="55%">
+        <stop offset="0%" stop-color="var(--gold)" stop-opacity=".3"/>
+        <stop offset="100%" stop-color="var(--gold)" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="80" cy="160" r="130" fill="url(#risingGlow)"/>
+    <!-- 王冠 -->
+    <rect id="gj-crown-base" x="60" y="14" width="40" height="10" rx="2"
+          fill="var(--slip)" opacity=".92"/>
+    <path id="gj-crown-tips" d="M64,14 L68,0 L80,6 L92,0 L96,14 Z"
+          fill="var(--gold)" opacity=".92"/>
+    <!-- 頭 -->
+    <circle id="gj-head" cx="80" cy="46" r="28" fill="var(--slip)" opacity=".92"/>
+    <!-- 上身＋腿 -->
+    <g id="gj-body-group">
+      <path id="gj-body"
+            d="M50,74 C48,134 50,208 56,252 L104,252 C110,208 112,134 110,74 Z"
+            fill="var(--slip)" opacity=".92"/>
+      <ellipse cx="62" cy="260" rx="18" ry="9" fill="var(--slip)" opacity=".92"/>
+      <ellipse cx="98" cy="260" rx="18" ry="9" fill="var(--slip)" opacity=".92"/>
+    </g>
+  </svg>
+
+  <!-- 薪草互動點（左下） -->
+  <div id="ritual-xin">
+    <svg viewBox="0 0 210 140" width="210" height="140">
+      <g stroke="var(--ember)" stroke-linecap="round" stroke-width="5.5">
+        <line x1="18" y1="18" x2="68" y2="128"/>
+        <line x1="36" y1="12" x2="84" y2="126"/>
+        <line x1="54" y1="10" x2="100" y2="124"/>
+        <line x1="72" y1="12" x2="116" y2="126"/>
+        <line x1="90" y1="16" x2="132" y2="124"/>
+        <line x1="108" y1="18" x2="148" y2="124"/>
+        <line x1="126" y1="16" x2="164" y2="126"/>
+        <line x1="144" y1="12" x2="180" y2="128"/>
+        <line x1="162" y1="16" x2="194" y2="126"/>
+      </g>
+      <rect x="54" y="56" width="102" height="11" rx="5" fill="#7a4820"/>
+    </svg>
+  </div>
+
+  <!-- 苦膽互動點（右下） -->
+  <div id="ritual-dan">
+    <svg viewBox="0 0 168 188" width="168" height="188">
+      <ellipse cx="84" cy="124" rx="62" ry="58" fill="var(--gall)" opacity=".9"/>
+      <path d="M52,74 Q84,26 116,74"
+            fill="none" stroke="var(--gall)" stroke-width="14"
+            stroke-linecap="round" opacity=".9"/>
+      <path d="M66,62 Q84,50 102,62"
+            fill="none" stroke="#4a5a18" stroke-width="7"/>
+      <ellipse cx="60" cy="100" rx="14" ry="20" fill="#fff" opacity=".13"/>
+    </svg>
+  </div>
+</section>
   <section data-scene="ending"     id="scene-ending"></section>
 </div>
 <script>
@@ -424,6 +535,99 @@ document.addEventListener('scene:enter', e=>{
   }, 500);
 });
 
+/* ===== Scene E: 雙點互動 ===== */
+(()=>{
+  const xinEl    = document.getElementById('ritual-xin');
+  const danEl    = document.getElementById('ritual-dan');
+  const glowEl   = document.getElementById('ritual-glow');
+  const bodyGrp  = document.getElementById('gj-body-group');
+  const headEl   = document.getElementById('gj-head');
+  const crownB   = document.getElementById('gj-crown-base');
+  const crownT   = document.getElementById('gj-crown-tips');
+
+  let xinHeld=false, danHeld=false;
+  let progress=0, lastTs=0;
+  let xinPhase=0, danPhase=Math.PI*0.55;
+  let running=false, completed=false;
+  let windH=null, drumH=null;
+
+  function applyPosture(p){
+    const angle=-26*(1-p);
+    const lift=-36*p;
+    bodyGrp.setAttribute('transform',
+      `rotate(${angle.toFixed(2)} 80 165) translate(0 ${lift.toFixed(1)})`);
+    const hy=(46+lift*0.55).toFixed(1);
+    headEl.setAttribute('cy',hy);
+    const cy=(14+lift*0.55).toFixed(1);
+    crownB.setAttribute('y',cy);
+    crownT.setAttribute('transform',`translate(0 ${(lift*0.55).toFixed(1)})`);
+  }
+
+  function driftLoop(ts){
+    if(!running) return;
+    xinPhase+=0.0009; danPhase+=0.0012;
+    xinEl.style.transform=`translateX(${driftXin(xinPhase).toFixed(1)}px)`;
+    danEl.style.transform=`translateY(${driftDan(danPhase).toFixed(1)}px)`;
+    requestAnimationFrame(driftLoop);
+  }
+
+  function progressLoop(ts){
+    if(!running) return;
+    const dt=lastTs ? Math.min((ts-lastTs)/1000,0.05) : 0; lastTs=ts;
+    progress=ritualProgress(progress,dt,xinHeld&&danHeld);
+    if(drumH) drumH.setIntensity(progress);
+    glowEl.style.opacity=String((progress*0.82).toFixed(3));
+    applyPosture(progress);
+    if(progress>=1&&!completed){
+      completed=true; running=false;
+      if(windH){windH.stop();windH=null;}
+      if(drumH){drumH.stop();drumH=null;}
+      audio.resolve();
+      setTimeout(()=>game.goto('ending'),820);
+    } else {
+      requestAnimationFrame(progressLoop);
+    }
+  }
+
+  xinEl.addEventListener('pointerdown',e=>{
+    e.preventDefault(); xinHeld=true; xinEl.setPointerCapture(e.pointerId);
+  });
+  xinEl.addEventListener('pointerup',  ()=>{ xinHeld=false; });
+  xinEl.addEventListener('pointercancel',()=>{ xinHeld=false; });
+  danEl.addEventListener('pointerdown',e=>{
+    e.preventDefault(); danHeld=true; danEl.setPointerCapture(e.pointerId);
+  });
+  danEl.addEventListener('pointerup',  ()=>{ danHeld=false; });
+  danEl.addEventListener('pointercancel',()=>{ danHeld=false; });
+
+  document.addEventListener('scene:enter',e=>{
+    if(e.detail.scene==='ritual'){
+      progress=0; lastTs=0; xinHeld=false; danHeld=false;
+      completed=false; xinPhase=0; danPhase=Math.PI*0.55;
+      applyPosture(0);
+      glowEl.style.opacity='0';
+      xinEl.style.transform=''; danEl.style.transform='';
+      running=true;
+      windH=audio.startWind();
+      drumH=audio.startDrum();
+      requestAnimationFrame(driftLoop);
+      requestAnimationFrame(progressLoop);
+    } else {
+      running=false;
+      if(windH){windH.stop();windH=null;}
+      if(drumH){drumH.stop();drumH=null;}
+    }
+  });
+})();
+
+/* ===== 雙點互動：純函式 ===== */
+function driftXin(phase){ return Math.sin(phase)*40; }
+function driftDan(phase){ return Math.sin(phase)*28; }
+function ritualProgress(progress,dt,bothHeld){
+  if(!bothHeld) return progress;
+  return Math.min(1, progress+dt/9);
+}
+
 /* ===== 自測框架 ===== */
 const selfTests = [];
 function test(name, fn){ selfTests.push({name, fn}); }
@@ -508,6 +712,31 @@ test('audio.unlock 建立 AudioContext',()=>{
   audio.unlock();
   assertOk(audio.ctx!==null,'unlock 後 ctx 不應為 null');
   assertEq(typeof audio.ctx.createOscillator,'function');
+});
+
+test('driftXin 範圍 -40~40',()=>{
+  for(let i=0;i<30;i++){
+    const x=driftXin(Math.random()*Math.PI*2);
+    assertOk(x>=-40&&x<=40,`driftXin out of range: ${x}`);
+  }
+});
+test('driftDan 範圍 -28~28',()=>{
+  for(let i=0;i<30;i++){
+    const y=driftDan(Math.random()*Math.PI*2);
+    assertOk(y>=-28&&y<=28,`driftDan out of range: ${y}`);
+  }
+});
+test('ritualProgress 雙按 9 秒充滿',()=>{
+  let p=0;
+  for(let i=0;i<90;i++) p=ritualProgress(p,0.1,true);
+  assertEq(p,1);
+});
+test('ritualProgress 放開不退',()=>{
+  const p=ritualProgress(0.6,5,false);
+  assertEq(p,0.6);
+});
+test('ritualProgress 夾住上限',()=>{
+  assertEq(ritualProgress(0.98,9,true),1);
 });
 
 </script>
