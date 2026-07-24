@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>越王的十年・臥薪嘗膽</title>
+<link rel="stylesheet" href="shared/style.css">
+<style>
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:var(--serif);color:var(--slip);}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;
+  transform-origin:center;background:var(--night);overflow:hidden;}
+section[data-scene]{position:absolute;inset:0;display:none;}
+section[data-scene].active{display:block;}
+
+/* start */
+#scene-start{flex-direction:column;align-items:center;justify-content:center;gap:32px;}
+#scene-start.active{display:flex;}
+#scene-start h1{font-size:64px;letter-spacing:.18em;margin:0;color:var(--slip);}
+#scene-start p{font-size:22px;letter-spacing:.3em;color:var(--gold);margin:0;}
+#start-btn{font-family:var(--serif);font-size:26px;letter-spacing:.2em;
+  padding:12px 52px;background:var(--jade);color:var(--slip);
+  border:2px solid var(--gold);border-radius:6px;cursor:pointer;}
+#start-btn:hover{filter:brightness(1.15);}
+
+@keyframes breathe{0%,100%{opacity:.2}50%{opacity:.9}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <section data-scene="start" id="scene-start" class="active">
+    <h1>越王的十年</h1>
+    <p>臥薪嘗膽・春秋動畫</p>
+    <button id="start-btn">開始上課</button>
+  </section>
+  <section data-scene="homecoming" id="scene-homecoming"></section>
+  <section data-scene="comfort"    id="scene-comfort"></section>
+  <section data-scene="turning"    id="scene-turning"></section>
+  <section data-scene="decision"   id="scene-decision"></section>
+  <section data-scene="ritual"     id="scene-ritual"></section>
+  <section data-scene="ending"     id="scene-ending"></section>
+</div>
+<script>
+'use strict';
+
+/* ===== 舞台縮放 ===== */
+function fitStage(){
+  const s = Math.min(innerWidth/1280, innerHeight/720);
+  const st = document.getElementById('stage');
+  st.style.setProperty('--fit', s);
+  st.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fitStage);
+fitStage();
+
+/* ===== 自測框架 ===== */
+const selfTests = [];
+function test(name, fn){ selfTests.push({name, fn}); }
+function assertEq(a, b){ if(a!==b) throw new Error(`expected ${b}, got ${a}`); }
+function assertOk(c, m){ if(!c) throw new Error(m||'assertion failed'); }
+function runSelfTests(){
+  const lines=[]; let passed=0;
+  for(const t of selfTests){
+    try{ t.fn(); lines.push(`PASS  ${t.name}`); passed++; }
+    catch(e){ lines.push(`FAIL  ${t.name} — ${e.message}`); }
+  }
+  lines.push('', passed===selfTests.length
+    ? `ALL PASS (${passed}/${selfTests.length})`
+    : `${passed}/${selfTests.length} passed`);
+  const pre=document.createElement('pre');
+  pre.style.cssText='position:fixed;inset:0;margin:0;background:#000;color:#4f4;z-index:99;padding:20px;font:15px/1.6 Consolas,monospace;overflow:auto;';
+  pre.textContent=lines.join('\n');
+  document.body.appendChild(pre);
+}
+addEventListener('load',()=>{ if(location.hash==='#selftest') runSelfTests(); });
+
+/* 骨架驗證 */
+test('stage 含 7 個場景 section',()=>{
+  assertEq(document.querySelectorAll('section[data-scene]').length, 7);
+});
+
+</script>
+</body>
+</html>
