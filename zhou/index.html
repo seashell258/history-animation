@@ -589,6 +589,7 @@ document.addEventListener('scene:enter', e=>{
   let xinPhase=0, danPhase=Math.PI*0.55;
   let running=false, completed=false;
   let windH=null, drumH=null;
+  let _loopGen=0;
 
   function applyPosture(p){
     const angle=-26*(1-p);
@@ -602,16 +603,16 @@ document.addEventListener('scene:enter', e=>{
     crownT.setAttribute('transform',`translate(0 ${(lift*0.55).toFixed(1)})`);
   }
 
-  function driftLoop(ts){
-    if(!running) return;
+  function driftLoop(gen,ts){
+    if(!running||gen!==_loopGen) return;
     xinPhase+=0.0009; danPhase+=0.0012;
     xinEl.style.transform=`translateX(${driftXin(xinPhase).toFixed(1)}px)`;
     danEl.style.transform=`translateY(${driftDan(danPhase).toFixed(1)}px)`;
-    requestAnimationFrame(driftLoop);
+    requestAnimationFrame(ts=>driftLoop(gen,ts));
   }
 
-  function progressLoop(ts){
-    if(!running) return;
+  function progressLoop(gen,ts){
+    if(!running||gen!==_loopGen) return;
     const dt=lastTs ? Math.min((ts-lastTs)/1000,0.05) : 0; lastTs=ts;
     progress=ritualProgress(progress,dt,xinHeld&&danHeld);
     if(drumH) drumH.setIntensity(progress);
@@ -624,7 +625,7 @@ document.addEventListener('scene:enter', e=>{
       audio.resolve();
       setTimeout(()=>game.goto('ending'),820);
     } else {
-      requestAnimationFrame(progressLoop);
+      requestAnimationFrame(ts=>progressLoop(gen,ts));
     }
   }
 
@@ -649,8 +650,9 @@ document.addEventListener('scene:enter', e=>{
       running=true;
       windH=audio.startWind();
       drumH=audio.startDrum();
-      requestAnimationFrame(driftLoop);
-      requestAnimationFrame(progressLoop);
+      const gen=++_loopGen;
+      requestAnimationFrame(ts=>driftLoop(gen,ts));
+      requestAnimationFrame(ts=>progressLoop(gen,ts));
     } else {
       running=false;
       if(windH){windH.stop();windH=null;}
