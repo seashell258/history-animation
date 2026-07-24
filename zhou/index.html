@@ -53,6 +53,93 @@ function fitStage(){
 addEventListener('resize', fitStage);
 fitStage();
 
+/* ===== Web Audio 音效引擎 ===== */
+const audio={
+  ctx:null, enabled:true,
+  unlock(){
+    if(!this.ctx) this.ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(this.ctx.state==='suspended') this.ctx.resume();
+  },
+  _noise(dur){
+    const n=Math.floor(this.ctx.sampleRate*dur);
+    const buf=this.ctx.createBuffer(1,n,this.ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+    return buf;
+  },
+  /* 竹篁風聲：低頻帶通噪音，持續 */
+  startWind(){
+    if(!this.ctx||!this.enabled) return {stop(){}};
+    const src=this.ctx.createBufferSource();
+    src.buffer=this._noise(3); src.loop=true;
+    const bp=this.ctx.createBiquadFilter();
+    bp.type='bandpass'; bp.frequency.value=320; bp.Q.value=0.5;
+    const g=this.ctx.createGain(); g.gain.value=0.07;
+    src.connect(bp); bp.connect(g); g.connect(this.ctx.destination);
+    src.start();
+    return {stop:()=>{
+      g.gain.setTargetAtTime(0,this.ctx.currentTime,0.3);
+      src.stop(this.ctx.currentTime+0.6);
+    }};
+  },
+  /* 遠方鼓聲：單擊脈衝，intensity(0~1)控制觸發頻率 */
+  startDrum(){
+    if(!this.ctx||!this.enabled) return {setIntensity(){},stop(){}};
+    let intensity=0, timer=null;
+    const ctx=this.ctx;
+    const beat=()=>{
+      if(intensity<=0||!ctx) return;
+      const o=ctx.createOscillator();
+      o.frequency.setValueAtTime(80,ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(38,ctx.currentTime+0.18);
+      const g=ctx.createGain();
+      g.gain.setValueAtTime(0.25+intensity*0.35,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.22);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.22);
+      const nextMs=1800-intensity*1400+Math.random()*180;
+      timer=setTimeout(beat,nextMs);
+    };
+    return {
+      setIntensity(v){
+        intensity=Math.max(0,Math.min(1,v));
+        if(!timer&&intensity>0) beat();
+      },
+      stop(){ clearTimeout(timer); timer=null; intensity=0; }
+    };
+  },
+  /* 溫暖室內環境音：低頻噪音 */
+  startWarm(){
+    if(!this.ctx||!this.enabled) return {stop(){}};
+    const src=this.ctx.createBufferSource();
+    src.buffer=this._noise(4); src.loop=true;
+    const lp=this.ctx.createBiquadFilter();
+    lp.type='lowpass'; lp.frequency.value=180;
+    const g=this.ctx.createGain(); g.gain.value=0.04;
+    src.connect(lp); lp.connect(g); g.connect(this.ctx.destination);
+    src.start();
+    return {stop:()=>{
+      g.gain.setTargetAtTime(0,this.ctx.currentTime,0.5);
+      src.stop(this.ctx.currentTime+1);
+    }};
+  },
+  /* 決心完成：上升和弦 */
+  resolve(){
+    if(!this.ctx||!this.enabled) return;
+    const t=this.ctx.currentTime;
+    [330,440,550,660].forEach((f,i)=>{
+      const o=this.ctx.createOscillator(); o.type='sine'; o.frequency.value=f;
+      const g=this.ctx.createGain();
+      g.gain.setValueAtTime(0,t+i*0.07);
+      g.gain.linearRampToValueAtTime(0.14,t+i*0.07+0.06);
+      g.gain.exponentialRampToValueAtTime(0.001,t+i*0.07+0.9);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(t+i*0.07); o.stop(t+i*0.07+0.9);
+    });
+  }
+};
+document.getElementById('start-btn').addEventListener('click',()=>audio.unlock());
+
 /* ===== 自測框架 ===== */
 const selfTests = [];
 function test(name, fn){ selfTests.push({name, fn}); }
@@ -119,6 +206,24 @@ test('scene:enter 事件帶 detail.scene',()=>{
   game.goto('ending');
   document.removeEventListener('scene:enter',h);
   assertEq(got,'ending');
+});
+test('audio 未解鎖時所有方法安全 no-op',()=>{
+  assertEq(audio.ctx,null);
+  audio.resolve();
+  const h1=audio.startWind();
+  assertOk(typeof h1.stop==='function','startWind 應回傳 {stop}');
+  h1.stop();
+  const h2=audio.startDrum();
+  assertOk(typeof h2.setIntensity==='function','startDrum 應回傳 {setIntensity,stop}');
+  h2.stop();
+  const h3=audio.startWarm();
+  assertOk(typeof h3.stop==='function','startWarm 應回傳 {stop}');
+  h3.stop();
+});
+test('audio.unlock 建立 AudioContext',()=>{
+  audio.unlock();
+  assertOk(audio.ctx!==null,'unlock 後 ctx 不應為 null');
+  assertEq(typeof audio.ctx.createOscillator,'function');
 });
 
 </script>
