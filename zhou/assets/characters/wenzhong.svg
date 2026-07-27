@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 640 430" width="640" height="430">
+<title>文種 character sheet — 越國大夫（配角）</title>
+<desc>
+  文種：資深大夫。赭褐深衣 + 高梁冠（金緣）+ 灰白長鬚。
+  與勾踐區分：赭褐色系 vs 勾踐青綠、高冠 vs 髮髻、白鬚年長。
+  與范蠡區分：暖褐 vs 冷藍、高冠 vs 方巾、有長鬚 vs 無鬚、體型較寬。
+  手臂同為 shoulder→elbow→hand 兩段（wz-arm-upper / wz-arm-fore，肘有關節圓）。
+  viewBox 0 0 200 340，地面線 y=332。
+</desc>
+
+<defs>
+  <g id="wz-head">
+    <path d="M-9,-15 L9,-15 L10,5 L-10,5 Z" fill="#bd8a61"/>
+    <path d="M0,-68 C17,-68 25,-56 25,-43 C25,-29 17,-15 0,-15
+             C-17,-15 -25,-29 -25,-43 C-25,-56 -17,-68 0,-68 Z" fill="#d3ae86"/>
+    <path d="M-25,-38 C-21,-27 -11,-19 0,-18 C-9,-21 -19,-28 -23,-40 Z" fill="#bd9670" opacity=".7"/>
+    <ellipse cx="-25" cy="-40" rx="4.2" ry="7.5" fill="#bd9670"/>
+    <ellipse cx="25" cy="-40" rx="4.2" ry="7.5" fill="#bd9670"/>
+    <path d="M-18,-48 L-6,-46" stroke="#5a5148" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M18,-48 L6,-46" stroke="#5a5148" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M-16,-37 Q-11,-33 -6,-37" fill="none" stroke="#241810" stroke-width="3" stroke-linecap="round"/>
+    <path d="M16,-37 Q11,-33 6,-37" fill="none" stroke="#241810" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-13,-26 Q0,-20 13,-26 Q15,-4 0,6 Q-15,-4 -13,-26 Z" fill="#6d675e"/>
+    <path d="M-11,-22 Q0,-16 11,-22" fill="none" stroke="#938d83" stroke-width="2.2"/>
+    <path d="M-8,-8 Q0,-2 8,-8" fill="none" stroke="#938d83" stroke-width="2"/>
+    <path d="M-16,-28 Q-9,-23 -3,-25" fill="none" stroke="#6d675e" stroke-width="3" stroke-linecap="round"/>
+    <path d="M16,-28 Q9,-23 3,-25" fill="none" stroke="#6d675e" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-25,-44 C-26,-64 -14,-74 0,-74 C14,-74 26,-64 25,-44
+             C17,-56 -17,-56 -25,-44 Z" fill="#4a453e"/>
+    <path d="M-18,-68 Q-8,-73 -1,-71" fill="none" stroke="#8d867b" stroke-width="2.2"/>
+    <path d="M-17,-72 L-15,-104 L15,-104 L17,-72 Z" fill="#2b1d16"/>
+    <path d="M-15,-104 L15,-104 L16,-97 L-16,-97 Z" fill="#c9982a"/>
+    <path d="M-6,-101 L-6,-74 M6,-101 L6,-74" stroke="#4a352a" stroke-width="2"/>
+    <path d="M-24,-52 L-20,-24" stroke="#2b1d16" stroke-width="2.2"/>
+    <path d="M24,-52 L20,-24" stroke="#2b1d16" stroke-width="2.2"/>
+  </g>
+
+  <g id="wz-arm-upper">
+    <path d="M-11,-5 L11,-5 L8,52 L-8,52 Z" fill="#6d4a3c"/>
+    <path d="M-11,-5 L11,-5 L10,10 L-10,10 Z" fill="#825b4a"/>
+  </g>
+  <g id="wz-arm-fore">
+    <circle cx="0" cy="0" r="9" fill="#59392e"/>
+    <path d="M-8.5,0 L8.5,0 L7,38 L-7,38 Z" fill="#6d4a3c"/>
+    <path d="M-7.5,34 L7.5,34 L9,44 L-9,44 Z" fill="#e0cdb8"/>
+    <path d="M-6,44 Q-7.5,56 0,59 Q7.5,56 6,44 Z" fill="#d3ae86"/>
+  </g>
+  <g id="wz-sleeve-drape">
+    <path d="M-12,-8 Q-21,22 -14,52 Q0,59 14,50 Q19,20 12,-8 Z" fill="#4f342a"/>
+  </g>
+  <g id="wz-shoe">
+    <path d="M-8,0 L8,0 L9,14 L-17,14 Q-23,13 -21,7 Q-19,1 -8,0 Z" fill="#241a12"/>
+  </g>
+  <g id="wz-leg">
+    <path d="M-9,0 L9,0 L7,106 L-7,106 Z" fill="#33241c"/>
+  </g>
+
+  <!-- 跪迎（拱手）：homecoming -->
+  <symbol id="wz-kneeling" viewBox="0 0 200 340">
+    <path d="M64,252 Q55,282 62,304 Q100,314 138,304 Q145,282 136,252 Z" fill="#6d4a3c"/>
+    <ellipse cx="79" cy="296" rx="17" ry="10" fill="#825b4a"/>
+    <ellipse cx="121" cy="296" rx="17" ry="10" fill="#825b4a"/>
+    <path d="M62,304 Q100,314 138,304 L137,296 Q100,306 63,296 Z" fill="#4f342a"/>
+    <path d="M73,196 L100,184 L127,196 Q138,201 139,214 L137,258
+             Q100,270 63,258 L61,214 Q62,201 73,196 Z" fill="#6d4a3c"/>
+    <path d="M87,190 L113,190 L100,232 Z" fill="#efe2d2"/>
+    <path d="M84,188 L95,185 L105,224 L98,230 Z" fill="#c9b49c"/>
+    <path d="M116,185 L105,188 L75,246 L83,253 Z" fill="#e0cdb8"/>
+    <path d="M62,246 L138,246 L136,264 L64,264 Z" fill="#3d2a1f"/>
+    <use xlink:href="#wz-sleeve-drape" href="#wz-sleeve-drape" transform="translate(55,242)"/>
+    <use xlink:href="#wz-sleeve-drape" href="#wz-sleeve-drape" transform="translate(145,242)"/>
+    <g transform="translate(73,198) rotate(19)">
+      <use xlink:href="#wz-arm-upper" href="#wz-arm-upper"/>
+      <g transform="translate(0,52) rotate(-139)">
+        <use xlink:href="#wz-arm-fore" href="#wz-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(127,198) rotate(-19)">
+      <use xlink:href="#wz-arm-upper" href="#wz-arm-upper"/>
+      <g transform="translate(0,52) rotate(139)">
+        <use xlink:href="#wz-arm-fore" href="#wz-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#wz-head" href="#wz-head" transform="translate(100,188) rotate(-3)"/>
+  </symbol>
+
+  <!-- 站立進諫：decision 可用 -->
+  <symbol id="wz-standing" viewBox="0 0 200 340">
+    <use xlink:href="#wz-leg" href="#wz-leg" transform="translate(89,210)"/>
+    <use xlink:href="#wz-leg" href="#wz-leg" transform="translate(111,210)"/>
+    <use xlink:href="#wz-shoe" href="#wz-shoe" transform="translate(87,317)"/>
+    <use xlink:href="#wz-shoe" href="#wz-shoe" transform="translate(113,317) scale(-1,1)"/>
+    <path d="M72,130 L100,118 L128,130 Q139,135 140,148 L136,206
+             L146,304 Q100,318 54,304 L64,206 L60,148 Q61,135 72,130 Z" fill="#6d4a3c"/>
+    <path d="M54,304 Q100,318 146,304 L145,296 Q100,310 55,296 Z" fill="#4f342a"/>
+    <path d="M87,124 L113,124 L100,170 Z" fill="#efe2d2"/>
+    <path d="M84,122 L95,119 L105,162 L98,168 Z" fill="#c9b49c"/>
+    <path d="M116,119 L105,122 L73,190 L81,197 Z" fill="#e0cdb8"/>
+    <path d="M80,214 L69,302" stroke="#4f342a" stroke-width="2.4" opacity=".55"/>
+    <path d="M120,214 L131,302" stroke="#4f342a" stroke-width="2.4" opacity=".55"/>
+    <path d="M62,192 L138,192 L136,212 L64,212 Z" fill="#3d2a1f"/>
+    <rect x="91" y="189" width="18" height="26" rx="4" fill="#2b1d16"/>
+    <use xlink:href="#wz-sleeve-drape" href="#wz-sleeve-drape" transform="translate(63,184)"/>
+    <use xlink:href="#wz-sleeve-drape" href="#wz-sleeve-drape" transform="translate(137,184)"/>
+    <g transform="translate(72,132) rotate(10)">
+      <use xlink:href="#wz-arm-upper" href="#wz-arm-upper"/>
+      <g transform="translate(0,52) rotate(-128)">
+        <use xlink:href="#wz-arm-fore" href="#wz-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(128,132) rotate(-10)">
+      <use xlink:href="#wz-arm-upper" href="#wz-arm-upper"/>
+      <g transform="translate(0,52) rotate(128)">
+        <use xlink:href="#wz-arm-fore" href="#wz-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#wz-head" href="#wz-head" transform="translate(100,120)"/>
+  </symbol>
+</defs>
+
+<rect width="640" height="430" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="115" y="382">跪迎拱手・homecoming</text>
+  <text x="327" y="382">立諫・decision</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="115" y="402">#wz-kneeling</text>
+  <text x="327" y="402">#wz-standing</text>
+</g>
+<text x="500" y="200" fill="#a5745f" font-family="'Noto Serif TC',serif" font-size="30" text-anchor="middle">文種</text>
+<text x="500" y="232" fill="#3d5a55" font-family="'Noto Serif TC',serif" font-size="15" text-anchor="middle">赭褐・高梁冠・年長重臣</text>
+<path d="M20 352 H620" stroke="#22403c" stroke-width="1.5"/>
+<use xlink:href="#wz-kneeling" href="#wz-kneeling" x="15"  y="12" width="200" height="340"/>
+<use xlink:href="#wz-standing" href="#wz-standing" x="227" y="12" width="200" height="340"/>
+</svg>

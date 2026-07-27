@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 640 430" width="640" height="430">
+<title>侍者 character sheet — 越宮侍者（配角）</title>
+<desc>
+  侍者：無名宮侍。褐綠短衣（及膝，非曳地深衣）+ 素幘頭巾 + 綁腿。
+  與主角/重臣區分：全劇最矮（頸根 y=150）、唯一穿短衣露小腿、無冠無鬚、素色不帶金。
+  手臂同為 shoulder→elbow→hand 兩段（sv-arm-upper / sv-arm-fore，肘有關節圓）。
+  sv-offering 雙手在 (90,192) 與 (110,192) 合捧 — 碗／盤 prop 放這個位置。
+  viewBox 0 0 200 340，地面線 y=332。
+</desc>
+
+<defs>
+  <g id="sv-head">
+    <path d="M-8,-13 L8,-13 L9,5 L-9,5 Z" fill="#b08a62"/>
+    <path d="M0,-60 C14,-60 21,-49 21,-38 C21,-26 14,-14 0,-14
+             C-14,-14 -21,-26 -21,-38 C-21,-49 -14,-60 0,-60 Z" fill="#c9a078"/>
+    <ellipse cx="-21" cy="-36" rx="3.6" ry="6.5" fill="#b08a62"/>
+    <ellipse cx="21" cy="-36" rx="3.6" ry="6.5" fill="#b08a62"/>
+    <path d="M-14,-43 L-6,-41" stroke="#2a1c12" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M14,-43 L6,-41" stroke="#2a1c12" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M-13,-33 Q-9,-30 -5,-33" fill="none" stroke="#241810" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M13,-33 Q9,-30 5,-33" fill="none" stroke="#241810" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M-4,-22 L4,-22" stroke="#8a5c3e" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- 素幘（包頭布） -->
+    <path d="M-22,-38 C-23,-58 -12,-68 0,-68 C12,-68 23,-58 22,-38
+             C15,-50 -15,-50 -22,-38 Z" fill="#2e2e24"/>
+    <path d="M-21,-45 Q0,-55 21,-45" fill="none" stroke="#43432f" stroke-width="2.2"/>
+    <path d="M20,-50 L30,-40 L26,-34 L17,-44 Z" fill="#2e2e24"/>
+  </g>
+
+  <g id="sv-arm-upper">
+    <path d="M-8.5,-4 L8.5,-4 L6.5,46 L-6.5,46 Z" fill="#5c5a48"/>
+    <path d="M-8.5,-4 L8.5,-4 L8,9 L-8,9 Z" fill="#6e6c58"/>
+  </g>
+  <g id="sv-arm-fore">
+    <circle cx="0" cy="0" r="7.5" fill="#454434"/>
+    <path d="M-7,0 L7,0 L5.5,32 L-5.5,32 Z" fill="#5c5a48"/>
+    <path d="M-6,28 L6,28 L7.5,37 L-7.5,37 Z" fill="#a8a48c"/>
+    <path d="M-5.5,37 Q-7,48 0,51 Q7,48 5.5,37 Z" fill="#c9a078"/>
+  </g>
+  <g id="sv-shoe">
+    <path d="M-7,0 L7,0 L8,12 L-15,12 Q-20,11 -18,6 Q-16,1 -7,0 Z" fill="#241f16"/>
+  </g>
+  <g id="sv-leg">
+    <!-- 小腿外露＋綁腿：短衣角色的辨識特徵 -->
+    <path d="M-8,0 L8,0 L6.5,62 L-6.5,62 Z" fill="#c9a078"/>
+    <g stroke="#43432f" stroke-width="3">
+      <path d="M-7,22 L7,22"/><path d="M-7,32 L7,32"/>
+      <path d="M-6.8,42 L6.8,42"/><path d="M-6.6,52 L6.6,52"/>
+    </g>
+  </g>
+
+  <!-- 呈奉：comfort 端碗上前（雙手前伸合捧） -->
+  <symbol id="sv-offering" viewBox="0 0 200 340">
+    <use xlink:href="#sv-leg" href="#sv-leg" transform="translate(90,258)"/>
+    <use xlink:href="#sv-leg" href="#sv-leg" transform="translate(110,258)"/>
+    <use xlink:href="#sv-shoe" href="#sv-shoe" transform="translate(88,320)"/>
+    <use xlink:href="#sv-shoe" href="#sv-shoe" transform="translate(112,320) scale(-1,1)"/>
+    <path d="M78,162 L100,150 L122,162 Q131,167 132,178 L130,214
+             L138,264 Q100,275 62,264 L70,214 L68,178 Q69,167 78,162 Z" fill="#5c5a48"/>
+    <path d="M62,264 Q100,275 138,264 L137,257 Q100,268 63,257 Z" fill="#454434"/>
+    <path d="M89,156 L111,156 L100,190 Z" fill="#cfcbb2"/>
+    <path d="M86,154 L96,152 L104,184 L98,189 Z" fill="#8f8c74"/>
+    <path d="M114,152 L104,154 L78,206 L85,212 Z" fill="#a8a48c"/>
+    <path d="M67,206 L133,206 L131,222 L69,222 Z" fill="#3a3a2c"/>
+    <g transform="translate(78,164) rotate(26)">
+      <use xlink:href="#sv-arm-upper" href="#sv-arm-upper"/>
+      <g transform="translate(0,46) rotate(-141)">
+        <use xlink:href="#sv-arm-fore" href="#sv-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(122,164) rotate(-26)">
+      <use xlink:href="#sv-arm-upper" href="#sv-arm-upper"/>
+      <g transform="translate(0,46) rotate(141)">
+        <use xlink:href="#sv-arm-fore" href="#sv-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#sv-head" href="#sv-head" transform="translate(100,152) rotate(4)"/>
+  </symbol>
+
+  <!-- 待命：垂手侍立 -->
+  <symbol id="sv-standing" viewBox="0 0 200 340">
+    <use xlink:href="#sv-leg" href="#sv-leg" transform="translate(91,258)"/>
+    <use xlink:href="#sv-leg" href="#sv-leg" transform="translate(109,258)"/>
+    <use xlink:href="#sv-shoe" href="#sv-shoe" transform="translate(89,320)"/>
+    <use xlink:href="#sv-shoe" href="#sv-shoe" transform="translate(111,320) scale(-1,1)"/>
+    <path d="M78,162 L100,150 L122,162 Q131,167 132,178 L130,214
+             L136,264 Q100,274 64,264 L70,214 L68,178 Q69,167 78,162 Z" fill="#5c5a48"/>
+    <path d="M64,264 Q100,274 136,264 L135,257 Q100,267 65,257 Z" fill="#454434"/>
+    <path d="M89,156 L111,156 L100,190 Z" fill="#cfcbb2"/>
+    <path d="M86,154 L96,152 L104,184 L98,189 Z" fill="#8f8c74"/>
+    <path d="M114,152 L104,154 L78,206 L85,212 Z" fill="#a8a48c"/>
+    <path d="M67,206 L133,206 L131,222 L69,222 Z" fill="#3a3a2c"/>
+    <g transform="translate(78,164) rotate(7)">
+      <use xlink:href="#sv-arm-upper" href="#sv-arm-upper"/>
+      <g transform="translate(0,46) rotate(3)">
+        <use xlink:href="#sv-arm-fore" href="#sv-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(122,164) rotate(-7)">
+      <use xlink:href="#sv-arm-upper" href="#sv-arm-upper"/>
+      <g transform="translate(0,46) rotate(-3)">
+        <use xlink:href="#sv-arm-fore" href="#sv-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#sv-head" href="#sv-head" transform="translate(100,152) rotate(2)"/>
+  </symbol>
+</defs>
+
+<rect width="640" height="430" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="115" y="382">呈奉・comfort</text>
+  <text x="327" y="382">侍立</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="115" y="402">#sv-offering</text>
+  <text x="327" y="402">#sv-standing</text>
+</g>
+<text x="500" y="200" fill="#8f8c74" font-family="'Noto Serif TC',serif" font-size="30" text-anchor="middle">侍者</text>
+<text x="500" y="232" fill="#3d5a55" font-family="'Noto Serif TC',serif" font-size="15" text-anchor="middle">褐綠短衣・素幘・綁腿</text>
+<path d="M20 352 H620" stroke="#22403c" stroke-width="1.5"/>
+<use xlink:href="#sv-offering" href="#sv-offering" x="15"  y="12" width="200" height="340"/>
+<use xlink:href="#sv-standing" href="#sv-standing" x="227" y="12" width="200" height="340"/>
+</svg>

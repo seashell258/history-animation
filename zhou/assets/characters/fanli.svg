@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 640 430" width="640" height="430">
+<title>范蠡 character sheet — 越國謀臣（配角）</title>
+<desc>
+  范蠡：年輕謀臣。青灰深衣 + 巾幘（包髻方巾，兩側垂帶）+ 無鬚。
+  與勾踐區分：冷藍色系 vs 勾踐青綠、方巾 vs 髮髻金笄、身形較瘦且較矮（頸根 y=118 vs 勾踐 106）。
+  手臂同為 shoulder→elbow→hand 兩段（fl-arm-upper / fl-arm-fore，肘有關節圓）。
+  viewBox 0 0 200 340，地面線 y=332。
+</desc>
+
+<defs>
+  <g id="fl-head">
+    <path d="M-9,-15 L9,-15 L10,5 L-10,5 Z" fill="#bd8a61"/>
+    <path d="M0,-68 C16,-68 24,-56 24,-44 C24,-30 16,-16 0,-16
+             C-16,-16 -24,-30 -24,-44 C-24,-56 -16,-68 0,-68 Z" fill="#d8b48c"/>
+    <ellipse cx="-24" cy="-41" rx="4" ry="7" fill="#c9a279"/>
+    <ellipse cx="24" cy="-41" rx="4" ry="7" fill="#c9a279"/>
+    <path d="M-16,-49 L-6,-46" stroke="#2a1c12" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M16,-49 L6,-46" stroke="#2a1c12" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M-15,-38 Q-10,-34 -5,-38" fill="none" stroke="#241810" stroke-width="3" stroke-linecap="round"/>
+    <path d="M15,-38 Q10,-34 5,-38" fill="none" stroke="#241810" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-5,-24 L5,-24" stroke="#8a5c3e" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M-25,-56 L-33,-28 L-26,-26 L-19,-52 Z" fill="#1d2634"/>
+    <path d="M25,-56 L33,-28 L26,-26 L19,-52 Z" fill="#1d2634"/>
+    <path d="M-25,-44 C-26,-70 -14,-82 0,-82 C14,-82 26,-70 25,-44
+             C17,-58 -17,-58 -25,-44 Z" fill="#26303f"/>
+    <path d="M-24,-52 Q0,-63 24,-52" fill="none" stroke="#3a4759" stroke-width="2.6"/>
+    <ellipse cx="0" cy="-76" rx="10" ry="7" fill="#1d2634"/>
+  </g>
+
+  <g id="fl-arm-upper">
+    <path d="M-10,-5 L10,-5 L7.5,52 L-7.5,52 Z" fill="#4a5a78"/>
+    <path d="M-10,-5 L10,-5 L9,10 L-9,10 Z" fill="#5c6d8c"/>
+  </g>
+  <g id="fl-arm-fore">
+    <circle cx="0" cy="0" r="8.5" fill="#3c4a63"/>
+    <path d="M-8,0 L8,0 L6.5,38 L-6.5,38 Z" fill="#4a5a78"/>
+    <path d="M-7,34 L7,34 L8.5,44 L-8.5,44 Z" fill="#cdd6e0"/>
+    <path d="M-6,44 Q-7.5,56 0,59 Q7.5,56 6,44 Z" fill="#d8b48c"/>
+  </g>
+  <g id="fl-sleeve-drape">
+    <path d="M-11,-8 Q-19,22 -13,50 Q0,57 13,48 Q17,20 11,-8 Z" fill="#35435e"/>
+  </g>
+  <g id="fl-shoe">
+    <path d="M-8,0 L8,0 L9,14 L-17,14 Q-23,13 -21,7 Q-19,1 -8,0 Z" fill="#1e2430"/>
+  </g>
+  <g id="fl-leg">
+    <path d="M-9,0 L9,0 L7,106 L-7,106 Z" fill="#232b38"/>
+  </g>
+
+  <!-- 跪迎（拱手）：homecoming -->
+  <symbol id="fl-kneeling" viewBox="0 0 200 340">
+    <path d="M66,252 Q58,282 64,304 Q100,314 136,304 Q142,282 134,252 Z" fill="#4a5a78"/>
+    <ellipse cx="80" cy="296" rx="16" ry="10" fill="#5c6d8c"/>
+    <ellipse cx="120" cy="296" rx="16" ry="10" fill="#5c6d8c"/>
+    <path d="M64,304 Q100,314 136,304 L135,296 Q100,306 65,296 Z" fill="#35435e"/>
+    <path d="M74,196 L100,184 L126,196 Q136,201 137,214 L135,258
+             Q100,270 65,258 L63,214 Q64,201 74,196 Z" fill="#4a5a78"/>
+    <path d="M87,190 L113,190 L100,232 Z" fill="#e2e8ef"/>
+    <path d="M84,188 L95,185 L105,224 L98,230 Z" fill="#b9c3d1"/>
+    <path d="M116,185 L105,188 L76,246 L84,253 Z" fill="#cdd6e0"/>
+    <path d="M64,246 L136,246 L134,264 L66,264 Z" fill="#2f3a4d"/>
+    <use xlink:href="#fl-sleeve-drape" href="#fl-sleeve-drape" transform="translate(56,242)"/>
+    <use xlink:href="#fl-sleeve-drape" href="#fl-sleeve-drape" transform="translate(144,242)"/>
+    <g transform="translate(74,198) rotate(19)">
+      <use xlink:href="#fl-arm-upper" href="#fl-arm-upper"/>
+      <g transform="translate(0,52) rotate(-139)">
+        <use xlink:href="#fl-arm-fore" href="#fl-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(126,198) rotate(-19)">
+      <use xlink:href="#fl-arm-upper" href="#fl-arm-upper"/>
+      <g transform="translate(0,52) rotate(139)">
+        <use xlink:href="#fl-arm-fore" href="#fl-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#fl-head" href="#fl-head" transform="translate(100,188) rotate(3)"/>
+  </symbol>
+
+  <!-- 站立侍側：decision／ending 可用 -->
+  <symbol id="fl-standing" viewBox="0 0 200 340">
+    <use xlink:href="#fl-leg" href="#fl-leg" transform="translate(89,210)"/>
+    <use xlink:href="#fl-leg" href="#fl-leg" transform="translate(111,210)"/>
+    <use xlink:href="#fl-shoe" href="#fl-shoe" transform="translate(87,317)"/>
+    <use xlink:href="#fl-shoe" href="#fl-shoe" transform="translate(113,317) scale(-1,1)"/>
+    <path d="M73,130 L100,118 L127,130 Q137,135 138,148 L134,206
+             L143,304 Q100,317 57,304 L66,206 L62,148 Q63,135 73,130 Z" fill="#4a5a78"/>
+    <path d="M57,304 Q100,317 143,304 L142,296 Q100,309 58,296 Z" fill="#35435e"/>
+    <path d="M87,124 L113,124 L100,170 Z" fill="#e2e8ef"/>
+    <path d="M84,122 L95,119 L105,162 L98,168 Z" fill="#b9c3d1"/>
+    <path d="M116,119 L105,122 L74,190 L82,197 Z" fill="#cdd6e0"/>
+    <path d="M80,214 L70,302" stroke="#35435e" stroke-width="2.4" opacity=".55"/>
+    <path d="M120,214 L130,302" stroke="#35435e" stroke-width="2.4" opacity=".55"/>
+    <path d="M64,192 L136,192 L134,212 L66,212 Z" fill="#2f3a4d"/>
+    <rect x="91" y="189" width="18" height="26" rx="4" fill="#232b38"/>
+    <use xlink:href="#fl-sleeve-drape" href="#fl-sleeve-drape" transform="translate(64,184)"/>
+    <use xlink:href="#fl-sleeve-drape" href="#fl-sleeve-drape" transform="translate(136,184)"/>
+    <g transform="translate(73,132) rotate(10)">
+      <use xlink:href="#fl-arm-upper" href="#fl-arm-upper"/>
+      <g transform="translate(0,52) rotate(-128)">
+        <use xlink:href="#fl-arm-fore" href="#fl-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(127,132) rotate(-10)">
+      <use xlink:href="#fl-arm-upper" href="#fl-arm-upper"/>
+      <g transform="translate(0,52) rotate(128)">
+        <use xlink:href="#fl-arm-fore" href="#fl-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#fl-head" href="#fl-head" transform="translate(100,120)"/>
+  </symbol>
+</defs>
+
+<rect width="640" height="430" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="115" y="382">跪迎拱手・homecoming</text>
+  <text x="327" y="382">立侍・decision</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="115" y="402">#fl-kneeling</text>
+  <text x="327" y="402">#fl-standing</text>
+</g>
+<text x="500" y="200" fill="#5c6d8c" font-family="'Noto Serif TC',serif" font-size="30" text-anchor="middle">范蠡</text>
+<text x="500" y="232" fill="#3d5a55" font-family="'Noto Serif TC',serif" font-size="15" text-anchor="middle">青灰・方巾・年輕謀臣</text>
+<path d="M20 352 H620" stroke="#22403c" stroke-width="1.5"/>
+<use xlink:href="#fl-kneeling" href="#fl-kneeling" x="15"  y="12" width="200" height="340"/>
+<use xlink:href="#fl-standing" href="#fl-standing" x="227" y="12" width="200" height="340"/>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 420 280" width="420" height="280">
+<title>窗 scene element — 直櫺窗</title>
+<desc>
+  春秋直櫺窗（垂直木櫺，無糊紙）。turning 場右上角的窗 —— 窗外的夜色是勾踐驚醒的視線落點。
+  window-lattice viewBox 0 0 150 200 —— 夜色窗，一般用
+  window-moonlit viewBox 0 0 150 200 —— 月光窗，櫺條被照亮，用於 turning 的驚醒拍
+  兩者外框與櫺條位置完全相同，可直接互換做「光線變化」。
+</desc>
+
+<defs>
+  <g id="window-frame">
+    <rect x="4" y="4" width="142" height="176" rx="3" fill="#3a2a18"/>
+    <rect x="4" y="4" width="142" height="8" rx="3" fill="#5e4630"/>
+    <rect x="0" y="178" width="150" height="16" rx="3" fill="#4a3624"/>
+    <rect x="0" y="178" width="150" height="5" rx="2" fill="#6b5238"/>
+  </g>
+  <g id="window-mullions">
+    <!-- 直櫺 -->
+    <g fill="#4a3624">
+      <rect x="28" y="18" width="9" height="150"/>
+      <rect x="50" y="18" width="9" height="150"/>
+      <rect x="72" y="18" width="9" height="150"/>
+      <rect x="94" y="18" width="9" height="150"/>
+      <rect x="116" y="18" width="9" height="150"/>
+    </g>
+    <!-- 橫枋 -->
+    <rect x="16" y="88" width="118" height="10" fill="#5e4630"/>
+  </g>
+
+  <symbol id="window-lattice" viewBox="0 0 150 200">
+    <use xlink:href="#window-frame" href="#window-frame"/>
+    <rect x="16" y="18" width="118" height="150" fill="#0d1a24"/>
+    <use xlink:href="#window-mullions" href="#window-mullions"/>
+  </symbol>
+
+  <symbol id="window-moonlit" viewBox="0 0 150 200">
+    <use xlink:href="#window-frame" href="#window-frame"/>
+    <rect x="16" y="18" width="118" height="150" fill="#16303f"/>
+    <!-- 遠山剪影 -->
+    <path d="M16,140 L44,116 L66,134 L92,110 L118,132 L134,122 L134,168 L16,168 Z"
+          fill="#0d1a24"/>
+    <!-- 月 -->
+    <circle cx="104" cy="48" r="15" fill="#cfe0e4" opacity=".9"/>
+    <circle cx="104" cy="48" r="24" fill="#cfe0e4" opacity=".14"/>
+    <use xlink:href="#window-mullions" href="#window-mullions"/>
+    <!-- 櫺條受月光的亮邊 -->
+    <g fill="#8fb0ac" opacity=".55">
+      <rect x="28" y="18" width="3" height="150"/>
+      <rect x="50" y="18" width="3" height="150"/>
+      <rect x="72" y="18" width="3" height="150"/>
+      <rect x="94" y="18" width="3" height="150"/>
+      <rect x="116" y="18" width="3" height="150"/>
+    </g>
+  </symbol>
+</defs>
+
+<rect width="420" height="280" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="110" y="236">夜色窗</text>
+  <text x="310" y="236">月光窗・turning 驚醒</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="110" y="258">#window-lattice</text>
+  <text x="310" y="258">#window-moonlit</text>
+</g>
+<use xlink:href="#window-lattice" href="#window-lattice" x="35"  y="14" width="150" height="200"/>
+<use xlink:href="#window-moonlit" href="#window-moonlit" x="235" y="14" width="150" height="200"/>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 500 260" width="500" height="260">
+<title>薪 prop — 柴草堆（臥薪）</title>
+<desc>
+  臥薪的「薪」：粗柴綑成的低堆，兩道草繩捆紮，斷面露出淺色木心。
+  這是勾踐睡的東西，所以做成「躺得上去的一堆」而不是一束立柴。
+  xin-pile    = 完整柴堆，decision 場由左下滑入 / ritual 場左側互動點
+  xin-scatter = 散開的柴，ritual 完成後或場景鋪陳可用
+  symbol viewBox 皆 0 0 220 140；地面線 y=132。
+</desc>
+
+<defs>
+  <symbol id="xin-pile" viewBox="0 0 220 140">
+    <!-- 後層柴（壓暗） -->
+    <g stroke-linecap="round" fill="none" stroke="#4e3113">
+      <path d="M22,86 L198,78" stroke-width="13"/>
+      <path d="M26,100 L200,94" stroke-width="12"/>
+      <path d="M30,60 L188,66" stroke-width="11"/>
+    </g>
+    <!-- 前層柴 -->
+    <g stroke-linecap="round" fill="none">
+      <path d="M18,112 L200,106" stroke="#6e4419" stroke-width="15"/>
+      <path d="M24,94 L196,88"  stroke="#8a5a24" stroke-width="14"/>
+      <path d="M20,76 L192,70"  stroke="#6e4419" stroke-width="13"/>
+      <path d="M32,58 L184,52"  stroke="#8a5a24" stroke-width="12"/>
+      <path d="M46,42 L172,38"  stroke="#6e4419" stroke-width="11"/>
+    </g>
+    <!-- 斜插的細枝 -->
+    <g stroke-linecap="round" fill="none" stroke="#5c3a15" stroke-width="5">
+      <path d="M40,50 L14,30"/>
+      <path d="M176,44 L206,26"/>
+      <path d="M98,38 L92,18"/>
+    </g>
+    <!-- 樹皮紋 -->
+    <g stroke="#4e3113" stroke-width="1.8" opacity=".65">
+      <path d="M60,110 h16 M104,108 h14 M150,107 h16"/>
+      <path d="M70,92 h14 M120,90 h16 M164,89 h12"/>
+      <path d="M64,74 h14 M116,72 h16"/>
+    </g>
+    <!-- 斷面：淺色木心（左右兩端） -->
+    <g fill="#c4a06a">
+      <ellipse cx="19" cy="112" rx="4" ry="7.5"/>
+      <ellipse cx="25" cy="94"  rx="4" ry="7"/>
+      <ellipse cx="21" cy="76"  rx="3.6" ry="6.5"/>
+      <ellipse cx="200" cy="106" rx="4" ry="7.5"/>
+      <ellipse cx="196" cy="88"  rx="4" ry="7"/>
+    </g>
+    <g fill="none" stroke="#8a6a3a" stroke-width="1.4">
+      <ellipse cx="19" cy="112" rx="2" ry="4"/>
+      <ellipse cx="200" cy="106" rx="2" ry="4"/>
+    </g>
+    <!-- 兩道草繩 -->
+    <g fill="#8c7a42">
+      <path d="M62,34 L78,34 L74,120 L58,120 Z"/>
+      <path d="M144,32 L160,32 L164,118 L148,118 Z"/>
+    </g>
+    <g stroke="#5f5228" stroke-width="1.8">
+      <path d="M60,50 L76,50 M59,72 L75,72 M58,96 L74,96"/>
+      <path d="M147,48 L162,48 M149,70 L164,70 M151,94 L166,94"/>
+    </g>
+    <!-- 散落的碎草 -->
+    <g stroke="#8c7a42" stroke-width="2.4" stroke-linecap="round" opacity=".8">
+      <path d="M12,126 L34,122"/>
+      <path d="M186,124 L208,128"/>
+      <path d="M96,128 L118,126"/>
+    </g>
+  </symbol>
+
+  <symbol id="xin-scatter" viewBox="0 0 220 140">
+    <g stroke-linecap="round" fill="none">
+      <path d="M20,118 L96,112"  stroke="#6e4419" stroke-width="13"/>
+      <path d="M118,116 L198,120" stroke="#8a5a24" stroke-width="12"/>
+      <path d="M34,100 L104,94"  stroke="#8a5a24" stroke-width="11"/>
+      <path d="M132,98 L192,102" stroke="#6e4419" stroke-width="11"/>
+      <path d="M58,80 L128,84"   stroke="#6e4419" stroke-width="10"/>
+    </g>
+    <g stroke-linecap="round" fill="none" stroke="#5c3a15" stroke-width="4.5">
+      <path d="M30,86 L8,70"/>
+      <path d="M190,88 L212,74"/>
+      <path d="M112,74 L106,54"/>
+    </g>
+    <g fill="#c4a06a">
+      <ellipse cx="21" cy="118" rx="3.8" ry="6.8"/>
+      <ellipse cx="198" cy="120" rx="3.6" ry="6.4"/>
+      <ellipse cx="35" cy="100" rx="3.4" ry="6"/>
+    </g>
+    <g stroke="#8c7a42" stroke-width="2.4" stroke-linecap="round" opacity=".8">
+      <path d="M14,130 L40,126"/>
+      <path d="M76,130 L100,127"/>
+      <path d="M164,128 L192,131"/>
+    </g>
+  </symbol>
+</defs>
+
+<rect width="500" height="260" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="130" y="216">柴堆・decision／ritual</text>
+  <text x="370" y="216">散柴・鋪陳用</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="130" y="238">#xin-pile</text>
+  <text x="370" y="238">#xin-scatter</text>
+</g>
+<path d="M20 202 H480" stroke="#22403c" stroke-width="1.5"/>
+<use xlink:href="#xin-pile"    href="#xin-pile"    x="20"  y="60" width="220" height="140"/>
+<use xlink:href="#xin-scatter" href="#xin-scatter" x="260" y="60" width="220" height="140"/>
+</svg>

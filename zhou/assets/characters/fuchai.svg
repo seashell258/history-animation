@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 640 430" width="640" height="430">
+<title>夫差 character sheet — 吳王夫差（反派・僅馬廄閃回出現）</title>
+<desc>
+  夫差：吳王。深藍玄衣 + 朱紅緣 + 冕冠垂旒（金珠簾遮面）。
+  刻意做成全劇最高（頸根 y=88，勾踐 106、二臣 118、侍者 150）＝ 俯視壓迫感。
+  與勾踐區分：冷藍朱紅 vs 青綠、冕旒 vs 髮髻、肩最寬。
+  手臂同為 shoulder→elbow→hand 兩段（fc-arm-upper / fc-arm-fore，肘有關節圓）。
+  註：閃回場景請由 scene 端疊冷色 overlay／filter，本檔保留正常色以便單獨檢視。
+  viewBox 0 0 200 340，地面線 y=332。
+</desc>
+
+<defs>
+  <g id="fc-head">
+    <path d="M-10,-16 L10,-16 L11,6 L-11,6 Z" fill="#b08a62"/>
+    <path d="M0,-72 C18,-72 27,-59 27,-45 C27,-30 18,-16 0,-16
+             C-18,-16 -27,-30 -27,-45 C-27,-59 -18,-72 0,-72 Z" fill="#d0aa80"/>
+    <ellipse cx="-27" cy="-42" rx="4.5" ry="8" fill="#b8956c"/>
+    <ellipse cx="27" cy="-42" rx="4.5" ry="8" fill="#b8956c"/>
+    <path d="M-19,-52 L-6,-47" stroke="#14100e" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M19,-52 L6,-47" stroke="#14100e" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M-18,-40 L-7,-42" stroke="#14100e" stroke-width="3.8" stroke-linecap="round"/>
+    <path d="M18,-40 L7,-42" stroke="#14100e" stroke-width="3.8" stroke-linecap="round"/>
+    <path d="M-8,-26 L8,-26" stroke="#7a4038" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-14,-30 Q0,-24 14,-30 Q15,-16 0,-10 Q-15,-16 -14,-30 Z" fill="#14100e"/>
+    <path d="M-17,-32 Q-9,-26 -2,-29" fill="none" stroke="#14100e" stroke-width="3" stroke-linecap="round"/>
+    <path d="M17,-32 Q9,-26 2,-29" fill="none" stroke="#14100e" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-28,-48 C-28,-70 -16,-82 0,-82 C16,-82 28,-70 28,-48
+             C20,-62 -20,-62 -28,-48 Z" fill="#14100e"/>
+    <!-- 冕冠：冠武 -->
+    <path d="M-22,-80 L22,-80 L20,-94 L-20,-94 Z" fill="#16202e"/>
+    <!-- 冕板 -->
+    <rect x="-36" y="-104" width="72" height="11" rx="2" fill="#16202e"/>
+    <rect x="-36" y="-104" width="72" height="4" rx="2" fill="#c9982a"/>
+    <!-- 垂旒（金珠簾，橫在臉前＝壓迫） -->
+    <g stroke="#c9982a" stroke-width="1.8" opacity=".95">
+      <path d="M-24,-93 L-24,-58"/><path d="M-9,-93 L-9,-58"/>
+      <path d="M9,-93 L9,-58"/><path d="M24,-93 L24,-58"/>
+    </g>
+    <g fill="#c9982a" opacity=".95">
+      <circle cx="-24" cy="-77" r="2.8"/><circle cx="-9" cy="-77" r="2.8"/>
+      <circle cx="9" cy="-77" r="2.8"/><circle cx="24" cy="-77" r="2.8"/>
+      <circle cx="-24" cy="-56" r="3.4"/><circle cx="-9" cy="-56" r="3.4"/>
+      <circle cx="9" cy="-56" r="3.4"/><circle cx="24" cy="-56" r="3.4"/>
+    </g>
+    <path d="M-27,-58 L-23,-24" stroke="#8a2f2f" stroke-width="2.4"/>
+    <path d="M27,-58 L23,-24" stroke="#8a2f2f" stroke-width="2.4"/>
+  </g>
+
+  <g id="fc-arm-upper">
+    <path d="M-12,-5 L12,-5 L9,60 L-9,60 Z" fill="#2d3f5c"/>
+    <path d="M-12,-5 L12,-5 L11,12 L-11,12 Z" fill="#3b5273"/>
+  </g>
+  <g id="fc-arm-fore">
+    <circle cx="0" cy="0" r="9.5" fill="#22334c"/>
+    <path d="M-9,0 L9,0 L7.5,46 L-7.5,46 Z" fill="#2d3f5c"/>
+    <path d="M-8,42 L8,42 L9.5,53 L-9.5,53 Z" fill="#8a2f2f"/>
+    <path d="M-7,53 Q-8.5,66 0,69 Q8.5,66 7,53 Z" fill="#d0aa80"/>
+  </g>
+  <g id="fc-sleeve-drape">
+    <path d="M-13,-8 Q-24,28 -16,62 Q0,70 15,60 Q21,26 13,-8 Z" fill="#1e2c43"/>
+  </g>
+  <g id="fc-shoe">
+    <path d="M-10,0 L10,0 L11,16 L-21,16 Q-28,15 -26,8 Q-23,1 -10,0 Z" fill="#12161f"/>
+    <path d="M-25,11 L11,11" stroke="#8a2f2f" stroke-width="1.8" opacity=".8"/>
+  </g>
+  <g id="fc-leg">
+    <path d="M-11,0 L11,0 L9,134 L-9,134 Z" fill="#1a2130"/>
+  </g>
+
+  <!-- 俯視壓迫：馬廄閃回主姿（雙手負後、居高臨下） -->
+  <symbol id="fc-looming" viewBox="0 0 200 340">
+    <use xlink:href="#fc-leg" href="#fc-leg" transform="translate(86,182)"/>
+    <use xlink:href="#fc-leg" href="#fc-leg" transform="translate(114,182)"/>
+    <use xlink:href="#fc-shoe" href="#fc-shoe" transform="translate(82,316)"/>
+    <use xlink:href="#fc-shoe" href="#fc-shoe" transform="translate(118,316) scale(-1,1)"/>
+    <path d="M64,102 L100,86 L136,102 Q149,108 150,124 L144,184
+             L156,302 Q100,318 44,302 L56,184 L50,124 Q51,108 64,102 Z" fill="#2d3f5c"/>
+    <path d="M44,302 Q100,318 156,302 L155,292 Q100,308 45,292 Z" fill="#1e2c43"/>
+    <path d="M83,94 L117,94 L100,152 Z" fill="#b8483f"/>
+    <path d="M78,92 L92,88 L106,142 L97,150 Z" fill="#6e2626"/>
+    <path d="M122,88 L108,92 L68,172 L78,181 Z" fill="#8a2f2f"/>
+    <path d="M78,196 L64,300" stroke="#1e2c43" stroke-width="2.8" opacity=".55"/>
+    <path d="M122,196 L136,300" stroke="#1e2c43" stroke-width="2.8" opacity=".55"/>
+    <path d="M52,170 L148,170 L146,196 L54,196 Z" fill="#6a2020"/>
+    <rect x="88" y="167" width="24" height="32" rx="5" fill="#4a1616"/>
+    <path d="M92,199 Q88,238 94,272 L106,272 Q112,238 108,199 Z" fill="#c9982a"/>
+    <use xlink:href="#fc-sleeve-drape" href="#fc-sleeve-drape" transform="translate(50,164)"/>
+    <use xlink:href="#fc-sleeve-drape" href="#fc-sleeve-drape" transform="translate(150,164)"/>
+    <g transform="translate(64,106) rotate(12)">
+      <use xlink:href="#fc-arm-upper" href="#fc-arm-upper"/>
+      <g transform="translate(0,60) rotate(-46)">
+        <use xlink:href="#fc-arm-fore" href="#fc-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(136,106) rotate(-12)">
+      <use xlink:href="#fc-arm-upper" href="#fc-arm-upper"/>
+      <g transform="translate(0,60) rotate(46)">
+        <use xlink:href="#fc-arm-fore" href="#fc-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#fc-head" href="#fc-head" transform="translate(100,88)"/>
+  </symbol>
+
+  <!-- 指令：伸手下指（可用於閃回第二拍） -->
+  <symbol id="fc-pointing" viewBox="0 0 200 340">
+    <use xlink:href="#fc-leg" href="#fc-leg" transform="translate(86,182)"/>
+    <use xlink:href="#fc-leg" href="#fc-leg" transform="translate(114,182)"/>
+    <use xlink:href="#fc-shoe" href="#fc-shoe" transform="translate(82,316)"/>
+    <use xlink:href="#fc-shoe" href="#fc-shoe" transform="translate(118,316) scale(-1,1)"/>
+    <path d="M64,102 L100,86 L136,102 Q149,108 150,124 L144,184
+             L156,302 Q100,318 44,302 L56,184 L50,124 Q51,108 64,102 Z" fill="#2d3f5c"/>
+    <path d="M44,302 Q100,318 156,302 L155,292 Q100,308 45,292 Z" fill="#1e2c43"/>
+    <path d="M83,94 L117,94 L100,152 Z" fill="#b8483f"/>
+    <path d="M78,92 L92,88 L106,142 L97,150 Z" fill="#6e2626"/>
+    <path d="M122,88 L108,92 L68,172 L78,181 Z" fill="#8a2f2f"/>
+    <path d="M78,196 L64,300" stroke="#1e2c43" stroke-width="2.8" opacity=".55"/>
+    <path d="M122,196 L136,300" stroke="#1e2c43" stroke-width="2.8" opacity=".55"/>
+    <path d="M52,170 L148,170 L146,196 L54,196 Z" fill="#6a2020"/>
+    <rect x="88" y="167" width="24" height="32" rx="5" fill="#4a1616"/>
+    <path d="M92,199 Q88,238 94,272 L106,272 Q112,238 108,199 Z" fill="#c9982a"/>
+    <use xlink:href="#fc-sleeve-drape" href="#fc-sleeve-drape" transform="translate(50,164)"/>
+    <use xlink:href="#fc-sleeve-drape" href="#fc-sleeve-drape" transform="translate(160,158)"/>
+    <g transform="translate(64,106) rotate(10)">
+      <use xlink:href="#fc-arm-upper" href="#fc-arm-upper"/>
+      <g transform="translate(0,60) rotate(-8)">
+        <use xlink:href="#fc-arm-fore" href="#fc-arm-fore"/>
+      </g>
+    </g>
+    <!-- 右臂外伸下指 -->
+    <g transform="translate(136,106) rotate(-52)">
+      <use xlink:href="#fc-arm-upper" href="#fc-arm-upper"/>
+      <g transform="translate(0,60) rotate(-22)">
+        <use xlink:href="#fc-arm-fore" href="#fc-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#fc-head" href="#fc-head" transform="translate(100,88) rotate(-5)"/>
+  </symbol>
+</defs>
+
+<rect width="640" height="430" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="115" y="382">負手俯視・馬廄閃回</text>
+  <text x="327" y="382">伸手下令</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="115" y="402">#fc-looming</text>
+  <text x="327" y="402">#fc-pointing</text>
+</g>
+<text x="500" y="200" fill="#5b7396" font-family="'Noto Serif TC',serif" font-size="30" text-anchor="middle">夫差</text>
+<text x="500" y="232" fill="#3d5a55" font-family="'Noto Serif TC',serif" font-size="15" text-anchor="middle">深藍朱緣・冕旒・全劇最高</text>
+<path d="M20 352 H620" stroke="#22403c" stroke-width="1.5"/>
+<use xlink:href="#fc-looming"  href="#fc-looming"  x="15"  y="12" width="200" height="340"/>
+<use xlink:href="#fc-pointing" href="#fc-pointing" x="227" y="12" width="200" height="340"/>
+</svg>

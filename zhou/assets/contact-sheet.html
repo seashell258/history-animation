@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>zhou — 角色資產 contact sheet</title>
+<style>
+  body{margin:0;padding:32px;background:#0a1214;color:#d9ceae;
+       font-family:'Noto Serif TC','Microsoft JhengHei',serif;}
+  h1{font-size:26px;letter-spacing:.14em;margin:0 0 6px;color:#c9982a;}
+  p.sub{margin:0 0 28px;color:#5f7a74;font-size:14px;letter-spacing:.06em;}
+  section{margin-bottom:26px;border:1px solid #1d3330;border-radius:8px;
+          background:#0e1a1c;overflow:hidden;}
+  h2{font-size:17px;margin:0;padding:11px 16px;background:#132422;
+     border-bottom:1px solid #1d3330;letter-spacing:.1em;font-weight:normal;}
+  h2 small{color:#5f7a74;font-size:12px;font-family:monospace;letter-spacing:0;margin-left:10px;}
+  /* 原生尺寸顯示 —— 縮圖會把嘴巴等細節縮成次像素，看不出問題。
+     橫向捲動看，與直接開 SVG 檔完全一致。 */
+  .scroll{overflow-x:auto;}
+  img{display:block;width:auto;max-width:none;height:auto;}
+  /* 臉部審查用：3 倍放大，可捲動 */
+  .zoom{max-height:460px;overflow:auto;}
+  .zoom img{width:5100px;}
+  .note{margin-top:30px;padding:14px 16px;border-left:3px solid #c9982a;
+        background:#111d1f;font-size:13.5px;line-height:1.85;color:#a8b5ac;}
+  .note b{color:#c9982a;}
+</style>
+</head>
+<body>
+<h1>越王的十年 — 角色資產 contact sheet</h1>
+<p class="sub">Pre-production Step 1・共 5 角 15 姿勢・統一 viewBox 200×340・地面線 y=332</p>
+
+<section><h2>勾踐<small>characters/goujian.svg — 7 姿勢</small></h2>
+  <div class="scroll"><img src="characters/goujian.svg" alt="勾踐 character sheet"></div></section>
+<section><h2>勾踐・臉部放大 3×<small>審查嘴／鬚／髮髻用 — 捲動看每張臉</small></h2>
+  <div class="scroll zoom"><img src="characters/goujian.svg" alt="勾踐臉部放大"></div></section>
+<section><h2>范蠡<small>characters/fanli.svg — 2 姿勢</small></h2>
+  <div class="scroll"><img src="characters/fanli.svg" alt="范蠡 character sheet"></div></section>
+<section><h2>文種<small>characters/wenzhong.svg — 2 姿勢</small></h2>
+  <div class="scroll"><img src="characters/wenzhong.svg" alt="文種 character sheet"></div></section>
+<section><h2>夫差<small>characters/fuchai.svg — 2 姿勢</small></h2>
+  <div class="scroll"><img src="characters/fuchai.svg" alt="夫差 character sheet"></div></section>
+<section><h2>侍者<small>characters/servant.svg — 2 姿勢</small></h2>
+  <div class="scroll"><img src="characters/servant.svg" alt="侍者 character sheet"></div></section>
+
+<h1 style="margin-top:44px">道具 props</h1>
+<p class="sub">薪・膽・碗 — 反覆出現的互動物件</p>
+<section><h2>碗<small>props/bowl.svg — comfort → turning 的 match cut 物件</small></h2>
+  <div class="scroll"><img src="props/bowl.svg" alt="碗 prop"></div></section>
+<section><h2>薪<small>props/xin.svg — 臥薪</small></h2>
+  <div class="scroll"><img src="props/xin.svg" alt="薪 prop"></div></section>
+<section><h2>膽<small>props/dan.svg — 嘗膽</small></h2>
+  <div class="scroll"><img src="props/dan.svg" alt="膽 prop"></div></section>
+
+<h1 style="margin-top:44px">場景元素 scene-elements</h1>
+<p class="sub">榻・燈・窗・馬廄 — 反覆出現的背景件</p>
+<section><h2>榻<small>scene-elements/couch.svg — comfort／turning／decision 共用</small></h2>
+  <div class="scroll"><img src="scene-elements/couch.svg" alt="榻"></div></section>
+<section><h2>燈<small>scene-elements/lamp.svg — 青銅豆形油燈（非 v1 的紙燈籠）</small></h2>
+  <div class="scroll"><img src="scene-elements/lamp.svg" alt="燈"></div></section>
+<section><h2>窗<small>scene-elements/window.svg — turning 的驚醒視線落點</small></h2>
+  <div class="scroll"><img src="scene-elements/window.svg" alt="窗"></div></section>
+<section><h2>馬廄<small>scene-elements/stable.svg — 閃回場地</small></h2>
+  <div class="scroll"><img src="scene-elements/stable.svg" alt="馬廄"></div></section>
+
+<div class="note">
+  <b>驗收檢查點</b>(逐項看,不通過就退回改 asset 檔,不要進 Step 2):<br>
+  1. 每個角色有<b>可辨識的髮髻／冠</b>嗎?(勾踐=髮髻+金笄+額帶 / 范蠡=方巾 / 文種=高梁冠 / 夫差=冕旒 / 侍者=素幘)<br>
+  2. 每個角色有<b>服飾輪廓</b>嗎?交領右衽、腰帶、下襬 — 不是一坨 blob?<br>
+  3. 每條手臂都看得出<b>肩→肘→手兩段</b>、肘部有關節嗎?<br>
+  4. 每個角色<b>有腳</b>嗎?(履有翹頭,不是橢圓)<br>
+  5. 五個角色<b>彼此一眼可分辨</b>嗎?(顏色／頭冠／身高／衣長)<br>
+  6. 勾踐 7 個姿勢<b>看起來是同一個人</b>嗎?(含側臉那張)<br>
+  7. <b>ending 的勾踐一眼看得出老</b>嗎?(白鬚、灰髮、法令紋 — 鬍子長度會不會過頭?)<br>
+  8. <b>癱躺側面</b>:側臉輪廓(鼻／唇／下顎)清楚嗎?看起來是<b>整個人癱著</b>、只有端碗那隻手在動嗎?<br>
+  9. <b>馬廄做工</b>:雙手垂直撐地、<b>膝蓋跪地成 90°</b>(大腿垂直、小腿貼地向後)嗎?<br>
+  10. 馬廄那張<b>還認得出是勾踐</b>嗎?(髮髻與額帶都留著,只有袖捲起、赤足、草繩腰帶)<br>
+  <br>
+  <b>道具與場景元素</b><br>
+  11. 碗的<b>兩個版本外形完全一樣</b>嗎?(只有內容物差別 — match cut 靠這個)<br>
+  12. 薪看得出是<b>躺得上去的一堆柴</b>,不是一束立著的柴嗎?<br>
+  13. 膽是<b>吊著</b>的嗎?(嘗膽是抬頭去舔,不是撿起來)<br>
+  14. <b>燈要用青銅油燈還是改回 v1 的紙燈籠?</b>(紙燈籠是漢以後才有的,我選了歷史正確的版本)<br>
+  15. 榻／窗／馬廄的木作看得出<b>材質與結構</b>嗎?(不是純色方塊)
+</div>
+</body>
+</html>

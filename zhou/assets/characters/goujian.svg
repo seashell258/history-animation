@@ -1,0 +1,460 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1700 430" width="1700" height="430">
+<title>勾踐 character sheet — 越王勾踐（主角）</title>
+<desc>
+  越王勾踐。深衣交領右衽 + 髮髻 + 笄 + 額帶冠 + 腰帶組綬 + 履。
+  手臂一律 shoulder→elbow→hand 兩段構造（gj-arm-upper / gj-arm-fore，肘部有關節圓）。
+  姿勢符號：gj-walking / gj-seated-relaxed / gj-seated-upright / gj-laboring /
+           gj-rising / gj-standing / gj-standing-ten
+  symbol viewBox 皆為 0 0 200 340、地面線 y=332，
+  唯一例外 gj-seated-relaxed 為 0 0 300 340（側面橫向體態，比例相同，榻面 y=286）。
+  三顆頭：gj-head（正面）/ gj-head-profile（側面，半躺用）/ gj-head-labor（馬廄，散髮無冠）,
+  另有 gj-head-ten（正面・十年後斑白）。
+</desc>
+
+<defs>
+  <!-- ============ 零件（rig parts） ============ -->
+
+  <!-- 頭：pivot = 頸根 (0,0)，頭頂至 y=-96 -->
+  <g id="gj-head">
+    <path d="M-10,-16 L10,-16 L11,6 L-11,6 Z" fill="#c08f66"/>
+    <path d="M0,-74 C17,-74 26,-61 26,-47 C26,-32 17,-17 0,-17
+             C-17,-17 -26,-32 -26,-47 C-26,-61 -17,-74 0,-74 Z" fill="#d8b48c"/>
+    <path d="M-26,-40 C-22,-28 -12,-20 0,-19 C-10,-22 -20,-30 -24,-42 Z" fill="#c9a279" opacity=".7"/>
+    <ellipse cx="-26" cy="-44" rx="4.5" ry="8" fill="#c9a279"/>
+    <ellipse cx="26" cy="-44" rx="4.5" ry="8" fill="#c9a279"/>
+    <path d="M-18,-53 L-6,-49" stroke="#2a1c12" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M18,-53 L6,-49" stroke="#2a1c12" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M-17,-42 L-7,-42" stroke="#241810" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M17,-42 L7,-42" stroke="#241810" stroke-width="3.6" stroke-linecap="round"/>
+    <!-- 髭：鼻下兩撇（上緣貼鼻，下緣停在嘴上方） -->
+    <path d="M-14,-34 Q-7,-29 0,-30 Q7,-29 14,-34 Q14,-27 7,-26 Q0,-30 -7,-26 Q-14,-27 -14,-34 Z" fill="#1d1613"/>
+    <!-- 嘴：實心，夾在髭與頦鬚之間 -->
+    <path d="M-7,-25 Q0,-21 7,-25 Q7,-19 0,-19 Q-7,-19 -7,-25 Z" fill="#5e3128"/>
+    <path d="M-7,-24 Q0,-21 7,-24" fill="none" stroke="#3a1c18" stroke-width="1.5"/>
+    <!-- 頦鬚：下巴的鬚，與髭分離 -->
+    <path d="M-10,-17 Q0,-13 10,-17 Q11,-7 0,-3 Q-11,-7 -10,-17 Z" fill="#1d1613"/>
+    <path d="M-27,-49 C-27,-70 -15,-81 0,-81 C15,-81 27,-70 27,-49
+             C19,-62 -19,-62 -27,-49 Z" fill="#1a1512"/>
+    <ellipse cx="0" cy="-84" rx="15" ry="12" fill="#1a1512"/>
+    <path d="M-17,-86 L17,-88" stroke="#c9982a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-26,-63 Q0,-73 26,-63 L26,-55 Q0,-65 -26,-55 Z" fill="#23343b"/>
+    <path d="M-26,-59 Q0,-69 26,-59" fill="none" stroke="#c9982a" stroke-width="2"/>
+    <path d="M-25,-54 L-21,-24" stroke="#23343b" stroke-width="2.2"/>
+    <path d="M25,-54 L21,-24" stroke="#23343b" stroke-width="2.2"/>
+  </g>
+
+  <!-- 頭・十年後：鬚髮花白、眉壓低、顴骨深 -->
+  <g id="gj-head-ten">
+    <path d="M-10,-16 L10,-16 L11,6 L-11,6 Z" fill="#b8875e"/>
+    <path d="M0,-74 C17,-74 26,-61 26,-47 C26,-32 17,-17 0,-17
+             C-17,-17 -26,-32 -26,-47 C-26,-61 -17,-74 0,-74 Z" fill="#cfa87e"/>
+    <path d="M-26,-40 C-22,-28 -12,-20 0,-19 C-10,-22 -20,-30 -24,-42 Z" fill="#b8956c" opacity=".8"/>
+    <!-- 法令紋・眼袋：顯老 -->
+    <path d="M-13,-38 Q-17,-30 -14,-23" fill="none" stroke="#b0885f" stroke-width="2"/>
+    <path d="M13,-38 Q17,-30 14,-23" fill="none" stroke="#b0885f" stroke-width="2"/>
+    <path d="M-17,-37 Q-12,-33 -7,-36" fill="none" stroke="#b0885f" stroke-width="1.6"/>
+    <path d="M17,-37 Q12,-33 7,-36" fill="none" stroke="#b0885f" stroke-width="1.6"/>
+    <path d="M-19,-58 Q-12,-61 -6,-59" fill="none" stroke="#b0885f" stroke-width="1.6"/>
+    <path d="M19,-58 Q12,-61 6,-59" fill="none" stroke="#b0885f" stroke-width="1.6"/>
+    <ellipse cx="-26" cy="-44" rx="4.5" ry="8" fill="#b8956c"/>
+    <ellipse cx="26" cy="-44" rx="4.5" ry="8" fill="#b8956c"/>
+    <path d="M-19,-51 L-6,-50" stroke="#8f887c" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M19,-51 L6,-50" stroke="#8f887c" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M-17,-42 L-7,-43" stroke="#241810" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M17,-42 L7,-43" stroke="#241810" stroke-width="3.6" stroke-linecap="round"/>
+    <!-- 白鬚：只從下顎往下長，上緣讓開嘴 -->
+    <path d="M-15,-17 Q-18,-5 -13,6 Q-7,15 0,18 Q7,15 13,6 Q18,-5 15,-17
+             Q0,-9 -15,-17 Z" fill="#d5d0c5"/>
+    <path d="M-9,-7 Q0,3 9,-7" fill="none" stroke="#a49d90" stroke-width="1.8" opacity=".85"/>
+    <path d="M0,-11 L0,12" stroke="#a49d90" stroke-width="1.4" opacity=".5"/>
+    <!-- 嘴：實心深色，夾在髭與鬚之間留白，確保看得見 -->
+    <path d="M-8,-25 Q0,-21 8,-25 Q8,-19 0,-19 Q-8,-19 -8,-25 Z" fill="#5e3128"/>
+    <path d="M-8,-24 Q0,-21 8,-24" fill="none" stroke="#3a1c18" stroke-width="1.6"/>
+    <!-- 白髭：上緣貼鼻下，下緣停在嘴上方 -->
+    <path d="M-17,-36 Q0,-29 17,-36 Q18,-27 9,-26 Q0,-31 -9,-26 Q-18,-27 -17,-36 Z" fill="#d5d0c5"/>
+    <!-- 白鬢 -->
+    <path d="M-26,-40 Q-23,-28 -16,-22 L-12,-28 Q-20,-32 -23,-42 Z" fill="#c7c0b3"/>
+    <path d="M26,-40 Q23,-28 16,-22 L12,-28 Q20,-32 23,-42 Z" fill="#c7c0b3"/>
+    <path d="M-27,-49 C-27,-70 -15,-81 0,-81 C15,-81 27,-70 27,-49
+             C19,-62 -19,-62 -27,-49 Z" fill="#7d7669"/>
+    <path d="M-21,-70 Q-11,-76 -3,-74" fill="none" stroke="#c7c0b3" stroke-width="2.4"/>
+    <path d="M15,-75 Q22,-70 24,-63" fill="none" stroke="#c7c0b3" stroke-width="2.4"/>
+    <ellipse cx="0" cy="-84" rx="15" ry="12" fill="#7d7669"/>
+    <path d="M-9,-88 Q0,-92 8,-88" fill="none" stroke="#c7c0b3" stroke-width="2.4"/>
+    <path d="M-17,-86 L17,-88" stroke="#c9982a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-26,-63 Q0,-73 26,-63 L26,-55 Q0,-65 -26,-55 Z" fill="#23343b"/>
+    <path d="M-26,-59 Q0,-69 26,-59" fill="none" stroke="#c9982a" stroke-width="2"/>
+    <path d="M-25,-54 L-21,-24" stroke="#23343b" stroke-width="2.2"/>
+    <path d="M25,-54 L21,-24" stroke="#23343b" stroke-width="2.2"/>
+  </g>
+
+  <!-- 頭・側面（面朝 -x）：半躺用。pivot = 頸根 (0,0) -->
+  <g id="gj-head-profile">
+    <path d="M-8,-16 L12,-14 L13,6 L-7,4 Z" fill="#c08f66"/>
+    <path d="M4,-74 C-11,-74 -21,-64 -23,-52
+             L-27,-43 L-31,-34 L-23,-31
+             L-25,-25 L-20,-21 L-23,-15
+             C-19,-7 -6,-4 3,-8
+             C15,-13 26,-25 26,-44
+             C26,-62 18,-74 4,-74 Z" fill="#d8b48c"/>
+    <path d="M4,-46 Q13,-48 13,-40 Q13,-33 4,-34 Z" fill="#c9a279"/>
+    <path d="M-21,-51 L-11,-48" stroke="#2a1c12" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M-19,-42 L-11,-42" stroke="#241810" stroke-width="3.4" stroke-linecap="round"/>
+    <!-- 髭（側面）：鼻下往後掃 -->
+    <path d="M-26,-31 Q-18,-28 -10,-29 Q-12,-23 -19,-23 Q-25,-26 -26,-31 Z" fill="#1d1613"/>
+    <!-- 嘴（側面）：畫在鬚之後，不會再被蓋掉 -->
+    <path d="M-23,-22 Q-17,-19 -11,-21" fill="none" stroke="#5e3128" stroke-width="3" stroke-linecap="round"/>
+    <!-- 頦鬚（側面）：自下顎垂落 -->
+    <path d="M-25,-16 Q-24,-5 -13,-1 Q-3,1 4,-7
+             Q7,3 -8,7 Q-23,7 -28,-5 Q-29,-12 -25,-16 Z" fill="#1d1613"/>
+    <path d="M4,-80 C-13,-80 -25,-68 -26,-50 C-19,-63 -8,-69 4,-69
+             C17,-69 26,-60 27,-47 C28,-66 19,-80 4,-80 Z" fill="#1a1512"/>
+    <path d="M18,-66 C27,-58 29,-42 26,-28 C24,-18 18,-11 11,-8
+             C20,-20 23,-38 20,-52 Z" fill="#1a1512"/>
+    <ellipse cx="17" cy="-79" rx="14" ry="11" fill="#1a1512"/>
+    <path d="M3,-82 L31,-77" stroke="#c9982a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-24,-56 Q0,-68 24,-55 L23,-48 Q0,-61 -23,-49 Z" fill="#23343b"/>
+    <path d="M-23,-52 Q0,-64 23,-51" fill="none" stroke="#c9982a" stroke-width="2"/>
+    <path d="M2,-46 L4,-22" stroke="#23343b" stroke-width="2.2"/>
+  </g>
+
+
+  <!-- 上臂：pivot = 肩 (0,0)，肘在 (0,56) -->
+  <g id="gj-arm-upper">
+    <path d="M-11,-5 L11,-5 L8,56 L-8,56 Z" fill="#3f5d55"/>
+    <path d="M-11,-5 L11,-5 L10,11 L-10,11 Z" fill="#4a6b62"/>
+  </g>
+  <!-- 前臂：pivot = 肘 (0,0)，腕在 (0,46)，含袖口與手 -->
+  <g id="gj-arm-fore">
+    <circle cx="0" cy="0" r="9" fill="#33504a"/>
+    <path d="M-8.5,0 L8.5,0 L7,42 L-7,42 Z" fill="#3f5d55"/>
+    <path d="M-7.5,38 L7.5,38 L9,49 L-9,49 Z" fill="#d9ceae"/>
+    <path d="M-6.5,49 Q-8,62 0,65 Q8,62 6.5,49 Z" fill="#d8b48c"/>
+  </g>
+  <!-- 粗衣手臂（馬廄做工專用）：袖捲到肘上、前臂裸露沾污。袍色仍是他的青綠，只是髒了 -->
+  <g id="gj-arm-upper-coarse">
+    <path d="M-11,-5 L11,-5 L8,56 L-8,56 Z" fill="#3a544d"/>
+    <path d="M-11,-5 L11,-5 L10,11 L-10,11 Z" fill="#456b62"/>
+  </g>
+  <g id="gj-arm-fore-coarse">
+    <circle cx="0" cy="0" r="9" fill="#28403a"/>
+    <path d="M-8.5,0 L8.5,0 L8,17 L-8,17 Z" fill="#3a544d"/>
+    <path d="M-8,15 L8,15 L7,20 L-7,20 Z" fill="#28403a"/>
+    <path d="M-7,17 L7,17 L6,46 L-6,46 Z" fill="#c08f66"/>
+    <path d="M-6,46 Q-7.5,59 0,62 Q7.5,59 6,46 Z" fill="#c08f66"/>
+    <path d="M-5,30 L4,32" stroke="#8d6947" stroke-width="2" opacity=".7"/>
+  </g>
+  <!-- 廣袖垂擺：pivot = 肘，重力向下，只 translate 不 rotate -->
+  <g id="gj-sleeve-drape">
+    <path d="M-12,-8 Q-22,26 -15,58 Q0,66 14,56 Q19,24 12,-8 Z" fill="#2c4640"/>
+  </g>
+  <!-- 履：pivot = 踝 (0,0)，趾尖朝 -x -->
+  <g id="gj-shoe">
+    <path d="M-9,0 L9,0 L10,15 L-19,15 Q-26,14 -24,7 Q-21,1 -9,0 Z" fill="#2a1f16"/>
+    <path d="M-23,10 L10,10" stroke="#c9982a" stroke-width="1.6" opacity=".65"/>
+  </g>
+  <!-- 脛（多被下襬遮住） -->
+  <g id="gj-leg">
+    <path d="M-10,0 L10,0 L8,118 L-8,118 Z" fill="#24322f"/>
+  </g>
+
+  <!-- ============ 姿勢 symbols ============ -->
+
+  <!-- 1. 行走：homecoming 走入 -->
+  <symbol id="gj-walking" viewBox="0 0 200 340">
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(88,196) rotate(7)"/>
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(112,196) rotate(-9)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(74,314)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(130,312) scale(-1,1)"/>
+    <g transform="rotate(-2 100 200)">
+      <path d="M69,118 L100,104 L131,118 Q142,123 143,138 L138,196
+               L152,300 Q100,318 48,298 L62,196 L57,138 Q58,123 69,118 Z" fill="#3f5d55"/>
+      <path d="M48,298 Q100,318 152,300 L151,291 Q100,309 49,289 Z" fill="#2c4640"/>
+      <path d="M85,112 L115,112 L100,164 Z" fill="#e8dfc4"/>
+      <path d="M81,110 L93,107 L105,155 L97,162 Z" fill="#cdbf9c"/>
+      <path d="M121,107 L109,110 L73,182 L82,190 Z" fill="#d9ceae"/>
+      <path d="M78,208 L64,298" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+      <path d="M122,208 L136,300" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+      <path d="M59,182 L141,182 L139,206 L61,206 Z" fill="#8a5a24"/>
+      <rect x="89" y="179" width="22" height="30" rx="5" fill="#6e4419"/>
+      <path d="M95,209 Q90,244 96,276 L105,276 Q111,244 105,209 Z" fill="#c9982a"/>
+      <circle cx="100" cy="286" r="9" fill="#3d6b5a"/>
+      <circle cx="100" cy="286" r="3.4" fill="#0e1a1c"/>
+      <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(56,180)"/>
+      <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(146,172)"/>
+      <g transform="translate(69,120) rotate(16)">
+        <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+        <g transform="translate(0,56) rotate(-4)">
+          <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+        </g>
+      </g>
+      <g transform="translate(131,120) rotate(-8)">
+        <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+        <g transform="translate(0,56) rotate(22)">
+          <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+        </g>
+      </g>
+      <use xlink:href="#gj-head" href="#gj-head" transform="translate(100,108) rotate(3)"/>
+    </g>
+  </symbol>
+
+  <!-- 2. 半躺・側面：comfort 沉溺
+       整個人癱在榻上 —— 不撐、不使力，遠側手鬆垮垂在腿上。
+       ⚠ 300 寬 symbol（橫躺體態）。榻面 y=286；碗 prop 放在手心 (144,218)。 -->
+  <symbol id="gj-seated-relaxed" viewBox="0 0 300 340">
+    <!-- 遠側手臂：鬆垮搭在自己腿上（先畫＝被軀幹遮住大半） -->
+    <g transform="translate(200,218) rotate(25)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(76)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <!-- 雙腿攤在榻面上（腳離地＝陷在舒適裡） -->
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(38,258)"/>
+    <path d="M144,250 Q102,238 66,240 Q40,242 28,252 L26,274
+             Q60,286 106,278 Q138,272 158,262 Z" fill="#3f5d55"/>
+    <ellipse cx="84" cy="250" rx="24" ry="9" fill="#4a6b62"/>
+    <path d="M26,274 Q60,286 106,278 L104,270 Q60,278 27,266 Z" fill="#2c4640"/>
+    <!-- 軀幹：幾乎躺平（後仰 52°） -->
+    <path d="M192,202 Q166,224 144,248 Q132,262 140,277 L176,283
+             Q200,256 216,226 Q226,208 210,198 Z" fill="#3f5d55"/>
+    <path d="M210,198 Q226,208 216,226 Q200,256 176,283 L165,281
+             Q192,252 206,224 Q214,206 202,199 Z" fill="#2c4640"/>
+    <path d="M190,200 L206,204 L180,232 L172,222 Z" fill="#e8dfc4"/>
+    <path d="M206,204 Q188,234 164,262 L176,270 Q200,240 216,210 Z" fill="#d9ceae"/>
+    <path d="M150,246 Q168,240 182,254 L172,270 Q158,258 142,262 Z" fill="#8a5a24"/>
+    <ellipse cx="164" cy="256" rx="11" ry="9" fill="#6e4419" transform="rotate(-42 164 256)"/>
+    <!-- 近側手臂：唯一還在動的部位 —— 端著碗 -->
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(158,263)"/>
+    <g transform="translate(188,216) rotate(32)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(130)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#gj-head-profile" href="#gj-head-profile" transform="translate(198,208) rotate(34)"/>
+  </symbol>
+
+  <!-- 3. 跪坐端正：turning 驚醒後坐直 -->
+  <symbol id="gj-seated-upright" viewBox="0 0 200 340">
+    <path d="M62,240 Q54,276 60,300 Q100,310 140,300 Q146,276 138,240 Z" fill="#3f5d55"/>
+    <ellipse cx="78" cy="292" rx="18" ry="12" fill="#4a6b62"/>
+    <ellipse cx="122" cy="292" rx="18" ry="12" fill="#4a6b62"/>
+    <path d="M60,300 Q100,310 140,300 L139,292 Q100,302 61,292 Z" fill="#2c4640"/>
+    <path d="M70,170 L100,156 L130,170 Q141,175 142,189 L139,246
+             Q100,258 61,246 L58,189 Q59,175 70,170 Z" fill="#3f5d55"/>
+    <path d="M85,164 L115,164 L100,216 Z" fill="#e8dfc4"/>
+    <path d="M81,162 L93,159 L105,207 L97,214 Z" fill="#cdbf9c"/>
+    <path d="M121,159 L109,162 L73,234 L82,242 Z" fill="#d9ceae"/>
+    <path d="M60,234 L140,234 L138,256 L62,256 Z" fill="#8a5a24"/>
+    <rect x="89" y="231" width="22" height="29" rx="5" fill="#6e4419"/>
+    <path d="M95,259 Q92,278 96,296 L105,296 Q109,278 105,259 Z" fill="#c9982a"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(56,226)"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(144,226)"/>
+    <g transform="translate(70,172) rotate(13)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(-31)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(130,172) rotate(-13)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(31)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#gj-head" href="#gj-head" transform="translate(100,158) rotate(-2)"/>
+  </symbol>
+
+  <!-- 4. 馬廄做工：側面。雙手垂直撐地、雙膝跪地成 90°（大腿垂直、小腿貼地向後）、
+       上身由肩向後下方傾斜、頭低下看地。
+       髮髻與額帶保留（維持角色辨識度），狼狽感靠：袖捲起、赤足、草繩腰帶、破襬、污漬、汗。
+       ⚠ 300 寬 symbol（橫向體態）。地面線 y=332。 -->
+  <symbol id="gj-laboring" viewBox="0 0 300 340">
+    <!-- 遠側手・遠側腿（先畫＝身體後方，壓暗） -->
+    <g opacity=".66">
+      <g transform="translate(116,216) rotate(-2)">
+        <use xlink:href="#gj-arm-upper-coarse" href="#gj-arm-upper-coarse"/>
+        <g transform="translate(0,56) rotate(2)">
+          <use xlink:href="#gj-arm-fore-coarse" href="#gj-arm-fore-coarse"/>
+        </g>
+      </g>
+      <path d="M200,252 L230,252 L232,318 L202,318 Z" fill="#2b4039"/>
+      <path d="M214,313 Q246,316 270,321 L271,329 L214,329 Z" fill="#a87b53"/>
+      <path d="M266,319 Q282,322 287,328 Q287,332 279,331 L264,329 Z" fill="#a87b53"/>
+    </g>
+    <!-- 近側腿：大腿垂直、膝著地、小腿貼地向後（膝 90°） -->
+    <path d="M186,250 L218,250 L220,318 L188,318 Z" fill="#3a544d"/>
+    <ellipse cx="203" cy="320" rx="18" ry="11" fill="#456b62"/>
+    <path d="M200,314 Q234,317 262,322 L263,331 L200,331 Z" fill="#c08f66"/>
+    <path d="M258,320 Q274,323 279,330 Q279,334 271,333 L256,330 Z" fill="#c08f66"/>
+    <path d="M266,325 L266,332 M272,327 L272,333" stroke="#a87b53" stroke-width="1.5"/>
+    <!-- 破爛下襬 -->
+    <path d="M180,242 L226,242 L228,276 L218,266 L209,278 L199,266 L189,278 L180,268 Z" fill="#3a544d"/>
+    <!-- 軀幹：由肩向後下方傾斜 -->
+    <path d="M84,196 Q140,204 192,234 Q210,244 208,262 L202,282
+             Q174,266 138,250 Q104,236 82,236 Z" fill="#3a544d"/>
+    <path d="M86,202 Q138,210 188,238 L185,246 Q136,218 86,212 Z" fill="#456b62"/>
+    <g fill="#28403a" opacity=".8">
+      <ellipse cx="126" cy="230" rx="15" ry="7"/>
+      <ellipse cx="172" cy="252" rx="10" ry="6"/>
+    </g>
+    <!-- 草繩腰帶（玉組綬早就沒了） -->
+    <path d="M172,232 L188,241 L170,278 L154,269 Z" fill="#6e4419"/>
+    <path d="M170,244 L184,251 M164,258 L178,265" stroke="#4a2d10" stroke-width="2"/>
+    <!-- 近側手臂：垂直撐地 -->
+    <g transform="translate(100,214) rotate(-2)">
+      <use xlink:href="#gj-arm-upper-coarse" href="#gj-arm-upper-coarse"/>
+      <g transform="translate(0,56) rotate(2)">
+        <use xlink:href="#gj-arm-fore-coarse" href="#gj-arm-fore-coarse"/>
+      </g>
+    </g>
+    <!-- 側臉低頭（與半躺那張同一顆頭，維持辨識度） -->
+    <use xlink:href="#gj-head-profile" href="#gj-head-profile" transform="translate(92,222) rotate(-48)"/>
+    <!-- 汗滴（自臉頰垂直落地） -->
+    <g fill="#8fb0ac" opacity=".7">
+      <path d="M44,268 Q47,274 44,277 Q41,274 44,268 Z"/>
+      <path d="M38,300 Q41,306 38,309 Q35,306 38,300 Z"/>
+    </g>
+  </symbol>
+
+  <!-- 5. 起身中：ritual 中段（單膝立起、抬頭） -->
+  <symbol id="gj-rising" viewBox="0 0 200 340">
+    <path d="M84,242 Q58,252 50,278 L48,304 L74,308 Q78,278 92,262 Z" fill="#35514a"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(62,306)"/>
+    <path d="M112,244 Q136,254 142,280 Q146,298 138,308 L112,306 Q118,282 106,264 Z" fill="#3f5d55"/>
+    <ellipse cx="132" cy="300" rx="18" ry="11" fill="#4a6b62"/>
+    <g transform="rotate(-9 100 246)">
+      <path d="M72,180 L100,166 L128,180 Q139,185 140,199 L138,252
+               Q100,266 62,252 L60,199 Q61,185 72,180 Z" fill="#3f5d55"/>
+      <path d="M86,174 L114,174 L100,224 Z" fill="#e8dfc4"/>
+      <path d="M82,172 L94,169 L105,215 L97,222 Z" fill="#cdbf9c"/>
+      <path d="M120,169 L108,172 L74,240 L83,248 Z" fill="#d9ceae"/>
+      <path d="M61,240 L139,240 L137,262 L63,262 Z" fill="#8a5a24"/>
+      <rect x="89" y="237" width="22" height="29" rx="5" fill="#6e4419"/>
+      <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(56,236)"/>
+      <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(148,230)"/>
+      <!-- 畫面左臂：手按在立起的膝上 -->
+      <g transform="translate(72,182) rotate(18)">
+        <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+        <g transform="translate(0,56) rotate(-30)">
+          <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+        </g>
+      </g>
+      <!-- 畫面右臂：向下撐地發力 -->
+      <g transform="translate(128,182) rotate(-16)">
+        <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+        <g transform="translate(0,56) rotate(10)">
+          <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+        </g>
+      </g>
+      <use xlink:href="#gj-head" href="#gj-head" transform="translate(100,168) rotate(-6)"/>
+    </g>
+  </symbol>
+
+  <!-- 6. 站立決意：decision／ritual 完成（右拳收於胸前） -->
+  <symbol id="gj-standing" viewBox="0 0 200 340">
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(87,198)"/>
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(113,198)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(84,316)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(116,316) scale(-1,1)"/>
+    <path d="M69,118 L100,104 L131,118 Q142,123 143,138 L138,196
+             L148,302 Q100,316 52,302 L62,196 L57,138 Q58,123 69,118 Z" fill="#3f5d55"/>
+    <path d="M52,302 Q100,316 148,302 L147,293 Q100,307 53,293 Z" fill="#2c4640"/>
+    <path d="M85,112 L115,112 L100,164 Z" fill="#e8dfc4"/>
+    <path d="M81,110 L93,107 L105,155 L97,162 Z" fill="#cdbf9c"/>
+    <path d="M121,107 L109,110 L73,182 L82,190 Z" fill="#d9ceae"/>
+    <path d="M78,208 L67,300" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+    <path d="M122,208 L133,300" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+    <path d="M59,182 L141,182 L139,206 L61,206 Z" fill="#8a5a24"/>
+    <rect x="89" y="179" width="22" height="30" rx="5" fill="#6e4419"/>
+    <path d="M95,209 Q92,244 97,274 L106,274 Q110,244 105,209 Z" fill="#c9982a"/>
+    <circle cx="101" cy="284" r="9" fill="#3d6b5a"/>
+    <circle cx="101" cy="284" r="3.4" fill="#0e1a1c"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(61,175)"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(150,173)"/>
+    <g transform="translate(69,120) rotate(8)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(4)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(131,120) rotate(-20)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(128)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#gj-head" href="#gj-head" transform="translate(100,106)"/>
+  </symbol>
+
+  <!-- 7. 十年之後：ending（鬚髮花白、雙拳垂握、下襬被風掀起） -->
+  <symbol id="gj-standing-ten" viewBox="0 0 200 340">
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(87,198)"/>
+    <use xlink:href="#gj-leg" href="#gj-leg" transform="translate(113,198)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(84,316)"/>
+    <use xlink:href="#gj-shoe" href="#gj-shoe" transform="translate(116,316) scale(-1,1)"/>
+    <path d="M69,118 L100,104 L131,118 Q142,123 143,138 L138,196
+             L156,296 Q100,318 44,296 L62,196 L57,138 Q58,123 69,118 Z" fill="#3f5d55"/>
+    <path d="M44,296 Q100,318 156,296 L154,287 Q100,309 45,287 Z" fill="#2c4640"/>
+    <path d="M156,296 Q170,290 178,276 L168,272 Q158,286 150,290 Z" fill="#35514a"/>
+    <path d="M85,112 L115,112 L100,164 Z" fill="#e8dfc4"/>
+    <path d="M81,110 L93,107 L105,155 L97,162 Z" fill="#cdbf9c"/>
+    <path d="M121,107 L109,110 L73,182 L82,190 Z" fill="#d9ceae"/>
+    <path d="M78,208 L62,294" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+    <path d="M122,208 L139,294" stroke="#2c4640" stroke-width="2.6" opacity=".55"/>
+    <path d="M59,182 L141,182 L139,206 L61,206 Z" fill="#8a5a24"/>
+    <rect x="89" y="179" width="22" height="30" rx="5" fill="#6e4419"/>
+    <path d="M95,209 Q88,244 92,272 L101,274 Q108,244 105,209 Z" fill="#c9982a"/>
+    <circle cx="97" cy="284" r="9" fill="#3d6b5a"/>
+    <circle cx="97" cy="284" r="3.4" fill="#0e1a1c"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(58,176)"/>
+    <use xlink:href="#gj-sleeve-drape" href="#gj-sleeve-drape" transform="translate(142,176)"/>
+    <g transform="translate(69,120) rotate(11)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(-6)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <g transform="translate(131,120) rotate(-11)">
+      <use xlink:href="#gj-arm-upper" href="#gj-arm-upper"/>
+      <g transform="translate(0,56) rotate(6)">
+        <use xlink:href="#gj-arm-fore" href="#gj-arm-fore"/>
+      </g>
+    </g>
+    <use xlink:href="#gj-head-ten" href="#gj-head-ten" transform="translate(100,106) rotate(-3)"/>
+  </symbol>
+</defs>
+
+<!-- ============ 直接開檔可見的姿勢預覽 ============ -->
+<rect width="1700" height="430" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="110" y="382">走入・homecoming</text>
+  <text x="372" y="382">癱躺側面・comfort</text>
+  <text x="634" y="382">跪坐・turning</text>
+  <text x="896" y="382">馬廄做工側面・閃回</text>
+  <text x="1158" y="382">起身・ritual 中</text>
+  <text x="1370" y="382">站立決意・decision</text>
+  <text x="1582" y="382">十年之後・ending</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="110" y="402">#gj-walking</text>
+  <text x="372" y="402">#gj-seated-relaxed (300w)</text>
+  <text x="634" y="402">#gj-seated-upright</text>
+  <text x="896" y="402">#gj-laboring (300w)</text>
+  <text x="1158" y="402">#gj-rising</text>
+  <text x="1370" y="402">#gj-standing</text>
+  <text x="1582" y="402">#gj-standing-ten</text>
+</g>
+<g stroke="#22403c" stroke-width="1.5">
+  <path d="M20 352 H1680"/>
+</g>
+<use xlink:href="#gj-walking"        href="#gj-walking"        x="10"   y="12" width="200" height="340"/>
+<use xlink:href="#gj-seated-relaxed" href="#gj-seated-relaxed" x="222"  y="12" width="300" height="340"/>
+<use xlink:href="#gj-seated-upright" href="#gj-seated-upright" x="534"  y="12" width="200" height="340"/>
+<use xlink:href="#gj-laboring"       href="#gj-laboring"       x="746"  y="12" width="300" height="340"/>
+<use xlink:href="#gj-rising"         href="#gj-rising"         x="1058" y="12" width="200" height="340"/>
+<use xlink:href="#gj-standing"       href="#gj-standing"       x="1270" y="12" width="200" height="340"/>
+<use xlink:href="#gj-standing-ten"   href="#gj-standing-ten"   x="1482" y="12" width="200" height="340"/>
+</svg>

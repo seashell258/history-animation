@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 760 460" width="760" height="460">
+<title>馬廄 scene element — 欄杆／馬槽／草料</title>
+<desc>
+  吳國馬廄，勾踐受辱之地。turning 的閃回覆蓋與 ritual 的固定背景共用。
+  stable-bay     viewBox 0 0 200 400 —— 一個柱距單元，【可水平重複平鋪，寬 200】
+  stable-trough  viewBox 0 0 240 100 —— 馬槽（含草料），地面 y=94
+  stable-hay     viewBox 0 0 170 100 —— 散落草料堆，地面 y=94
+
+  ⚠ 本檔存的是正常木頭色。閃回的冷調請由場景端疊 overlay 或 filter 處理，
+     不要改這裡 —— 因為 ritual 場的同一批資產需要不同的冷度。
+</desc>
+
+<defs>
+  <symbol id="stable-bay" viewBox="0 0 200 400">
+    <!-- 立柱 -->
+    <rect x="12" y="0" width="34" height="400" fill="#4a3a24"/>
+    <rect x="12" y="0" width="9" height="400" fill="#5e4c30"/>
+    <rect x="40" y="0" width="6" height="400" fill="#2e2418"/>
+    <!-- 木紋 -->
+    <g stroke="#33291a" stroke-width="1.8" opacity=".7">
+      <path d="M24,20 v70 M30,110 v90 M24,220 v60 M30,300 v80"/>
+    </g>
+    <!-- 橫梁（貫穿整個單元寬度，平鋪後連成一線） -->
+    <rect x="0" y="118" width="200" height="22" fill="#42341f"/>
+    <rect x="0" y="118" width="200" height="6" fill="#5e4c30"/>
+    <rect x="0" y="252" width="200" height="22" fill="#42341f"/>
+    <rect x="0" y="252" width="200" height="6" fill="#5e4c30"/>
+    <!-- 橫梁木紋 -->
+    <g stroke="#33291a" stroke-width="1.6" opacity=".6">
+      <path d="M60,130 h34 M120,128 h40 M70,264 h36 M140,262 h38"/>
+    </g>
+    <!-- 綁繩（柱梁交接） -->
+    <g fill="#6d5a30">
+      <rect x="8" y="122" width="42" height="6"/>
+      <rect x="8" y="132" width="42" height="6"/>
+      <rect x="8" y="256" width="42" height="6"/>
+      <rect x="8" y="266" width="42" height="6"/>
+    </g>
+  </symbol>
+
+  <symbol id="stable-trough" viewBox="0 0 240 100">
+    <!-- 槽身 -->
+    <path d="M18,26 L222,26 L208,86 L32,86 Z" fill="#4a3a24"/>
+    <path d="M18,26 L222,26 L219,38 L21,38 Z" fill="#5e4c30"/>
+    <path d="M32,86 L208,86 L206,94 L34,94 Z" fill="#2e2418"/>
+    <!-- 槽內陰影 -->
+    <path d="M30,30 L210,30 L200,52 L40,52 Z" fill="#241c12"/>
+    <!-- 草料 -->
+    <g stroke="#8c7a42" stroke-width="3.4" stroke-linecap="round">
+      <path d="M46,44 L62,20"/><path d="M64,42 L74,16"/><path d="M84,44 L96,18"/>
+      <path d="M106,42 L112,16"/><path d="M126,44 L140,20"/><path d="M148,42 L156,16"/>
+      <path d="M168,44 L182,20"/><path d="M188,44 L196,22"/>
+    </g>
+    <g stroke="#6d5a30" stroke-width="2.6" stroke-linecap="round">
+      <path d="M54,44 L44,22"/><path d="M96,44 L86,20"/>
+      <path d="M138,44 L128,22"/><path d="M178,44 L166,24"/>
+    </g>
+    <!-- 槽腳 -->
+    <path d="M40,86 L62,86 L60,98 L42,98 Z" fill="#33291a"/>
+    <path d="M178,86 L200,86 L198,98 L180,98 Z" fill="#33291a"/>
+  </symbol>
+
+  <symbol id="stable-hay" viewBox="0 0 170 100">
+    <ellipse cx="85" cy="88" rx="76" ry="12" fill="#5f5228" opacity=".55"/>
+    <g stroke="#6d5a30" stroke-width="3.4" stroke-linecap="round">
+      <path d="M22,88 L44,52"/><path d="M40,90 L36,50"/><path d="M60,88 L78,48"/>
+      <path d="M100,88 L92,46"/><path d="M124,90 L136,54"/><path d="M144,88 L130,56"/>
+    </g>
+    <g stroke="#8c7a42" stroke-width="3" stroke-linecap="round">
+      <path d="M32,88 L58,54"/><path d="M52,90 L50,52"/><path d="M74,88 L96,50"/>
+      <path d="M88,88 L74,52"/><path d="M112,88 L120,50"/><path d="M136,90 L150,58"/>
+    </g>
+    <g stroke="#a8924e" stroke-width="2.4" stroke-linecap="round">
+      <path d="M46,86 L70,58"/><path d="M84,86 L88,56"/><path d="M118,86 L106,58"/>
+    </g>
+    <g stroke="#8c7a42" stroke-width="2.4" stroke-linecap="round" opacity=".8">
+      <path d="M6,92 L28,88"/><path d="M142,90 L164,94"/>
+    </g>
+  </symbol>
+</defs>
+
+<rect width="760" height="460" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="200" y="416">欄杆單元 ×2（平鋪示範）</text>
+  <text x="500" y="416">馬槽</text>
+  <text x="672" y="416">草料</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="200" y="438">#stable-bay（寬 200 可重複）</text>
+  <text x="500" y="438">#stable-trough</text>
+  <text x="672" y="438">#stable-hay</text>
+</g>
+<use xlink:href="#stable-bay" href="#stable-bay" x="100" y="10" width="200" height="400"/>
+<use xlink:href="#stable-bay" href="#stable-bay" x="300" y="10" width="200" height="400"/>
+<use xlink:href="#stable-trough" href="#stable-trough" x="380" y="300" width="240" height="100"/>
+<use xlink:href="#stable-hay" href="#stable-hay" x="600" y="300" width="170" height="100"/>
+</svg>

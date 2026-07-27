@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 420 300" width="420" height="300">
+<title>膽 prop — 苦膽（嘗膽）</title>
+<desc>
+  嘗膽的「膽」：懸吊的苦膽囊，草繩繫頸垂下。
+  做成「吊著」而不是放在地上 —— 因為勾踐是抬頭去舔它，不是撿起來。
+  dan-hanging = 完整含吊繩，decision 場由右下滑入 / ritual 場右側互動點
+  dan-sac     = 只有膽囊本體，需要自訂吊法時用
+  symbol viewBox 皆 0 0 130 200；吊繩起點 (65,0)，膽囊底 y=178。
+</desc>
+
+<defs>
+  <g id="dan-body">
+    <!-- 膽囊：上窄下豐的梨形 -->
+    <path d="M65,52 Q47,62 41,88 Q33,120 43,146 Q53,170 65,175
+             Q77,170 87,146 Q97,120 89,88 Q83,62 65,52 Z" fill="#5c6b1e"/>
+    <!-- 暗面 -->
+    <path d="M65,52 Q83,62 89,88 Q97,120 87,146 Q77,170 65,175
+             Q73,158 78,132 Q84,102 78,78 Q74,60 65,52 Z" fill="#414d13"/>
+    <!-- 亮面 -->
+    <path d="M58,70 Q48,84 46,106 Q45,126 50,142 Q46,120 50,100 Q54,80 62,68 Z"
+          fill="#7d8f2c" opacity=".9"/>
+    <!-- 高光 -->
+    <ellipse cx="55" cy="102" rx="7" ry="17" fill="#c3d46a" opacity=".38"
+             transform="rotate(-8 55 102)"/>
+    <ellipse cx="52" cy="88" rx="3" ry="6" fill="#e2eda8" opacity=".45"/>
+    <!-- 表面血絲 -->
+    <g fill="none" stroke="#3c4710" stroke-width="1.6" opacity=".7">
+      <path d="M62,74 Q56,96 60,120"/>
+      <path d="M74,80 Q80,104 74,128"/>
+      <path d="M66,132 Q62,150 68,162"/>
+    </g>
+    <!-- 膽頸 -->
+    <path d="M60,54 Q65,44 70,54 Q68,40 65,34 Q62,40 60,54 Z" fill="#4a5718"/>
+  </g>
+
+  <symbol id="dan-hanging" viewBox="0 0 130 200">
+    <!-- 草繩 -->
+    <path d="M65,0 L65,30" stroke="#8c7a42" stroke-width="4"/>
+    <g stroke="#5f5228" stroke-width="1.4">
+      <path d="M62,8 L68,10 M62,17 L68,19 M62,26 L68,28"/>
+    </g>
+    <use xlink:href="#dan-body" href="#dan-body"/>
+    <!-- 繫頸的結 -->
+    <path d="M54,36 Q65,30 76,36 Q77,45 65,47 Q53,45 54,36 Z" fill="#8c7a42"/>
+    <path d="M56,40 Q65,36 74,40" fill="none" stroke="#5f5228" stroke-width="1.6"/>
+    <!-- 繩尾 -->
+    <path d="M76,42 Q88,48 90,60" fill="none" stroke="#8c7a42" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="dan-sac" viewBox="0 0 130 200">
+    <use xlink:href="#dan-body" href="#dan-body"/>
+  </symbol>
+</defs>
+
+<rect width="420" height="300" fill="#0e1a1c"/>
+<g fill="#c9982a" font-family="'Noto Serif TC',serif" font-size="17" text-anchor="middle">
+  <text x="110" y="256">懸吊苦膽・decision／ritual</text>
+  <text x="310" y="256">膽囊本體</text>
+</g>
+<g fill="#4a6b62" font-family="monospace" font-size="12" text-anchor="middle">
+  <text x="110" y="278">#dan-hanging</text>
+  <text x="310" y="278">#dan-sac</text>
+</g>
+<use xlink:href="#dan-hanging" href="#dan-hanging" x="45"  y="20" width="130" height="200"/>
+<use xlink:href="#dan-sac"     href="#dan-sac"     x="245" y="20" width="130" height="200"/>
+</svg>
